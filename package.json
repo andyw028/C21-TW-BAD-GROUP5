@@ -1,21 +1,22 @@
 {
-  "name": "C21-TW-BAD-GROUP5",
+  "name": "BADPRJ",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:andyw028/C21-TW-BAD-GROUP5.git",
-  "author": "SamOr1014 <orchamsumsam1014@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "ts-node server.ts",
+    "test": "jest"
+  },
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.13",
     "@types/node": "^18.6.4",
     "@types/pg": "^8.6.5",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "knex": "^2.2.0",
     "pg": "^8.7.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.13"
   }
 }
