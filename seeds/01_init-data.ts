@@ -9,7 +9,7 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex(userTableName).insert([
-        {username: "admin", password: await hashPassword("admin")},
+        {first_name: "Sam", last_name: "Chan", email:"samchan@tecky.io", username: "admin", password: await hashPassword("admin"), is_banned: "false", is_admin: "true",},
     ]);
     await knex(accountTableName).insert([
         {balance: ""},
