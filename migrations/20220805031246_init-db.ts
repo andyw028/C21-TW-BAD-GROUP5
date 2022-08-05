@@ -11,10 +11,6 @@ export async function up(knex: Knex): Promise<void> {
         table.string("first_name").notNullable();
         table.string("last_name").notNullable();
         
-
-
-
-
         table.timestamps(false, true);
     })
     await knex.schema.createTable(accountTableName, (table) => {
