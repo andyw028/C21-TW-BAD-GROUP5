@@ -4,7 +4,7 @@ import { userController, receiptController } from '../server'
 export const routes = express.Router()
 
 routes.get('/', (req, res) => {
-    res.sendFile('index.html')
+  res.sendFile('index.html')
 })
 
 //Users route
