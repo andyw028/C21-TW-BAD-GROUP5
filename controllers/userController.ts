@@ -8,12 +8,12 @@ export class UserController {
         res.json(await this.userService.getUser())
     }
     post = async (req: Request, res: Response) => {
-        res.json()
+        res.json(await this.userService.addUser())
     }
     put = async (req: Request, res: Response) => {
-        res.json()
+        res.json(await this.userService.updateUser())
     }
     delete = async (req: Request, res: Response) => {
-        res.json()
+        res.json(await this.userService.deleteUser())
     }
 }
