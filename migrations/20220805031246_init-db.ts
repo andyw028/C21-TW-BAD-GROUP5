@@ -25,6 +25,7 @@ export async function up(knex: Knex): Promise<void> {
     })
     await knex.schema.createTable(receiptTableName, (table) => {
         table.increments();
+
         table.integer("users_id").unsigned().notNullable();
         table.foreign('users_id').references('users.id');
 
@@ -35,9 +36,10 @@ export async function up(knex: Knex): Promise<void> {
         table.boolean("is_deleted").notNullable();
         table.timestamp('updated_at').notNullable();
         table.timestamp('created_at').notNullable();
+        
         table.integer("type").unsigned().notNullable();;
         table.foreign('type').references('types.id');
-        
+
         table.timestamps(false, true);
     })
     await knex.schema.createTable(typeTableName, (table) => {
