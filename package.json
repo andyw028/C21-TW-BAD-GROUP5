@@ -1,0 +1,14 @@
+{
+  "name": "C21-TW-BAD-GROUP5",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:andyw028/C21-TW-BAD-GROUP5.git",
+  "author": "SamOr1014 <orchamsumsam1014@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/pg": "^8.6.5",
+    "dotenv": "^16.0.1",
+    "knex": "^2.2.0",
+    "pg": "^8.7.3"
+  }
+}
