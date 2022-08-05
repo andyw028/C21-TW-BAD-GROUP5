@@ -7,6 +7,10 @@ routes.get('/', (req, res) => {
   res.sendFile('index.html')
 })
 
+routes.get('/login', (req, res) => {
+  res.sendFile('login.html')
+})
+
 //Users route
 routes.get('/users', userController.get)
 routes.post('/users', userController.post)

@@ -24,8 +24,6 @@ import { ReceiptController } from './controllers/receiptController'
 import { UserServices } from './services/userServices'
 import { ReceiptServices } from './services/receiptServices'
 
-app.use(express.static(path.join(__dirname, 'public')))
-
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', '404.html'))
 })
@@ -40,6 +38,9 @@ export const receiptController = new ReceiptController(receiptServices)
 //########################
 import { routes } from './routers/routers'
 app.use('/', routes)
+
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('img'))
 
 const PORT = 8080
 app.listen(PORT, () => {
