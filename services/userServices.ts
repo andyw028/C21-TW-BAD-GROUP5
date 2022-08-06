@@ -1,15 +1,15 @@
 import { Knex } from 'knex'
 
 export class UserServices {
-    constructor(private knex: Knex) {}
+	constructor(private knex: Knex) {}
 
-    async getUser() {
-        return await this.knex('users').select('*')
-    }
+	async getUser() {
+		return await this.knex('users').select('*')
+	}
 
-    async addUser() {}
+	async addUser() {}
 
-    async updateUser() {}
+	async updateUser() {}
 
-    async deleteUser() {}
+	async deleteUser() {}
 }
