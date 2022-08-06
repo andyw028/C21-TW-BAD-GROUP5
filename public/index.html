@@ -24,31 +24,64 @@
 		<title>Landing Page</title>
 	</head>
 	<body>
-		<!-- Nav bar -->
-
+		<!-- Video BG -->
+		<video id="videoBG" autoplay muted loop>
+			<source src="./img/pexels-marros-10119722.mp4" type="video/mp4" />
+		</video>
 		<!-- Centered Title -->
 		<div class="container-fluid position-relative">
-			s
-			<div class="row">
+			<div class="row d-flex flex-wrap justify-content-center">
+				<div
+					id="logo"
+					class="col-md-10 d-flex justify-content-center align-items-center"
+				>
+					<img
+						class="brand"
+						src="./img/Full_brand-removebg-preview.png"
+					/>
+				</div>
 				<div
 					id="main-frame"
-					class="d-flex col-lg-10 flex-wrap flex-column justify-content-center align-items-center"
+					class="d-flex col-lg-10 flex-wrap justify-content-center align-items-center"
 				>
 					<div
 						id="slogan"
-						class="col-lg-6 d-flex flex-column flex-wrap"
+						class="col-md-12 d-flex flex-column flex-wrap"
 					>
 						<div class="text-center">You Might Forgot</div>
 						<div class="text-center">But</div>
 						<div class="text-center">We Remember</div>
 					</div>
 					<div id="s-slogan" class="text-center">
-						Join us and make down all your expenses
+						Join us and record all your expenses
 					</div>
 					<div
-						class="col-lg-6 d-flex flex-wrap justify-content-center"
+						class="col-md-12 d-flex flex-wrap justify-content-center w-100"
 					>
-						<button id="sign-in-btn">Sign In</button>
+						<button id="sign-in-btn">Log In</button>
+						<button id="reg-btn">Register</button>
+					</div>
+				</div>
+				<div class="col-md-12 d-flex flex-wrap justify-content-center">
+					<div id="manage-card" class="card position-relative">
+						<div id="manage-info1" class="card-body text-center">
+							Easy Management
+						</div>
+						<div id="manage-info2" class="card-body">
+							Users can manage their expenses simply by uploading
+							the receipt of their expenses. The analytics of
+							expenses will be displayed in the user dashboard.
+						</div>
+					</div>
+					<div id="ai-card" class="card position-relative">
+						<div id="ai-info1" class="card-body text-center">
+							AI Automated
+						</div>
+						<div id="ai-info2" class="card-body">
+							An Optical Character Recognition AI is implemented.
+							The AI can recogise the information on receipts
+							automatically.
+						</div>
 					</div>
 				</div>
 			</div>

@@ -8,17 +8,24 @@ routes.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
+//###############
+//Direction to login page and register page
+//Please don't uses these route for POST users update/reg
+//###############
 routes.get('/login', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 })
+routes.get('/register', (req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'public', 'register.html'))
+})
 
-//Users route
+//Users route MCV
 routes.get('/users', userController.get)
 routes.post('/users', userController.post)
 routes.put('/users', userController.put)
 routes.delete('/users', userController.delete)
 
-//Receipt route
+//Receipt route MCV
 routes.get('/receipt', receiptController.get)
 routes.post('/receipt', receiptController.post)
 routes.put('/receipt', receiptController.put)
