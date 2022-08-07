@@ -5,26 +5,26 @@
     height: 380px;
     width: 400px;
     margin: auto;
-    background-color: #191b28;
+    background-color: RGB(247, 202, 201);
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 .display-box {
-    font-family: 'Orbitron', sans-serif;
+    font-family: Comic Sans MS,  sans-serif;
     background-color: #dcdbe1;
-    border: solid black 0.5px;
-    color: black;
+    border: solid RGB(68, 184, 172) 0.5px;
+    color: RGB(68, 184, 172);
     border-radius: 5px;
     width: 100%;
     height: 65%;
 }
 #btn {
-    background-color: #fb0066;
+    background-color: #FF6F61;
 }
 input[type=button] {
-    font-family: 'Orbitron', sans-serif;
-    background-color: #64278f;
+    font-family: Comic Sans MS, sans-serif;
+    background-color: RGB(152, 180, 212, 0.8);
     color: white;
-    border: solid black 0.5px;
+    border: solid RGB(68, 184, 172) 0.5px;
     width: 100%;
     border-radius: 5px;
     height: 70%;
