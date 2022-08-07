@@ -25,14 +25,14 @@
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
 		/>
 		<!-- Bootstrap -->
-		<link rel="stylesheet" href="./style/dashboard.css" />
+		<link rel="stylesheet" href="./style/headers.css" />
 	</head>
 	<body>
-		<nav id="top-nav" class="bg-dark">
+		<nav class="fixed-top" id="top-nav">
 			<header class="p-2 text-bg-dark">
 				<div class="container">
 					<div
-						class="d-flex flex-wrap align-items-center justify-content-evenly"
+						class="d-flex flex-wrap align-items-center justify-content-around"
 					>
 						<a href="/dashboard.html"
 							><img
@@ -41,6 +41,7 @@
 							/>
 						</a>
 						<div
+							id="dashboard-buttons"
 							class="col-md-10 d-flex align-items-center justify-content-evenly"
 						>
 							<div>Overview</div>
@@ -58,7 +59,35 @@
 				</div>
 			</header>
 		</nav>
-		<nav id="mobile-nav" class="bg-dark"></nav>
+		<nav id="mobile-nav" class="text-bg-dark fixed-bottom">
+			<div class="container">
+				<div
+					id="mobile-buttons"
+					class="col-md-12 d-flex justify-content-evenly"
+				>
+					<div class="col-3 d-flex flex-column align-items-center">
+						<i class="bi bi-speedometer2"></i>
+						<div>Overview</div>
+					</div>
+					<div class="col-3 d-flex flex-column align-items-center">
+						<i class="bi bi-receipt"></i>
+						<div>Receipts</div>
+					</div>
+					<div class="col-3 d-flex flex-column align-items-center">
+						<i class="bi bi-person-circle"></i>
+						<div>Account</div>
+					</div>
+					<div class="col-3 d-flex flex-column align-items-center">
+						<i class="bi bi-bank"></i>
+						<div>Stock</div>
+					</div>
+					<div class="col-3 d-flex flex-column align-items-center">
+						<i class="bi bi-calculator"></i>
+						<div>Calculator</div>
+					</div>
+				</div>
+			</div>
+		</nav>
 
 		<!-- The panel for async loading -->
 		<div class="container"></div>
