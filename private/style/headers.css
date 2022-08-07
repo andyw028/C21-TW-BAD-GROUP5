@@ -7,8 +7,11 @@
 	display: none;
 	height: 2.5rem;
 }
-
+#dashboard-buttons div {
+	cursor: pointer;
+}
 #mobile-buttons div {
+	cursor: pointer;
 	width: 25%;
 	height: auto;
 	font-size: 0.5rem;
@@ -20,6 +23,9 @@
 	width: auto;
 	height: auto;
 	font-size: 0.5rem;
+}
+#dashboard-panel {
+	position: absolute;
 }
 
 @media screen and (max-width: 770px) {
