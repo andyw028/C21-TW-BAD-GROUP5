@@ -39,7 +39,6 @@ function loadStockPage() {
   <div class="mb-3">
 	<label for="buy-sell" class="form-label">Buy or Sell?</label>
 	<select class="form-select" name="buy-sell" aria-label="Default select example" required>
-  <option selected>Please Specify Buy or Sell</option>
   <option value="buy">Buy</option>
   <option value="sell">Sell</option>
 </select>
@@ -53,7 +52,7 @@ function loadStockPage() {
     <input name="amount" class="form-control" id="amount" required>
   </div>
   <button type="class" class="btn btn-primary">Submit</button>
-  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  <button id="close-modal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 </form>
       </div>
     </div>
@@ -65,10 +64,10 @@ function loadStockPage() {
 	</button>
 	</div>
 	<div id="stock-table-title" class="row mt-3">
-	<div class="col-3 d-flex"><span>Ticker</span></div>
-	<div class="col-3 d-flex"><span>Amount</span></div>
-	<div class="col-3 d-flex"><span>Average</span></div>
-	<div class="col-3 d-flex"><span>Current</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>Ticker</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>Qty</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>Cost</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>Current</span></div>
 	</div>
 	<div id="stocks-detail"></div>
 	`
@@ -86,12 +85,22 @@ function loadStockPage() {
 
 //load all stock and calculates
 async function loadUserStocks() {
-	console.log('loading')
+	// console.log('loading')
 	const panel = document.querySelector('#stocks-detail')
+	const loader = `<div class="d-flex justify-content-center mt-5">
+	<div class="spinner-border" role="status">
+	  <span class="visually-hidden">Loading...</span>
+	</div>
+  </div>`
+	panel.innerHTML = loader
 	//*********
 	//change
 	//*********
 	id = 1
+	//*********
+	//change
+	//*********
+
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()
 	let stockSet = new Set()
@@ -108,7 +117,7 @@ async function loadUserStocks() {
 		method: 'GET'
 	})
 	let parseYF = await yahooStockPrice.json()
-	console.log('stocks are', parseYF)
+	// console.log('stocks are', parseYF)
 	//Array for data to be printed on the stock page
 	let presentData = []
 	for (let stock of stockArr) {
@@ -130,14 +139,18 @@ async function loadUserStocks() {
 			}
 		}
 		current = parseYF[stock]
+		current = Math.round((current + Number.EPSILON) * 100) / 100
 		presentData.push({
 			ticker: stock,
 			amount: totalAmount,
-			cost: (buy + sell) / totalAmount,
+			cost: Math.round(
+				(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
+			),
 			current: current
 		})
 	}
 	allStock = presentData
+	panel.innerHTML = ``
 	for (let data of presentData) {
 		addStockRow(data.ticker, data.amount, data.cost, data.current, panel)
 	}
@@ -148,32 +161,56 @@ async function loadUserStocks() {
 //add row for users' stocks
 function addStockRow(ticker, amount, cost, current, panel) {
 	let stockDetailRow = `	<div class="row mt-1 stock-detail">
-	<div class="col-3 d-flex"><span>${ticker}</span></div>
-	<div class="col-3 d-flex"><span>${amount}</span></div>
-	<div class="col-3 d-flex"><span>${cost}</span></div>
-	<div class="col-3 d-flex"><span>${current}</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>${ticker}</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>${amount}</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>USD$ ${cost}</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>USD$ ${current}</span></div>
 	</div>`
 	panel.innerHTML += stockDetailRow
 }
 
 function formSubmitForNewStock() {
-	document.querySelector('#stock-form').addEventListener('submit', (e) => {
-		e.preventDefault()
-		const form = e.target
-		const obj = {}
-		obj['ticker'] = form.ticker.value
-		if (form['buy-sell'].value === 'buy') {
-			obj['is_buy'] = true
-		}
-		if (form['buy-sell'].value === 'sell') {
-			obj['is_buy'] = false
-		}
-		if (form['buy-sell'].value === '') {
-			alert('missing buy/sell')
-		}
-		obj['price'] = form.price.value
-		obj['amount'] = form.amount.value
-		console.log(obj)
+	document
+		.querySelector('#stock-form')
+		.addEventListener('submit', async (e) => {
+			e.preventDefault()
+			//make the form
+			const form = e.target
+			const obj = {}
+			obj['ticker'] = form.ticker.value
+			if (form['buy-sell'].value === 'buy') {
+				obj['is_buy'] = true
+			}
+			if (form['buy-sell'].value === 'sell') {
+				obj['is_buy'] = false
+			}
+			if (form['buy-sell'].value === '') {
+				alert('missing buy/sell')
+			}
+			obj['price'] = form.price.value
+			obj['amount'] = form.amount.value
+			console.log(obj)
+			//checking
+			if (!obj.ticker || !obj['is_buy'] || !obj.price || !obj.amount) {
+				alert("You Haven't Enter All Detail")
+			} else {
+				alert('success')
+			}
+			const result = await fetch('/stock', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(obj)
+			})
+			let DBResult = await result.json()
+			console.log('updated', DBResult)
+			//Clear the form just to be sure
+			document.getElementById('stock-form').reset()
+			await loadUserStocks()
+		})
+	document.querySelector('#close-modal').addEventListener('click', () => {
+		document.getElementById('stock-form').reset()
 	})
 }
 //###################################################################################
