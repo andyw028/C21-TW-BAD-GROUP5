@@ -5,7 +5,8 @@ export class stockController {
 	constructor(private stockService: StockServices) {}
 
 	get = async (req: Request, res: Response) => {
-		res.json(await this.stockService.getStocksByID())
+		const userID: string = req.params.id
+		res.json(await this.stockService.getStocksByID(parseInt(userID)))
 	}
 	post = async (req: Request, res: Response) => {
 		res.json()
