@@ -26,10 +26,10 @@ routes.get('/testing', (req, res) => {
 
 
 //Users route MCV
-routes.get('/users', userController.get)
-routes.post('/users', userController.post)
-routes.put('/users', userController.put)
-routes.delete('/users', userController.delete)
+routes.get('/login', userController.login)
+routes.post('/signup', userController.signup)
+// routes.put('/users', userController.put)
+// routes.delete('/users', userController.delete)
 
 //Receipt route MCV
 routes.get('/receipt/:id', receiptController.get)
