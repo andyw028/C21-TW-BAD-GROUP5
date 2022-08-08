@@ -3,3 +3,6 @@ node_modules
 .DS_Store
 .venv
 yarn.lock
+pack
+data
+BAD

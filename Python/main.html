@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<!-- These are the chartjs scripts must load first-->
+		<script src="../node_modules/chart.js/dist/chart.min.js"></script>
+		<!-- Bootstrap -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+			crossorigin="anonymous"
+		/>
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+			crossorigin="anonymous"
+		></script>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+		/>
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="./style/headers.css" />
+		<link rel="stylesheet" href="./style/stock.css" />
+		<link rel="stylesheet" href="./style/calculator.css" />
+	</head>
+	<body>
+		<div>
+			<nav class="fixed-top position-relative" id="top-nav">
+				<header class="p-2 text-bg-dark">
+					<div class="container">
+						<div
+							class="d-flex flex-wrap align-items-center justify-content-around"
+						>
+							<a href="/dashboard.html"
+								><img
+									id="brand-logo"
+									src="./img/logo-inverted-removebg-preview.png"
+								/>
+							</a>
+							<div
+								id="dashboard-buttons"
+								class="col-md-10 d-flex align-items-center justify-content-evenly"
+							>
+								<div id="overview-btn">Overview</div>
+								<div id="receipt-btn">Receipts</div>
+								<div id="acc-btn">Account</div>
+								<div id="stock-btn">Stock</div>
+								<div id="cal-btn">Calculator</div>
+							</div>
+							<div class="text-end">
+								<button type="button" class="btn btn-warning">
+									Logout
+								</button>
+							</div>
+						</div>
+					</div>
+				</header>
+			</nav>
+		</div>
+		<nav id="mobile-nav" class="text-bg-dark fixed-bottom">
+			<div class="container">
+				<div
+					id="mobile-buttons"
+					class="col-md-12 d-flex justify-content-evenly"
+				>
+					<div
+						id="m-overview-btn"
+						class="col-3 d-flex flex-column align-items-center"
+					>
+						<i class="bi bi-speedometer2"></i>
+						<div>Overview</div>
+					</div>
+					<div
+						id="m-receipt-btn"
+						class="col-3 d-flex flex-column align-items-center"
+					>
+						<i class="bi bi-receipt"></i>
+						<div>Receipts</div>
+					</div>
+					<div
+						id="m-acc-btn"
+						class="col-3 d-flex flex-column align-items-center"
+					>
+						<i class="bi bi-person-circle"></i>
+						<div>Account</div>
+					</div>
+					<div
+						id="m-stock-btn"
+						class="col-3 d-flex flex-column align-items-center"
+					>
+						<i class="bi bi-bank"></i>
+						<div>Stock</div>
+					</div>
+					<div
+						id="m-cal-btn"
+						class="col-3 d-flex flex-column align-items-center"
+					>
+						<i class="bi bi-calculator"></i>
+						<div>Calculator</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+
+        <div id = "submit_board">
+            <h1> Upload your file here</h1>
+            <form enctype=multipart/form-data id ="submitReceipt"> 
+                <input type="file" class="form-control" name="image">
+                <input type="submit" name=Upload value="Upload">
+            </form>
+            </div>
+        
+        
+            <div id = "result-Board">
+                Result below
+            </div>
+        
+
+		<!-- The panel for async loading -->
+		<div class="d-flex justify-content-center mt-2">
+			<div id="dashboard-panel" class="container position-relative"></div>
+		</div>
+		<!-- These are the chartjs scripts -->
+		<!-- <script defer src="./script/dashboard-chart.js"></script> -->
+		<!-- These are the stock scripts -->
+		<script defer src="./script/dashboard-stock.js"></script>
+        <script src="data.js"></script>
+		<!-- These are the calculator scripts -->
+		<script defer src="./script/dashboard-calculator.js"></script>
+	</body>
+</html>
