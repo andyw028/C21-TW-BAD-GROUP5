@@ -14,7 +14,7 @@ export async function seed(knex: Knex): Promise<void> {
 			last_name: 'Chan',
 			email: 'samchan@tecky.io',
 			username: 'admin',
-			password: await hashPassword('admin'),
+			password: await hashPassword('1234'),
 			is_banned: 'false',
 			is_admin: 'true'
 		}

@@ -21,11 +21,10 @@ export class UserController {
 
         const user = await this.userService.getUserByUsername(username);
 
-        const verify = await checkPassword(password, user.password);
+        const verify = await checkPassword(password, user!.password);
         if (verify) {
             if (req.session) {
-                req.session['user'] = { id: user.id, username };
-                // console.log("req.session: ", req.session);
+                req.session['user'] = { id: user!.id, username };
             }
             res.status(200).json({ success: true, message: "Login successfully" });
             return;
@@ -48,10 +47,14 @@ export class UserController {
             return;
         }
 
-        const user = await this.userService.addUser(username, password, email, firstName, lastName);
+        if (email) {
+            res.status(400).json({ success: false, message: "Email already exists" });
+            return;
+        }
 
-        req.session['user'] = {id: user.id, username}
-        res.status(200).json({ success: true, message: "Account created successfully" });
+        // const user = await this.userService.addUser(username, password, email, firstName, lastName);
+        // req.session['user'] = { id: user.id, username }
+        // res.status(200).json({ success: true, message: "Account created successfully" });
         return;
     }
 
