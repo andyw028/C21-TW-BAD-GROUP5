@@ -1,5 +1,10 @@
-#stock-table-title {
+#stock-table-title div {
 	font-weight: bold;
 	border-bottom: 3px solid black;
+}
+
+#stock-table-title div span,
+.stock-detail div span {
+	align-self: flex-end;
 	text-align: center;
 }
