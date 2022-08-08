@@ -1,0 +1,47 @@
+
+
+#submit-panel {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;
+
+}
+
+#submit-button {
+    width: 30%;
+    height: 50px;
+    border: 5px solid black;
+
+}
+
+#receipt-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.receipt {
+    width:31%;
+    height: 450px;
+    border: 5px solid black;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.receiptBody {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.card-img {
+    width:60%;
+    height: 440px;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}

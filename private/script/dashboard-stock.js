@@ -1,4 +1,3 @@
-let allStock
 //load the mobile nav and the web nav when loaded
 function eventListenerOfStockButton() {
 	document.querySelector('#stock-btn').addEventListener('click', async () => {
@@ -12,7 +11,7 @@ function eventListenerOfStockButton() {
 			await loadUserStocks()
 		})
 }
-//load table column names
+
 function loadStockPage() {
 	//Loading the stock page into the panel
 	const panel = document.querySelector('#dashboard-panel')
