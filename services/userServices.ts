@@ -20,7 +20,7 @@ export class UserServices {
         return await this.knex("users").insert(userInfo).returning(['id','username']);
     }
 
-    async updateUser(username: string, password: string, email: string, firstName: string, lastName: string) { 
+	async updateUser(username: string, password: string, email: string, firstName: string, lastName: string) { 
 
 
     }

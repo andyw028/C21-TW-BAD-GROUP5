@@ -1,0 +1,129 @@
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	/* background: #141e30;
+	background: -webkit-linear-gradient(to bottom, #243b55, #141e30);
+	background: linear-gradient(to bottom, #243b55, #141e30); */
+	color: black;
+}
+
+.brand {
+	width: 300px;
+}
+#slogan {
+	font-size: 56px;
+}
+#s-slogan {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	font-size: 24px;
+}
+#videoBG {
+	position: fixed;
+	z-index: -1;
+	opacity: 0.5;
+}
+@media (min-aspect-ratio: 16/9) {
+	#videoBG {
+		width: 100%;
+		height: auto;
+		opacity: 0.5;
+	}
+}
+@media (max-aspect-ratio: 16/9) {
+	#videoBG {
+		width: auto;
+		height: 100%;
+		opacity: 0.5;
+	}
+}
+
+.container-fluid {
+	height: 100%;
+}
+.card {
+	width: 15em;
+	height: 20em;
+	margin: 1.2em;
+}
+.card-body {
+	color: aliceblue;
+	font-size: 34px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.card:hover {
+	transform: scale(1.05);
+}
+#manage-card {
+	background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),
+		url('../img/smart.jpg');
+	background-position: center;
+	background-size: cover;
+}
+#manage-info2 {
+	display: none;
+}
+#manage-card:hover #manage-info2 {
+	display: flex;
+	font-size: 20px;
+	width: 100%;
+}
+#manage-card:hover #manage-info1 {
+	display: none;
+}
+#ai-card {
+	background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)),
+		url('../img/AI.jpg');
+	background-position: center;
+	background-size: cover;
+}
+#ai-info2 {
+	display: none;
+}
+#ai-card:hover #ai-info2 {
+	display: flex;
+	font-size: 20px;
+	width: 100%;
+}
+#ai-card:hover #ai-info1 {
+	display: none;
+}
+#reg-btn,
+#sign-in-btn {
+	border: 3px solid black;
+	color: black;
+	background: none;
+	border-radius: 20px;
+	font-size: 24px;
+	width: 130px;
+	height: 50px;
+	margin: 3px;
+}
+
+@media screen and (max-width: 480px) {
+	#slogan {
+		font-size: 40px;
+	}
+	#s-slogan {
+		margin-top: 2em;
+		margin-bottom: 2em;
+		font-size: 18px;
+	}
+	#sign-in-btn {
+		border: 3px solid black;
+		color: black;
+		background: none;
+		border-radius: 20px;
+		font-size: 20px;
+		width: 130px;
+		min-height: 40px;
+	}
+}
