@@ -4,6 +4,7 @@ import { knex } from './tools/knexConfig'
 import expressSession from 'express-session'
 import path from 'path'
 import fs from "fs"
+import formidable from 'formidable'
 
 client.connect()
 
@@ -21,10 +22,18 @@ app.use(
 		saveUninitialized: true
 	})
 )
-
+//file upload route
 const uploadDir = "uploads"
 fs.mkdirSync(uploadDir, { recursive: true })
 
+export const form = formidable({
+	uploadDir,
+	keepExtensions: true,
+	maxFiles: 1,
+	maxFileSize: 200 * 1024 ** 2, // the default limit is 200KB
+	filter: (part) => part.mimetype?.startsWith("image/") || false,
+  })
+  
 //###################################
 //Controller and Services Declaration
 //###################################
@@ -51,6 +60,7 @@ app.use('/', routes)
 //########################
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'private')))
+app.use(express.static("uploads"))
 app.use((req, res) => {
 	res.sendFile(path.join(__dirname, 'public', '404.html'))
 })

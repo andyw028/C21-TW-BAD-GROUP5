@@ -12,9 +12,8 @@ export class ReceiptController {
 		
 	} catch (err) {
 		console.error(err.message)
-	}
-
-	}
+	}}
+	
 	post = async (req: Request, res: Response) => {
 		res.json()
 	}

@@ -4,6 +4,9 @@ async function load_panel() {
         addPanels()
         loadReceiptRecord(id)
         loadSubmit()
+        submitReceipt()
+        submitReceiptToAI()
+        submitReceipt()
     })
 
 }
@@ -12,20 +15,20 @@ async function load_panel() {
 
 async function addPanels() {
 
-    htmlSTR = `
+    const panelHtmlSTR = `
     <div id="submit-panel"></div>
 
     <div id="receipt-panel"></div>
     `
-    document.querySelector("#dashboard-panel").innerHTML = htmlSTR
+    document.querySelector("#dashboard-panel").innerHTML = panelHtmlSTR
 
 }
 
 async function loadReceiptRecord(id) {
     const res = await fetch(`/receipt/${id}`)
-
+    let receiptHTML = ``
     const receipts = await res.json()
-
+    
     for (const result in receipts) {
         const realBDay = new Date(result.date)
         let year = realBDay.getFullYear().toString()
@@ -46,8 +49,7 @@ async function loadReceiptRecord(id) {
             ")"
 
         
-        htmlSTR = ""
-        htmlSTR +=
+        receiptHTML +=
             `<div class="receipt">
         <div class="receiptBody">
             <img src=${result.image} class="card-img">
@@ -65,7 +67,7 @@ async function loadReceiptRecord(id) {
         `
     }
 
-    document.querySelector("#receipt-panel").innerHTML = htmlSTR
+    document.querySelector("#receipt-panel").innerHTML = receiptHTML
 
 }
 
@@ -100,38 +102,62 @@ async function loadSubmit() {
             </div>
 
             <div class="modal-body">
-                Here is the result
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+								<form id = "saveReceipt">
+                                <input type="text" class="form-control" id="shopName" name="shopName" placeholder = "ShopName" required>
+                                <input type="text" class="form-control" id="date"  name="date" placeholder = "Date" required>
+                                <input type="text" class="form-control" id="amount"  name="amount" placeholder = "Amount" required>
+									<div class="Submit-bar">
+										<button type="submit" class="btn btn-primary">Submit</button>
+										<button type="reset" class="btn btn-primary">Clear</button>
+							</div>
+						</form>
+				</div>
         </div>
     </div>
 </div>
-                `
+`
 
-document.querySelector('#submit-panel').innerHTML = htmlSTR
+    document.querySelector('#submit-panel').innerHTML = htmlSTR
+
+}
+
+async function submitReceiptToAI() {
 
     document.querySelector('#receiptAI').addEventListener("submit", async function (event) {
 
         event.preventDefault()
         const form = event.target
         const formData = new FormData()
-        formData.append("Name", form.file.files[0].name)
-        console.log(form.file.files[0].name)
+        receiptImage = form.file.files[0].name
+        
 
-
-        //const res = await fetch("submitReceipt", {
-        //    method: "Post",
-        //    body: formData,
-        //    content: form.image.files[0]})
 
 
 
     })
 }
 
+async function submitReceipt(){
+    document.querySelector("#saveReceipt").addEventListener("submit", async function (event) {
 
+        event.preventDefault()
+        const form = event.target
+        const formData = new FormData()
+        formData.append("shopName", form.shopName.value)
+        formData.append("date", form.date.value)
+        formData.append("amount ", form.amount.value)
+        formData.append("image", receiptImage)
+        console.log(receiptImage)
+
+        const res = await fetch("/receipt", {
+           method: "Post",
+           body: formData
+        })
+
+        console.log("testing")
+
+    
+    })
+}
 
 load_panel()

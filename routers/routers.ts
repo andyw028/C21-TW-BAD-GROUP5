@@ -33,7 +33,7 @@ routes.post('/signup', userController.signup)
 
 //Receipt route MCV
 routes.get('/receipt/:id', receiptController.get)
-routes.post('/receipt/:id', receiptController.post)
+routes.post('/receipt/', receiptController.post)
 routes.put('/receipt/:id', receiptController.put)
 routes.delete('/receipt/:id', receiptController.delete)
 
