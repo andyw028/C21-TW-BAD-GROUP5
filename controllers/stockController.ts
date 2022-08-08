@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { StockServices } from '../services/stockServices'
 
-export class stockController {
+export class StockController {
 	constructor(private stockService: StockServices) {}
 
 	get = async (req: Request, res: Response) => {

@@ -1,5 +1,5 @@
 import express from 'express'
-import { userController, receiptController } from '../server'
+import { userController, receiptController, stockController } from '../server'
 import path from 'path'
 
 export const routes = express.Router()
@@ -37,4 +37,9 @@ routes.post('/receipt/:id', receiptController.post)
 routes.put('/receipt/:id', receiptController.put)
 routes.delete('/receipt/:id', receiptController.delete)
 
+routes.get('/stock/:id', stockController.get)
+routes.post('/stock', stockController.post)
+routes.delete('/stock', stockController.delete)
+
 routes.use(express.static(path.join(__dirname, '..', 'public')))
+routes.use(express.static(path.join(__dirname, '..', 'private')))
