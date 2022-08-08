@@ -7,6 +7,8 @@ import json
 
 app = Flask(__name__)
 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 #Set up Flask to bypass CORSstrong>:
 
 # cors = CORS(app)
@@ -14,7 +16,9 @@ app = Flask(__name__)
 #Create the receiver API POST endpoint:
 @app.route('/main')
 def index():
-    return render_template("main.html")
+    result = "123"
+    return(result)
+    # return render_template("main.html")
 
 
 @app.route("/submitReceipt", methods=["POST"])

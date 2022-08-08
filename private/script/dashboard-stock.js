@@ -1,3 +1,4 @@
+
 //load the mobile nav and the web nav when loaded
 function eventListenerOfStockButton() {
 	document.querySelector('#stock-btn').addEventListener('click', () => {
@@ -9,6 +10,8 @@ function eventListenerOfStockButton() {
 		loadStockPage()
 	})
 }
+
+
 
 function loadStockPage() {
 	//Loading the stock page into the panel

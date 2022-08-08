@@ -5,7 +5,15 @@ export class ReceiptController {
 	constructor(private receiptService: ReceiptServices) {}
 
 	get = async (req: Request, res: Response) => {
-		res.json(await this.receiptService)
+		try{
+		const userId = req.params.id
+		const allReceipt = await this.receiptService.getReceipt(userId)
+		res.json(allReceipt)
+		
+	} catch (err) {
+		console.error(err.message)
+	}
+
 	}
 	post = async (req: Request, res: Response) => {
 		res.json()

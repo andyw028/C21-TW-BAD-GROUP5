@@ -3,6 +3,7 @@ import { client } from './tools/pg'
 import { knex } from './tools/knexConfig'
 import expressSession from 'express-session'
 import path from 'path'
+import fs from "fs"
 
 client.connect()
 
@@ -16,6 +17,10 @@ app.use(
 		saveUninitialized: true
 	})
 )
+
+const uploadDir = "uploads"
+fs.mkdirSync(uploadDir, { recursive: true })
+
 //###################################
 //Controller and Services Declaration
 //###################################
