@@ -10,10 +10,4 @@ export class ReceiptController {
 	post = async (req: Request, res: Response) => {
 		res.json()
 	}
-	put = async (req: Request, res: Response) => {
-		res.json()
-	}
-	delete = async (req: Request, res: Response) => {
-		res.json()
-	}
 }
