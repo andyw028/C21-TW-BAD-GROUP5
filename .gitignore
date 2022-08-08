@@ -6,4 +6,4 @@ yarn.lock
 pack
 data
 BAD
-createdata.sql
+*.sql
