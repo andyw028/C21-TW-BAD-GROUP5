@@ -3,7 +3,6 @@ import { UserServices } from '../services/userServices';
 import { checkPassword } from '../utils/hash';
 
 export class UserController {
-<<<<<<< HEAD
     constructor(private userService: UserServices) { }
 
     // put = async (req: Request, res: Response) => {
@@ -57,21 +56,5 @@ export class UserController {
     }
 
     
-=======
-	constructor(private userService: UserServices) {}
-
-	get = async (req: Request, res: Response) => {
-		res.json(await this.userService.getUser())
-	}
-	post = async (req: Request, res: Response) => {
-		res.json(await this.userService.addUser())
-	}
-	put = async (req: Request, res: Response) => {
-		res.json(await this.userService.updateUser())
-	}
-	delete = async (req: Request, res: Response) => {
-		res.json(await this.userService.deleteUser())
-	}
->>>>>>> 53287a7deb415730c70df051e04f547b986d3c48
 }
 
