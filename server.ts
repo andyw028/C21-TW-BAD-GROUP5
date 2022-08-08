@@ -8,6 +8,10 @@ client.connect()
 
 const app = express()
 
+//parse json
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
 //Session
 app.use(
 	expressSession({
@@ -21,14 +25,16 @@ app.use(
 //###################################
 import { UserController } from './controllers/userController'
 import { ReceiptController } from './controllers/receiptController'
+import { StockController } from './controllers/stockController'
 import { UserServices } from './services/userServices'
 import { ReceiptServices } from './services/receiptServices'
-
+import { StockServices } from './services/stockServices'
 const userServices = new UserServices(knex)
 const receiptServices = new ReceiptServices(knex)
+const stockService = new StockServices(knex)
 export const userController = new UserController(userServices)
 export const receiptController = new ReceiptController(receiptServices)
-
+export const stockController = new StockController(stockService)
 //########################
 //Routes
 //########################
