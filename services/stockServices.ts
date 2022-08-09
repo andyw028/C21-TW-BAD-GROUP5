@@ -9,13 +9,13 @@ export class StockServices {
 	}
 
 	async updateStockTrade(
-		userid: number,
+		user_id: number,
 		ticker: string,
 		price: number,
 		amount: number,
 		is_buy: boolean
 	) {
-		console.log(userid, ticker, price, amount, is_buy)
+		console.log(user_id, ticker, price, amount, is_buy)
 		return this.knex('stocks')
 			.insert([
 				{
@@ -23,7 +23,7 @@ export class StockServices {
 					price: price,
 					is_buy: is_buy,
 					amount: amount,
-					user_id: userid
+					user_id: user_id
 				}
 			])
 			.returning('user_id')

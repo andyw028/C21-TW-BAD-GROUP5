@@ -15,4 +15,12 @@
 	.stock-detail div span {
 		font-size: 0.8em;
 	}
+	#daily-detail {
+		font-size: 0.8em;
+		margin-top: 20px;
+	}
+	#daily-detail h5 {
+		font-size: 1.1em;
+		font-weight: bolder;
+	}
 }

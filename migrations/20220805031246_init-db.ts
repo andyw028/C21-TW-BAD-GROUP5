@@ -32,12 +32,8 @@ export async function up(knex: Knex): Promise<void> {
 		table.date('date').notNullable()
 		table.decimal('price').notNullable()
 		table.boolean('is_deleted').notNullable()
-		table.timestamp('updated_at').notNullable()
-		table.timestamp('created_at').notNullable()
-
 		table.integer('type').unsigned().notNullable()
 		table.foreign('type').references('types.id')
-
 		table.timestamps(false, true)
 	})
 	await knex.schema.createTable(typeTableName, (table) => {
