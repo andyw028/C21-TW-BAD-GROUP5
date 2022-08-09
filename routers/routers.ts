@@ -41,7 +41,7 @@ routes.post('/stock', stockController.post)
 routes.delete('/stock', stockController.delete)
 
 routes.get('/account/:id', userController.get)
-// routes.post('/account/:id', userController.post)
+// // routes.post('/account/:id', userController.post)
 
 routes.use(express.static(path.join(__dirname, '..', 'public')))
 routes.use(express.static(path.join(__dirname, '..', 'private')))
