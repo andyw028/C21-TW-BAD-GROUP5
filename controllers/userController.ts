@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { UserServices } from '../services/userServices';
 import { checkPassword } from '../utils/hash';
+import { 01_init-data } from '..seeds';
 
 export class UserController {
     constructor(private userService: UserServices) { }
@@ -58,6 +59,9 @@ export class UserController {
         return;
     }
 
-    
+    get = async (req: Request, res: Response) => {
+
+        const { firstName, lastName, email } = req.body; 
+    }
 }
 

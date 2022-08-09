@@ -22,6 +22,11 @@ export async function up(knex: Knex): Promise<void> {
 		table.decimal('balance')
 		table.timestamps(false, true)
 	})
+	await knex.schema.createTable(typeTableName, (table) => {
+		table.increments()
+		table.string('name')
+		table.timestamps(false, true)
+	})
 	await knex.schema.createTable(receiptTableName, (table) => {
 		table.increments()
 
@@ -38,11 +43,6 @@ export async function up(knex: Knex): Promise<void> {
 		table.integer('type').unsigned().notNullable()
 		table.foreign('type').references('types.id')
 
-		table.timestamps(false, true)
-	})
-	await knex.schema.createTable(typeTableName, (table) => {
-		table.increments()
-		table.string('name')
 		table.timestamps(false, true)
 	})
 }
