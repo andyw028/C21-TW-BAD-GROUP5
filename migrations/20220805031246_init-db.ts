@@ -22,6 +22,11 @@ export async function up(knex: Knex): Promise<void> {
 		table.decimal('balance')
 		table.timestamps(false, true)
 	})
+	await knex.schema.createTable(typeTableName, (table) => {
+		table.increments()
+		table.string('name')
+		table.timestamps(false, true)
+	})
 	await knex.schema.createTable(receiptTableName, (table) => {
 		table.increments()
 
@@ -32,24 +37,15 @@ export async function up(knex: Knex): Promise<void> {
 		table.date('date').notNullable()
 		table.decimal('price').notNullable()
 		table.boolean('is_deleted').notNullable()
-		table.timestamp('updated_at').notNullable()
-		table.timestamp('created_at').notNullable()
-
 		table.integer('type').unsigned().notNullable()
 		table.foreign('type').references('types.id')
-
-		table.timestamps(false, true)
-	})
-	await knex.schema.createTable(typeTableName, (table) => {
-		table.increments()
-		table.string('name')
 		table.timestamps(false, true)
 	})
 }
 
 export async function down(knex: Knex): Promise<void> {
-	await knex.schema.dropTableIfExists(typeTableName)
 	await knex.schema.dropTableIfExists(receiptTableName)
 	await knex.schema.dropTableIfExists(accountTableName)
 	await knex.schema.dropTableIfExists(userTableName)
+	await knex.schema.dropTableIfExists(typeTableName)
 }

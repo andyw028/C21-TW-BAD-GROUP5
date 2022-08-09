@@ -1,14 +1,18 @@
+let GlobalStock
+
 //load the mobile nav and the web nav when loaded
 function eventListenerOfStockButton() {
 	document.querySelector('#stock-btn').addEventListener('click', async () => {
 		loadStockPage()
 		await loadUserStocks()
+		await loadDailyStockDetail()
 	})
 	document
 		.querySelector('#m-stock-btn')
 		.addEventListener('click', async () => {
 			loadStockPage()
 			await loadUserStocks()
+			await loadDailyStockDetail()
 		})
 }
 
@@ -38,7 +42,6 @@ function loadStockPage() {
   <div class="mb-3">
 	<label for="buy-sell" class="form-label">Buy or Sell?</label>
 	<select class="form-select" name="buy-sell" aria-label="Default select example" required>
-  <option selected>Please Specify Buy or Sell</option>
   <option value="buy">Buy</option>
   <option value="sell">Sell</option>
 </select>
@@ -52,7 +55,7 @@ function loadStockPage() {
     <input name="amount" class="form-control" id="amount" required>
   </div>
   <button type="class" class="btn btn-primary">Submit</button>
-  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  <button id="close-modal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 </form>
       </div>
     </div>
@@ -63,13 +66,15 @@ function loadStockPage() {
 	<i class="bi bi-arrow-clockwise"></i>
 	</button>
 	</div>
+	<div id="user-stock">
 	<div id="stock-table-title" class="row mt-3">
-	<div class="col-3 d-flex"><span>Ticker</span></div>
-	<div class="col-3 d-flex"><span>Amount</span></div>
-	<div class="col-3 d-flex"><span>Average</span></div>
-	<div class="col-3 d-flex"><span>Current</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>Ticker</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>Qty</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>Cost(USD)</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>Current(USD)</span></div>
 	</div>
 	<div id="stocks-detail"></div>
+	</div>
 	`
 	document
 		.querySelector('#stock-reload')
@@ -79,66 +84,95 @@ function loadStockPage() {
 			document.querySelector('#stocks-detail').innerHTML = ``
 			console.log('reload')
 			await loadUserStocks()
+			await loadDailyStockDetail()
 		})
 	formSubmitForNewStock()
 }
 
 //load all stock and calculates
 async function loadUserStocks() {
-	console.log('loading')
+	// console.log('loading')
 	const panel = document.querySelector('#stocks-detail')
+	const loader = `<div class="d-flex justify-content-center mt-5">
+	<div class="spinner-border" role="status">
+	  <span class="visually-hidden">Loading...</span>
+	</div>
+  </div>`
+	panel.innerHTML = loader
 	//*********
 	//change
 	//*********
 	id = 1
+	//*********
+	//change
+	//*********
+
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()
-	let stockSet = new Set()
-	//Get all stock name as a set
-	for (let i of result) {
-		stockSet.add(i['ticker'])
-	}
-	//turn set to array
-	let stockArr = Array.from(stockSet)
-	//prepare to format the data to table on the page
-	let query = stockArr.join('&')
-	//get stock current price data from python yFinance API
-	let yahooStockPrice = await fetch(`http://localhost:8000/stock/${query}`, {
-		method: 'GET'
-	})
-	let parseYF = await yahooStockPrice.json()
-	console.log('stocks are', parseYF)
-	//Array for data to be printed on the stock page
-	let presentData = []
-	for (let stock of stockArr) {
-		//filter the particular stock for calculation
-		let filtered = result.filter((item) => item.ticker === stock)
-		let current = 0,
-			totalAmount = 0,
-			buy = 0,
-			sell = 0
-
-		//add up all buy and sell of current stock
-		for (let item of filtered) {
-			if (!item.is_buy) {
-				sell -= parseInt(item.price) * item.amount
-				totalAmount += item.amount
-			} else {
-				buy += parseInt(item.price) * item.amount
-				totalAmount += item.amount
-			}
+	if (!result[0]) {
+		panel.innerHTML = ``
+	} else {
+		let stockSet = new Set()
+		//Get all stock name as a set
+		for (let i of result) {
+			stockSet.add(i['ticker'])
 		}
-		current = parseYF[stock]
-		presentData.push({
-			ticker: stock,
-			amount: totalAmount,
-			cost: (buy + sell) / totalAmount,
-			current: current
-		})
-	}
-	allStock = presentData
-	for (let data of presentData) {
-		addStockRow(data.ticker, data.amount, data.cost, data.current, panel)
+		//turn set to array
+		let stockArr = Array.from(stockSet)
+		//prepare to format the data to table on the page
+		let query = stockArr.join('&')
+		//get stock current price data from python yFinance API
+		let yahooStockPrice = await fetch(
+			`http://localhost:8000/stock/${query}`,
+			{
+				method: 'GET'
+			}
+		)
+		let parseYF = await yahooStockPrice.json()
+		// console.log('stocks are', parseYF)
+		//Array for data to be printed on the stock page
+		let presentData = []
+		for (let stock of stockArr) {
+			//filter the particular stock for calculation
+			let filtered = result.filter((item) => item.ticker === stock)
+			let current = 0,
+				totalAmount = 0,
+				buy = 0,
+				sell = 0
+
+			//add up all buy and sell of current stock
+			for (let item of filtered) {
+				if (!item.is_buy) {
+					sell -= parseInt(item.price) * item.amount
+					totalAmount -= item.amount
+				} else {
+					buy += parseInt(item.price) * item.amount
+					totalAmount += item.amount
+				}
+			}
+
+			current = parseYF[stock]
+			current = Math.round((current + Number.EPSILON) * 100) / 100
+			presentData.push({
+				ticker: stock,
+				amount: totalAmount,
+				cost: Math.round(
+					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
+				),
+				current: current
+			})
+		}
+		GlobalStock = presentData
+		panel.innerHTML = ``
+		for (let data of presentData) {
+			addStockRow(
+				data.ticker,
+				data.amount,
+				data.cost,
+				data.current,
+				panel
+			)
+		}
 	}
 	//Add eventlistener after the reload button is loaded
 	document.querySelector('#stock-reload').disabled = false
@@ -147,33 +181,142 @@ async function loadUserStocks() {
 //add row for users' stocks
 function addStockRow(ticker, amount, cost, current, panel) {
 	let stockDetailRow = `	<div class="row mt-1 stock-detail">
-	<div class="col-3 d-flex"><span>${ticker}</span></div>
-	<div class="col-3 d-flex"><span>${amount}</span></div>
-	<div class="col-3 d-flex"><span>${cost}</span></div>
-	<div class="col-3 d-flex"><span>${current}</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>						<img
+	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
+	class="rounded-circle"
+	width="25px"
+	height="25px"
+	style="margin-right: 2px"
+/>${ticker}</span></div>
+	<div class="col-2 d-flex justify-content-center"><span>${amount}</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>$${cost}</span></div>
+	<div class="col-4 d-flex justify-content-center"><span>$${current}</span></div>
 	</div>`
 	panel.innerHTML += stockDetailRow
 }
 
 function formSubmitForNewStock() {
-	document.querySelector('#stock-form').addEventListener('submit', (e) => {
-		e.preventDefault()
-		const form = e.target
-		const obj = {}
-		obj['ticker'] = form.ticker.value
-		if (form['buy-sell'].value === 'buy') {
-			obj['is_buy'] = true
-		}
-		if (form['buy-sell'].value === 'sell') {
-			obj['is_buy'] = false
-		}
-		if (form['buy-sell'].value === '') {
-			alert('missing buy/sell')
-		}
-		obj['price'] = form.price.value
-		obj['amount'] = form.amount.value
-		console.log(obj)
+	document
+		.querySelector('#stock-form')
+		.addEventListener('submit', async (e) => {
+			e.preventDefault()
+			//make the form
+			const form = e.target
+			const obj = {}
+			obj['ticker'] = form.ticker.value
+			if (form['buy-sell'].value === 'buy') {
+				obj['is_buy'] = true
+			}
+			if (form['buy-sell'].value === 'sell') {
+				obj['is_buy'] = false
+			}
+			if (form['buy-sell'].value === '') {
+				alert('missing buy/sell')
+			}
+			obj['price'] = form.price.value
+			//for loop checking if the amount is larger than the QTY
+			for (let stock in GlobalStock) {
+				if (
+					stock.ticker === form.ticker.value &&
+					form.amount.value < stock.amount
+				) {
+					obj['amount'] = form.amount.value
+					return
+				} else {
+					alert('Amount is larger than your holding')
+					return
+				}
+			}
+
+			console.log(obj)
+			//checking
+			if (!obj.ticker || !obj.price || !obj.amount) {
+				alert("You Haven't Enter All Detail")
+			} else {
+				const result = await fetch('/stock', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(obj)
+				})
+				let DBResult = await result.json()
+				console.log('updated', DBResult)
+				//Clear the form just to be sure
+				document.getElementById('stock-form').reset()
+				await loadUserStocks()
+			}
+		})
+	document.querySelector('#close-modal').addEventListener('click', () => {
+		document.getElementById('stock-form').reset()
 	})
+}
+
+async function loadDailyStockDetail() {
+	const panel = document.querySelector('#stocks-detail')
+	const htmlCode = `<div id="daily-detail" class="container">
+	<div class="row text-center">
+		<div id="day-gainer" class="card col-md-4 px-2">
+			<div class="text-center">
+				<h5>Top Ten Gainer</h5>
+			</div>
+			<div class="d-flex justify-content-around">
+				<div class="col-4">Ticker</div>
+				<div class="col-4">Price</div>
+				<div class="col-4">Changes(%)</div>
+			</div>
+		</div>
+		<div id="day-loser" class="card col-md-4">
+			<div class="text-center">
+				<h5>Top Ten Loser</h5>
+			</div>
+			<div class="d-flex justify-content-around">
+				<div class="col-4">Ticker</div>
+				<div class="col-4">Price</div>
+				<div class="col-4">Changes(%)</div>
+			</div>
+		</div>
+		<div id="day-active" class="card col-md-4">
+			<div class="text-center">
+				<h5>Top Ten Active</h5>
+			</div>
+			<div class="d-flex justify-content-around">
+				<div class="col-4">Ticker</div>
+				<div class="col-4">Price</div>
+				<div class="col-4">Changes(%)</div>
+			</div>
+		</div>
+	</div>
+</div>`
+	panel.innerHTML += htmlCode
+
+	const gainer = await fetch('http://localhost:8000/stockgainer')
+	const gainerinfo = await gainer.json()
+	const loser = await fetch('http://localhost:8000/stockloser')
+	const loserinfo = await loser.json()
+	const active = await fetch('http://localhost:8000/stockactive')
+	const activeinfo = await active.json()
+	loadDailyRow('day-gainer', gainerinfo)
+	loadDailyRow('day-loser', loserinfo)
+	loadDailyRow('day-active', activeinfo)
+}
+function loadDailyRow(htmlID, arrayOfObject) {
+	const insert = document.querySelector(`#${htmlID}`)
+	for (let item of arrayOfObject) {
+		insert.innerHTML += `							<div
+		class="d-flex justify-content-around stock-row"
+	>
+		<div class="col-4"><img
+		src="https://eodhistoricaldata.com/img/logos/US/${item['Symbol']}.png"
+		class="rounded-circle"
+		width="25px"
+		height="25px"
+		style="margin-right: 2px"
+	/>${item['Symbol']}</div>
+		<div class="col-4">${item['Price (Intraday)']}</div>
+		<div class="col-4">${item['% Change']}</div>
+	</div>`
+	}
 }
 //###################################################################################
 //MAIN
