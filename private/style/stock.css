@@ -1,6 +1,5 @@
 #stock-table-title div {
 	font-weight: bold;
-	border-bottom: 3px solid black;
 }
 
 #stock-table-title div span,
@@ -10,6 +9,19 @@
 	font-size: 1em;
 }
 
+#user-stock {
+	border: 1px solid black;
+	padding: 1em;
+	border-radius: 20px;
+}
+#day-gainer,
+#day-loser,
+#day-active {
+	border: 1px solid black;
+	padding: 1em;
+	border-radius: 20px;
+	box-shadow: 2px 2px 2px;
+}
 @media screen and (max-width: 500px) {
 	#stock-table-title div span,
 	.stock-detail div span {

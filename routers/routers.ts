@@ -24,7 +24,6 @@ routes.get('/testing', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard.html'))
 })
 
-
 //Users route MCV
 routes.get('/login', userController.login)
 routes.post('/signup', userController.signup)
@@ -42,8 +41,7 @@ routes.post('/stock', stockController.post)
 routes.delete('/stock', stockController.delete)
 
 routes.get('/account/:id', userController.get)
-routes.post('/account/:id', userController.post)
-
+// routes.post('/account/:id', userController.post)
 
 routes.use(express.static(path.join(__dirname, '..', 'public')))
 routes.use(express.static(path.join(__dirname, '..', 'private')))
