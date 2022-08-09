@@ -129,6 +129,10 @@ async function submitReceiptToAI() {
         const form = event.target
         const formData = new FormData()
         receiptImage = form.file.files[0].name
+
+        const res = await fetch("http://localhost:5000/")
+
+        console.log("fetched")
         
 
 
