@@ -16,7 +16,6 @@ describe("UserServices", () => {
     service = new UserServices(knex);
     await knex("users").del();
     await knex("users").insert({ username: "admin", password: "1234", first_name: "sam", last_name: "chan", email: "samchan@tecky.io", is_admin: false, is_banned: false });
-
   });
 
   test("get username by username - success", async () => {
@@ -34,21 +33,19 @@ describe("UserServices", () => {
     expect(user).not.toBeDefined();
   });
 
-  test("add user - success", async () => {
+  test("add users - success", async () => {
 
     const user = await service.addUser("andy", "1234", "andywong@tecky.io", "Andy", "Wong")
-    console.log("user", user)
 
     expect(user).toBeDefined();
-    expect(user.username).toEqual("admin");
+    expect(user.username).toEqual("andy");
 
   });
 
-  test("add user - failed", async () => {
+  test("add users - failed", async () => {
 
     const user = await service.addUser("", "1234", "andywong@tecky.io", "Andy", "Wong")
-
-    expect(user.username).not.toBeDefined();
+    expect(user).not.toBeDefined();
   });
 
   afterAll(async () => {
