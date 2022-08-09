@@ -1,4 +1,5 @@
 from yahoo_fin import stock_info as si
+import pandas as pd
 from sanic import Sanic
 from sanic.response import json
 
@@ -22,6 +23,33 @@ def getStock(request, ticker):
 
     print(result)
     return json(result)
+
+
+@app.get("/stockgainer")
+def get_daily(request):
+    gain = pd.DataFrame(si.get_day_gainers())
+    gain = gain[['Symbol', 'Price (Intraday)', '% Change']]
+    top_ten_gainer = gain[:5]
+    top_ten_gainer = top_ten_gainer.to_dict('records')
+    return json(top_ten_gainer)
+
+
+@ app.get("/stockloser")
+def get_daily(request):
+    gain = pd.DataFrame(si.get_day_losers())
+    gain = gain[['Symbol', 'Price (Intraday)', '% Change']]
+    top_ten_gainer = gain[:5]
+    g_json = top_ten_gainer.to_dict('records')
+    return json(g_json)
+
+
+@ app.get("/stockactive")
+def get_daily(request):
+    gain = pd.DataFrame(si.get_day_most_active())
+    gain = gain[['Symbol', 'Price (Intraday)', '% Change']]
+    top_ten_gainer = gain[:5]
+    g_json = top_ten_gainer.to_dict('records')
+    return json(g_json)
 
 
 if __name__ == "__main__":

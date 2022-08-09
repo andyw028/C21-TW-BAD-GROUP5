@@ -4,19 +4,26 @@ let GlobalStock
 function eventListenerOfStockButton() {
 	document.querySelector('#stock-btn').addEventListener('click', async () => {
 		loadStockPage()
+		const curBtn = document.querySelector('#stock-reload')
+		curBtn.disabled = true
 		await loadUserStocks()
 		await loadDailyStockDetail()
+		curBtn.disabled = false
 	})
 	document
 		.querySelector('#m-stock-btn')
 		.addEventListener('click', async () => {
 			loadStockPage()
+			const curBtn = document.querySelector('#stock-reload')
+			curBtn.disabled = true
 			await loadUserStocks()
 			await loadDailyStockDetail()
+			curBtn.disabled = false
 		})
 }
 
 function loadStockPage() {
+	console.log('adding page')
 	//Loading the stock page into the panel
 	const panel = document.querySelector('#dashboard-panel')
 	//loading the table title plus buttons
@@ -67,21 +74,24 @@ function loadStockPage() {
 	</button>
 	</div>
 	<div id="user-stock">
-	<div id="stock-table-title" class="row mt-3">
-	<div class="col-2 d-flex justify-content-center"><span>Ticker</span></div>
+	<div id="stock-table-title" class="row mt-3 justify-content-center">
+	<div class="col-1 d-flex justify-content-end"><span>Ticker</span></div>
 	<div class="col-2 d-flex justify-content-center"><span>Qty</span></div>
-	<div class="col-4 d-flex justify-content-center"><span>Cost(USD)</span></div>
-	<div class="col-4 d-flex justify-content-center"><span>Current(USD)</span></div>
+	<div class="col-3 d-flex justify-content-center"><span>Cost(USD)</span></div>
+	<div class="col-3 d-flex justify-content-center"><span>Current(USD)</span></div>
 	</div>
 	<div id="stocks-detail"></div>
 	</div>
+	<div id="info-spot">
 	`
+
 	document
 		.querySelector('#stock-reload')
 		.addEventListener('click', async () => {
 			const curBtn = document.querySelector('#stock-reload')
 			curBtn.disabled = true
 			document.querySelector('#stocks-detail').innerHTML = ``
+			document.querySelector('#info-spot').innerHTML = ``
 			console.log('reload')
 			await loadUserStocks()
 			await loadDailyStockDetail()
@@ -91,7 +101,7 @@ function loadStockPage() {
 
 //load all stock and calculates
 async function loadUserStocks() {
-	// console.log('loading')
+	console.log('loading')
 	const panel = document.querySelector('#stocks-detail')
 	const loader = `<div class="d-flex justify-content-center mt-5">
 	<div class="spinner-border" role="status">
@@ -165,7 +175,7 @@ async function loadUserStocks() {
 		GlobalStock = presentData
 		panel.innerHTML = ``
 		for (let data of presentData) {
-			addStockRow(
+			await addStockRow(
 				data.ticker,
 				data.amount,
 				data.cost,
@@ -179,9 +189,9 @@ async function loadUserStocks() {
 }
 
 //add row for users' stocks
-function addStockRow(ticker, amount, cost, current, panel) {
-	let stockDetailRow = `	<div class="row mt-1 stock-detail">
-	<div class="col-2 d-flex justify-content-center"><span>						<img
+async function addStockRow(ticker, amount, cost, current, panel) {
+	let stockDetailRow = `	<div class="row mt-3 justify-content-center stock-detail">
+	<div class="col-1 d-flex justify-content-end"><span><img
 	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
 	class="rounded-circle"
 	width="25px"
@@ -189,8 +199,8 @@ function addStockRow(ticker, amount, cost, current, panel) {
 	style="margin-right: 2px"
 />${ticker}</span></div>
 	<div class="col-2 d-flex justify-content-center"><span>${amount}</span></div>
-	<div class="col-4 d-flex justify-content-center"><span>$${cost}</span></div>
-	<div class="col-4 d-flex justify-content-center"><span>$${current}</span></div>
+	<div class="col-3 d-flex justify-content-center"><span>$${cost}</span></div>
+	<div class="col-3 d-flex justify-content-center"><span>$${current}</span></div>
 	</div>`
 	panel.innerHTML += stockDetailRow
 }
@@ -253,37 +263,38 @@ function formSubmitForNewStock() {
 }
 
 async function loadDailyStockDetail() {
-	const panel = document.querySelector('#stocks-detail')
-	const htmlCode = `<div id="daily-detail" class="container">
-	<div class="row text-center">
-		<div id="day-gainer" class="card col-md-4 px-2">
+	console.log('loading gainers')
+	const panel = document.querySelector('#info-spot')
+	const htmlCode = `<div id="daily-detail" class="container mt-2">
+	<div class="row text-center justify-content-evenly">
+		<div id="day-gainer" class="card col-md-3 mb-2">
 			<div class="text-center">
 				<h5>Top Ten Gainer</h5>
 			</div>
 			<div class="d-flex justify-content-around">
 				<div class="col-4">Ticker</div>
 				<div class="col-4">Price</div>
-				<div class="col-4">Changes(%)</div>
+				<div class="col-4">Changes</div>
 			</div>
 		</div>
-		<div id="day-loser" class="card col-md-4">
+		<div id="day-loser" class="card col-md-3 mb-2">
 			<div class="text-center">
 				<h5>Top Ten Loser</h5>
 			</div>
 			<div class="d-flex justify-content-around">
 				<div class="col-4">Ticker</div>
 				<div class="col-4">Price</div>
-				<div class="col-4">Changes(%)</div>
+				<div class="col-4">Changes</div>
 			</div>
 		</div>
-		<div id="day-active" class="card col-md-4">
+		<div id="day-active" class="card col-md-3 mb-2">
 			<div class="text-center">
 				<h5>Top Ten Active</h5>
 			</div>
 			<div class="d-flex justify-content-around">
 				<div class="col-4">Ticker</div>
 				<div class="col-4">Price</div>
-				<div class="col-4">Changes(%)</div>
+				<div class="col-4">Changes</div>
 			</div>
 		</div>
 	</div>
@@ -306,7 +317,7 @@ function loadDailyRow(htmlID, arrayOfObject) {
 		insert.innerHTML += `							<div
 		class="d-flex justify-content-around stock-row"
 	>
-		<div class="col-4"><img
+		<div class="col-4 d-flex justify-content-start mb-1"><img
 		src="https://eodhistoricaldata.com/img/logos/US/${item['Symbol']}.png"
 		class="rounded-circle"
 		width="25px"
@@ -314,7 +325,7 @@ function loadDailyRow(htmlID, arrayOfObject) {
 		style="margin-right: 2px"
 	/>${item['Symbol']}</div>
 		<div class="col-4">${item['Price (Intraday)']}</div>
-		<div class="col-4">${item['% Change']}</div>
+		<div class="col-4">${item['% Change']}%</div>
 	</div>`
 	}
 }
