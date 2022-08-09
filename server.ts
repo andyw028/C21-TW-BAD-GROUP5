@@ -33,7 +33,7 @@ export const form = formidable({
 	maxFileSize: 200 * 1024 ** 2, // the default limit is 200KB
 	filter: (part) => part.mimetype?.startsWith("image/") || false,
   })
-  
+app.use(express.static("uploads"))
 //###################################
 //Controller and Services Declaration
 //###################################
@@ -60,7 +60,6 @@ app.use('/', routes)
 //########################
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'private')))
-app.use(express.static("uploads"))
 app.use((req, res) => {
 	res.sendFile(path.join(__dirname, 'public', '404.html'))
 })
