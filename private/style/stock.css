@@ -8,19 +8,33 @@
 	text-align: center;
 	font-size: 1em;
 }
+#stock-table-title {
+	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+	background-color: rgb(1, 143, 146);
+}
 
 #user-stock {
-	border: 1px solid black;
-	padding: 1em;
 	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+	padding-right: calc(var(--bs-gutter-x) * 0.5);
+	padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
 #day-gainer,
 #day-loser,
 #day-active {
-	border: 1px solid black;
-	padding: 1em;
 	border-radius: 20px;
-	box-shadow: 2px 2px 2px;
+	box-shadow: 0px 2px 10px;
+}
+.detail-title {
+	font-weight: bolder;
+	background-color: rgb(1, 143, 146);
+	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+	margin-bottom: 20px;
+}
+.stock-detail {
+	border-radius: 20px;
 }
 @media screen and (max-width: 500px) {
 	#stock-table-title div span,

@@ -2,7 +2,17 @@ let GlobalStock
 
 //load the mobile nav and the web nav when loaded
 function eventListenerOfStockButton() {
+	if (document.querySelector('#dashboard-panel')) {
+		document.querySelector('#dashboard-panel').innerHTML = ''
+	}
 	document.querySelector('#stock-btn').addEventListener('click', async () => {
+		if (
+			document.querySelector('#stocks-detail') &&
+			document.querySelector('#info-spot')
+		) {
+			document.querySelector('#stocks-detail').innerHTML = ``
+			document.querySelector('#info-spot').innerHTML = ``
+		}
 		loadStockPage()
 		const curBtn = document.querySelector('#stock-reload')
 		curBtn.disabled = true
@@ -13,6 +23,13 @@ function eventListenerOfStockButton() {
 	document
 		.querySelector('#m-stock-btn')
 		.addEventListener('click', async () => {
+			if (
+				document.querySelector('#stocks-detail') &&
+				document.querySelector('#info-spot')
+			) {
+				document.querySelector('#stocks-detail').innerHTML = ``
+				document.querySelector('#info-spot').innerHTML = ``
+			}
 			loadStockPage()
 			const curBtn = document.querySelector('#stock-reload')
 			curBtn.disabled = true
@@ -30,7 +47,7 @@ function loadStockPage() {
 	panel.innerHTML = `
 	<div class="col-md-12 d-flex flex-row-reverse">
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+<button type="button" id="add-stock" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#exampleModal1">
 <i class="bi bi-plus-square"></i>
 </button>
 
@@ -69,12 +86,13 @@ function loadStockPage() {
   </div>
 </div>
 
-	<button id="stock-reload" class="btn btn-dark text-center">
+	<button id="stock-reload" class="btn btn-dark text-center m-1">
 	<i class="bi bi-arrow-clockwise"></i>
 	</button>
 	</div>
-	<div id="user-stock">
-	<div id="stock-table-title" class="row mt-3 justify-content-center">
+	<div id="user-stock" class="mb-4 mt-4">
+	<div class="col-md-12 text-center"><h3>My Profile</h3></div>
+	<div id="stock-table-title" class="d-flex mt-3 justify-content-center">
 	<div class="col-1 d-flex justify-content-end"><span>Ticker</span></div>
 	<div class="col-2 d-flex justify-content-center"><span>Qty</span></div>
 	<div class="col-3 d-flex justify-content-center"><span>Cost(USD)</span></div>
@@ -190,8 +208,8 @@ async function loadUserStocks() {
 
 //add row for users' stocks
 async function addStockRow(ticker, amount, cost, current, panel) {
-	let stockDetailRow = `	<div class="row mt-3 justify-content-center stock-detail">
-	<div class="col-1 d-flex justify-content-end"><span><img
+	let stockDetailRow = `	<div class="row mt-2 justify-content-center stock-detail">
+	<div class="col-1 d-flex justify-content-center"><span><img
 	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
 	class="rounded-circle"
 	width="25px"
@@ -210,6 +228,7 @@ function formSubmitForNewStock() {
 		.querySelector('#stock-form')
 		.addEventListener('submit', async (e) => {
 			e.preventDefault()
+			console.log('dgauysgd')
 			//make the form
 			const form = e.target
 			const obj = {}
@@ -223,20 +242,22 @@ function formSubmitForNewStock() {
 			if (form['buy-sell'].value === '') {
 				alert('missing buy/sell')
 			}
-			obj['price'] = form.price.value
+
 			//for loop checking if the amount is larger than the QTY
-			for (let stock in GlobalStock) {
-				if (
-					stock.ticker === form.ticker.value &&
-					form.amount.value < stock.amount
-				) {
-					obj['amount'] = form.amount.value
-					return
-				} else {
-					alert('Amount is larger than your holding')
-					return
+			if (!obj['is_buy']) {
+				for (let stock of GlobalStock) {
+					if (
+						stock.ticker === obj['ticker'] &&
+						form['amount'].value
+					) {
+						obj['amount'] = form['amount'].value
+						console.log('cls')
+					}
 				}
+			} else {
+				obj['amount'] = form['amount'].value
 			}
+			obj['price'] = form.price.value
 
 			console.log(obj)
 			//checking
@@ -271,7 +292,7 @@ async function loadDailyStockDetail() {
 			<div class="text-center">
 				<h5>Top Ten Gainer</h5>
 			</div>
-			<div class="d-flex justify-content-around">
+			<div class="d-flex justify-content-around detail-title">
 				<div class="col-4">Ticker</div>
 				<div class="col-4">Price</div>
 				<div class="col-4">Changes</div>
@@ -281,7 +302,7 @@ async function loadDailyStockDetail() {
 			<div class="text-center">
 				<h5>Top Ten Loser</h5>
 			</div>
-			<div class="d-flex justify-content-around">
+			<div class="d-flex justify-content-around detail-title">
 				<div class="col-4">Ticker</div>
 				<div class="col-4">Price</div>
 				<div class="col-4">Changes</div>
@@ -291,7 +312,7 @@ async function loadDailyStockDetail() {
 			<div class="text-center">
 				<h5>Top Ten Active</h5>
 			</div>
-			<div class="d-flex justify-content-around">
+			<div class="d-flex justify-content-around detail-title">
 				<div class="col-4">Ticker</div>
 				<div class="col-4">Price</div>
 				<div class="col-4">Changes</div>
