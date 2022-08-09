@@ -74,7 +74,7 @@ def read_IMG(img):
     return(para)
 
 if __name__ == "__main__":
-    result = read_IMG('testing5')
+    result = read_IMG('testing4')
     print(result)
     find_Amount(result)
     find_Date(result)

@@ -6,6 +6,7 @@ function addEventListenerForCalculator() {
 		loadTheCalculator()
 	})
 }
+
 function loadTheCalculator() {
 	const panel = document.querySelector('#dashboard-panel')
 	panel.innerHTML = `<table class="calculator mt-5">

@@ -1,10 +1,52 @@
 #stock-table-title div {
 	font-weight: bold;
-	border-bottom: 3px solid black;
 }
 
 #stock-table-title div span,
 .stock-detail div span {
 	align-self: flex-end;
 	text-align: center;
+	font-size: 1em;
+}
+#stock-table-title {
+	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+	background-color: rgb(1, 143, 146);
+}
+
+#user-stock {
+	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+	padding-right: calc(var(--bs-gutter-x) * 0.5);
+	padding-left: calc(var(--bs-gutter-x) * 0.5);
+}
+#day-gainer,
+#day-loser,
+#day-active {
+	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+}
+.detail-title {
+	font-weight: bolder;
+	background-color: rgb(1, 143, 146);
+	border-radius: 20px;
+	box-shadow: 0px 2px 10px;
+	margin-bottom: 20px;
+}
+.stock-detail {
+	border-radius: 20px;
+}
+@media screen and (max-width: 500px) {
+	#stock-table-title div span,
+	.stock-detail div span {
+		font-size: 0.8em;
+	}
+	#daily-detail {
+		font-size: 0.8em;
+		margin-top: 20px;
+	}
+	#daily-detail h5 {
+		font-size: 1.1em;
+		font-weight: bolder;
+	}
 }

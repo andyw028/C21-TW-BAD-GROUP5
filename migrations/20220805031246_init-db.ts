@@ -29,6 +29,7 @@ export async function up(knex: Knex): Promise<void> {
 	})
 	await knex.schema.createTable(receiptTableName, (table) => {
 		table.increments()
+
 		table.integer('users_id').unsigned().notNullable()
 		table.foreign('users_id').references('users.id')
 		table.text('image').notNullable()
@@ -43,8 +44,8 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-	await knex.schema.dropTableIfExists(typeTableName)
 	await knex.schema.dropTableIfExists(receiptTableName)
 	await knex.schema.dropTableIfExists(accountTableName)
 	await knex.schema.dropTableIfExists(userTableName)
+	await knex.schema.dropTableIfExists(typeTableName)
 }

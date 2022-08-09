@@ -3,10 +3,16 @@ import { client } from './tools/pg'
 import { knex } from './tools/knexConfig'
 import expressSession from 'express-session'
 import path from 'path'
+import fs from "fs"
+import formidable from 'formidable'
 
 client.connect()
 
 const app = express()
+
+//parse json
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 //Session
 app.use(
@@ -16,19 +22,33 @@ app.use(
 		saveUninitialized: true
 	})
 )
+//file upload route
+const uploadDir = "uploads"
+fs.mkdirSync(uploadDir, { recursive: true })
+
+export const form = formidable({
+	uploadDir,
+	keepExtensions: true,
+	maxFiles: 1,
+	maxFileSize: 200 * 1024 ** 2, // the default limit is 200KB
+	filter: (part) => part.mimetype?.startsWith("image/") || false,
+  })
+app.use(express.static("uploads"))
 //###################################
 //Controller and Services Declaration
 //###################################
 import { UserController } from './controllers/userController'
 import { ReceiptController } from './controllers/receiptController'
+import { StockController } from './controllers/stockController'
 import { UserServices } from './services/userServices'
 import { ReceiptServices } from './services/receiptServices'
-
+import { StockServices } from './services/stockServices'
 const userServices = new UserServices(knex)
 const receiptServices = new ReceiptServices(knex)
+const stockService = new StockServices(knex)
 export const userController = new UserController(userServices)
 export const receiptController = new ReceiptController(receiptServices)
-
+export const stockController = new StockController(stockService)
 //########################
 //Routes
 //########################

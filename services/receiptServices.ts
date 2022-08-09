@@ -3,8 +3,8 @@ import { Knex } from 'knex'
 export class ReceiptServices {
 	constructor(private knex: Knex) {}
 
-	async getReceipt() {
-		return await this.knex('receipts').select('*')
+	async getReceipt(id:string) {
+		return await this.knex('receipts').select('*').where("users_id", id)
 	}
 
 	async addReceipt() {}
