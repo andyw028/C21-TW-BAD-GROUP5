@@ -17,7 +17,7 @@ export class UserServices {
         let userInfo = { "username": username, "password": hashedPassword, "email": email, "first_name": firstName, 
             "last_name": lastName, "is_banned": isBanned, "is_admin": isAdmin}
 
-        return await this.knex("users").insert(userInfo).returning(['id','username']);
+        return (await this.knex("users").insert(userInfo).returning(['id','username']))[0];
     }
 
 	async updateUser(username: string, password: string, email: string, firstName: string, lastName: string) { 
