@@ -51,6 +51,8 @@ window.onload = () => {
         const lastName = form.lastName.value;
         const password = form.password.value;
         const email = form.email.value;
+
+        console.log(username,firstName,lastName,password,email)
   
 
         const resp = await fetch("/signup", {
@@ -68,10 +70,12 @@ window.onload = () => {
         });
     
         const result = await resp.json();
+        
+
         if (!result.success) {
-          alert("Create Account Failed ");
+          alert(`Create Account Failed, ${result.message}`);
         } else {
-          window.location.href = "/dashboard.html";
+          window.location.href = `/dashboard/${result.userID}`;
         }
       });
     }

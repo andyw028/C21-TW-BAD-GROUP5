@@ -9,6 +9,11 @@ export class UserServices {
         return await this.knex<User>("users").where("username", username).first();
     }
 
+    async checkAC(userEmail:string, userName: string) {
+        const count = (await this.knex.select("*").from("users").where("username", userName).orWhere("email",userEmail )).length;
+        return count
+    }
+
     async addUser(username: string, password: string, email: string, firstName: string, lastName: string) {
         let isBanned = false;
         let isAdmin = false;

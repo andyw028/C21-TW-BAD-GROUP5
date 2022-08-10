@@ -43,17 +43,21 @@ export class UserController {
             return;
         }
 
-		if (username) {
+        const userResult = await this.userService.checkAC(email,username)
+
+		if (userResult > 0) {
 			res.status(400).json({
 				success: false,
-				message: 'Username already exists'
+				message: 'Email already exists'
 			})
 			return
 		}
 
         const user = await this.userService.addUser(username, password, email, firstName, lastName);
-        req.session['user'] = { id: user.id, username }
-        res.status(200).json({ success: true, message: "Account created successfully" });
+        console.log(user.id)
+        console.log(user.username)
+        req.session['user'] = { id: user.id, username: user.username }
+        res.status(200).json({ success: true, userID:user.id});
         return;
     }
 
