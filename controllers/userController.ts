@@ -5,13 +5,6 @@ import { checkPassword } from '../utils/hash'
 export class UserController {
 	constructor(private userService: UserServices) {}
 
-	// put = async (req: Request, res: Response) => {
-	//     res.json(await this.userService.updateUser())
-	// }
-	// delete = async (req: Request, res: Response) => {
-	//     res.json(await this.userService.deleteUser())
-	// }
-
 	login = async (req: Request, res: Response) => {
 		console.log(req.body)
 		const { username, password } = req.body
