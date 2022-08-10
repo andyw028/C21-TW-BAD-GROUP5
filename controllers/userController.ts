@@ -60,7 +60,7 @@ export class UserController {
 		if (userResult > 0) {
 			res.status(400).json({
 				success: false,
-				message: 'Email or Username used'
+				message: 'Email already exists'
 			})
 			return
 		}
@@ -72,11 +72,9 @@ export class UserController {
 			firstName,
 			lastName
 		)
-
 		req.session['user'] = { id: user.id, username: user.username }
 		res.status(200).json({ success: true, userID: user.id })
 	}
-
 
 	get = async (req: Request, res: Response) => {
 		// const { firstName, lastName, email } = req.body;
