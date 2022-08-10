@@ -96,14 +96,13 @@ body {
 #ai-card:hover #ai-info1 {
 	display: none;
 }
-#reg-btn,
 #sign-in-btn {
 	border: 3px solid black;
 	color: black;
 	background: none;
 	border-radius: 20px;
 	font-size: 24px;
-	width: 130px;
+	width: 180px;
 	height: 50px;
 	margin: 3px;
 }
