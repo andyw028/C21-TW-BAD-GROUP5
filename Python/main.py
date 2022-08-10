@@ -4,7 +4,12 @@ import cv2
 from PIL import Image, ImageFilter, ImageEnhance
 from matplotlib import pyplot as plt
 import re
+from datetime import date
 
+today = date.today()
+
+# dd/mm/YY
+today_date = today.strftime("%d/%m/%Y")
 
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -22,7 +27,11 @@ def find_Date(para):
     date_pattern_1 = r"[\d]{1,4}/[\d]{1,2}/[\d]{1,2}"
     date_pattern_2 = r"[\d]{1,4}-[\d]{1,4}-[\d]{1,4}"
     Dates = re.findall('([\d]{1,4}/[\d]{1,4}/[\d]{1,4}|[\d]{1,4}-[\d]{1,4}-[\d]{1,4})' , para)
-    return Dates
+    # Dates is list
+    if len(Dates) < 1:
+        return today_date
+    else:
+        return Dates[0]
     # if len(Dates) is 0:
     #  Dates = re.findall('[\d]{1,4}.[\d]{1,2}.[\d]{1,2}' , para)
     #  print(f'Dates: {Dates}')
@@ -33,8 +42,12 @@ def find_Name(para):
     Names = re.findall(shop_name_pattern, para)
     #print(Names)
     Names_list = []
-    for i in range(3):
-        Names_list.append(Names[i])
+    if len(Names) <= 5:
+        for i in len(Names):
+            Names_list.append(Names[i])
+    else:
+        for i in range(5):
+            Names_list.append(Names[i])
     
     # Find occur the most
     name = max(Names_list,key=Names_list.count)
@@ -58,7 +71,7 @@ def read_img_cv(img):
     img_rgb = cv2.cvtColor(dst, cv2.COLOR_BGR2RGB)
     #print(pytesseract.image_to_string(img_rgb, lang="chi_tra+eng"))
 
-def read_IMG(img_path):
+def read_IMG(img_path,type):
     # img_path = os.path.join('./data/',img + '.jpeg')
     img = Image.open(img_path)
     ## Turn into grey
@@ -70,7 +83,7 @@ def read_IMG(img_path):
     # img = img.point(lambda i: i * 1.2)
     # img.show()
     # custom_oem_psm_config = r'--psm 2' 
-    para = pytesseract.image_to_string(img, lang="chi_tra")
+    para = pytesseract.image_to_string(img, lang=f'{type}')
     print(para)
     return(para)
 

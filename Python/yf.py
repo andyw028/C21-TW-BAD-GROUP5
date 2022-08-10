@@ -1,3 +1,4 @@
+from yahoo_fin import stock_info as si
 import pandas as pd
 from sanic import Sanic
 from sanic.response import json
@@ -54,15 +55,15 @@ def get_daily(request):
 
 @app.post("/upload/<receipt:path>")
 async def handler(request, receipt: str):
+    lan_type = request.json["lanType"]
     receipt_path = receipt
     img_path = os.path.join('../uploads/',receipt_path)
-    result = read_IMG(img_path)
+    result = read_IMG(img_path, lan_type)
     predicted_amount = find_Amount(result)
     predicted_date = find_Date(result)
     predicted_name = find_Name(result)
-    print(predicted_amount)
-    print(predicted_date)
-    print(predicted_name)
+    return json({"amount" : predicted_amount, "date":predicted_date, "name":predicted_name })
+    
 
 
 if __name__ == "__main__":
