@@ -16,7 +16,7 @@ export class UserController {
 	login = async (req: Request, res: Response) => {
 		const { username, password } = req.body
 		if (!username || !password) {
-			res.status(401).json({ message: 'Invalid username or password' })
+			res.status(400).json({ message: 'Invalid username or password' })
 			return
 		}
 
@@ -30,7 +30,7 @@ export class UserController {
             res.status(200).json({ success: true, message: "Login successfully" });
             return;
         } else {
-            return res.status(401).redirect('/login.html?error=Incorrect+Username')
+            return res.status(400).redirect('/login.html?error=Incorrect+Username')
         }
     };
 
@@ -47,14 +47,6 @@ export class UserController {
 			res.status(400).json({
 				success: false,
 				message: 'Username already exists'
-			})
-			return
-		}
-
-		if (email) {
-			res.status(400).json({
-				success: false,
-				message: 'Email already exists'
 			})
 			return
 		}
