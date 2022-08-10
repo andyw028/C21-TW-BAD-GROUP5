@@ -2,14 +2,13 @@ import express from 'express'
 import { userController, receiptController, stockController } from '../server'
 import path from 'path'
 import { formidableMiddleware } from '../utils/formiddable'
+import { isExactUser, isLoggedInApi, isLoggedInStatic } from '../utils/guards'
 
 export const routes = express.Router()
 
 routes.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
-routes.use(express.static(path.join(__dirname, '..', 'public')))
-routes.use(express.static(path.join(__dirname, '..', 'private')))
 
 //###############
 //Direction to login page and register page
@@ -18,7 +17,12 @@ routes.use(express.static(path.join(__dirname, '..', 'private')))
 routes.get('/login', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 })
-routes.get('/dashboard/:id', (req, res) => {
+routes.get('/logout', (req, res) => {
+	console.log('ok')
+	req.session['user'] = undefined
+	res.json({ logout: true })
+})
+routes.get('/dashboard/:id', isLoggedInApi, isExactUser, (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard2.html'))
 })
 
@@ -46,3 +50,11 @@ routes.delete('/stock', stockController.delete)
 
 routes.get('/account/:id', userController.get)
 // // routes.post('/account/:id', userController.post)
+routes.use(express.static(path.join(__dirname, '..', 'public')))
+routes.use(
+	isLoggedInStatic,
+	express.static(path.join(__dirname, '..', 'private'))
+)
+routes.use((req, res) => {
+	res.sendFile(path.join(__dirname, '..', 'public', '404.html'))
+})

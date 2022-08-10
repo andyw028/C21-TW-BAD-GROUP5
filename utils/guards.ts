@@ -1,26 +1,41 @@
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction } from 'express'
 
-declare module "express-session" {
-  interface SessionData {
-    user?: {
-      id: number;
-      username: string;
-    };
-  }
+declare module 'express-session' {
+	interface SessionData {
+		user?: {
+			id: number
+			username: string
+		}
+	}
 }
 
-export function isLoggedInStatic(req: Request, res: Response, next: NextFunction) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect("/login.html");
-  }
+export function isLoggedInStatic(
+	req: Request,
+	res: Response,
+	next: NextFunction
+) {
+	if (req.session.user) {
+		next()
+	} else {
+		res.redirect('/login.html')
+	}
 }
 
 export function isLoggedInApi(req: Request, res: Response, next: NextFunction) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.status(401).json({ message: "unauthorized" });
-  }
+	if (req.session.user) {
+		next()
+	} else {
+		res.status(401).json({ message: 'unauthorized' })
+	}
+}
+
+export function isExactUser(req: Request, res: Response, next: NextFunction) {
+	if (
+		req.session['user'] &&
+		parseInt(req.params.id) !== req.session['user']['id']
+	) {
+		res.status(401).redirect('/404.html')
+		return
+	}
+	next()
 }

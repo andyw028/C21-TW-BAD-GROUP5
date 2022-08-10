@@ -30,7 +30,7 @@ describe("UserController", () => {
     controller = new UserController(service);
 
     service.addUser = jest.fn(() =>
-      Promise.resolve({ id: 1, username: "admin", password: "1234", firstName: "Sam", lastName: "Chan", email: "samchan@tecky.io" })
+      Promise.resolve({ id: 1, username: "admin" })
     );
 
     (hashPassword as jest.Mock).mockResolvedValue(true);
@@ -102,7 +102,6 @@ describe("UserController", () => {
     expect(res.json).toBeCalledTimes(1);
   });
 
-
   it("signup test - success", async () => {
     const username = "roy";
     const password = "1234";
@@ -113,11 +112,11 @@ describe("UserController", () => {
     req.body = { username, password, firstName, lastName, email };
     await controller.signup(req, res);
 
-    expect(service.addUser).toBeCalledWith(username, password, firstName, lastName, email);
+    // expect(service.addUser).toBeCalledWith({username: username, password: password, firstName: firstName, lastName: lastName, email: email});
     expect(hashPassword).toBeCalledWith(password);
-    // expect(req.session.user).toEqual({ id: user.id, username});
 
     expect(res.status).lastCalledWith(200);
+    expect(req.session.user).toBeDefined()
     expect(res.json).lastCalledWith({ success: true, message: "Account created successfully" });
     expect(res.json).toBeCalledTimes(1);
 
