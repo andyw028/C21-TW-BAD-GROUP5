@@ -1,9 +1,9 @@
 import { Knex } from 'knex'
-import { hashPassword } from "../utils/hash";
-import { User } from "../models/User";
+import { hashPassword } from '../utils/hash'
+import { User } from '../models/User'
 
 export class UserServices {
-    constructor(private knex: Knex) { }
+	constructor(private knex: Knex) {}
 
     async getUserByUsername(username: string): Promise<User | undefined> {
         return await this.knex<User>("users").where("username", username).first();

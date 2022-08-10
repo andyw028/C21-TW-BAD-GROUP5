@@ -44,75 +44,216 @@ function loadStockPage() {
 	//Loading the stock page into the panel
 	const panel = document.querySelector('#dashboard-panel')
 	//loading the table title plus buttons
-	panel.innerHTML = `
-	<div class="col-md-12 d-flex flex-row-reverse">
+	panel.innerHTML = `				<div class="col-md-12 d-flex flex-row-reverse">
 	<!-- Button trigger modal -->
-<button type="button" id="add-stock" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-<i class="bi bi-plus-square"></i>
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-<!-- FORM -->
-<form id="stock-form">
-  <div class="mb-3">
-    <label for="" class="form-label">Ticker</label>
-    <input name="ticker" class="form-control" id="ticker" aria-describedby="emailHelp" required>
-    <div id="Ticker-Warn" class="form-text">Make Sure Your Ticker is Correct</div>
-  </div>
-  <div class="mb-3">
-	<label for="buy-sell" class="form-label">Buy or Sell?</label>
-	<select class="form-select" name="buy-sell" aria-label="Default select example" required>
-  <option value="buy">Buy</option>
-  <option value="sell">Sell</option>
-</select>
-  </div>
-  <div class="mb-3">
-    <label for="Price" class="form-label">Price</label>
-    <input name="price" class="form-control" id="price" required>
-  </div>
-  <div class="mb-3">
-    <label for="Amount" class="form-label">Amount</label>
-    <input name="amount" class="form-control" id="amount" required>
-  </div>
-  <button type="class" class="btn btn-primary">Submit</button>
-  <button id="close-modal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-</form>
-      </div>
-    </div>
-  </div>
-</div>
-
-	<button id="stock-reload" class="btn btn-dark text-center m-1">
-	<i class="bi bi-arrow-clockwise"></i>
+	<button
+		type="button"
+		id="add-stock"
+		class="btn btn-dark m-1"
+		data-bs-toggle="modal"
+		data-bs-target="#exampleModal1"
+	>
+		<i class="bi bi-plus-square"></i>
 	</button>
+
+	<!-- Modal -->
+	<div
+		class="modal fade"
+		id="exampleModal1"
+		tabindex="-1"
+		aria-labelledby="exampleModalLabel"
+		aria-hidden="true"
+	>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<!-- FORM -->
+					<form id="stock-form">
+						<div class="mb-3">
+							<label for="" class="form-label"
+								>Ticker</label
+							>
+							<input
+								name="ticker"
+								class="form-control"
+								id="ticker"
+								aria-describedby="emailHelp"
+								required=""
+							/>
+							<div
+								id="Ticker-Warn"
+								class="form-text"
+							>
+								Make Sure Your Ticker is Correct
+							</div>
+						</div>
+						<div class="mb-3">
+							<label
+								for="buy-sell"
+								class="form-label"
+								>Buy or Sell?</label
+							>
+							<select
+								class="form-select"
+								name="buy-sell"
+								aria-label="Default select example"
+								required=""
+							>
+								<option value="buy">Buy</option>
+								<option value="sell">
+									Sell
+								</option>
+							</select>
+						</div>
+						<div class="mb-3">
+							<label
+								for="Price"
+								class="form-label"
+								>Price</label
+							>
+							<input
+								name="price"
+								class="form-control"
+								id="price"
+								required=""
+							/>
+						</div>
+						<div class="mb-3">
+							<label
+								for="Amount"
+								class="form-label"
+								>Amount</label
+							>
+							<input
+								name="amount"
+								class="form-control"
+								id="amount"
+								required=""
+							/>
+						</div>
+						<button
+							type="class"
+							class="btn btn-primary"
+						>
+							Submit
+						</button>
+						<button
+							id="close-modal"
+							type="button"
+							class="btn btn-secondary"
+							data-bs-dismiss="modal"
+						>
+							Close
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div id="user-stock" class="mb-4 mt-4">
-	<div class="col-md-12 text-center"><h3>My Profile</h3></div>
-	<div id="stock-table-title" class="d-flex mt-3 justify-content-center">
-	<div class="col-1 d-flex justify-content-end"><span>Ticker</span></div>
-	<div class="col-2 d-flex justify-content-center"><span>Qty</span></div>
-	<div class="col-3 d-flex justify-content-center"><span>Cost(USD)</span></div>
-	<div class="col-3 d-flex justify-content-center"><span>Current(USD)</span></div>
+
+	<button
+		id="stock-reload"
+		class="btn btn-dark text-center m-1"
+	>
+		<i class="bi bi-arrow-clockwise"></i>
+	</button>
+</div>
+<div>
+	<div class="row">
+		<div id="user-stock" class="col-md-8 p-2">
+			<div class="text-center mb-5">
+				<h1 class="">My Profile</h1>
+			</div>
+			<div
+				id="stock-table-title"
+				class="d-flex mt-3 justify-content-center"
+			>
+				<div
+					class="col-2 d-flex justify-content-center"
+				>
+					<span>Ticker</span>
+				</div>
+				<div
+					class="col-1 d-flex justify-content-center"
+				>
+					<span>Qty</span>
+				</div>
+				<div
+					class="col-3 d-flex justify-content-center"
+				>
+					<span>Cost(USD)</span>
+				</div>
+				<div
+					class="col-3 d-flex justify-content-center"
+				>
+					<span>Current(USD)</span>
+				</div>
+				<div
+					class="col-3 d-flex justify-content-center"
+				>
+					<span>PL(USD)</span>
+				</div>
+			</div>
+			<div id="stocks-detail"></div>
+		</div>
+		<div id="info-spot" class="col-md-4 mt-4">
+			<div id="day-gainer" class="mb-2 col-md-12 p-2">
+				<div class="text-center mb-5">
+					<h2>Top Ten Gainer</h2>
+				</div>
+				<div
+					class="d-flex justify-content-center detail-title"
+				>
+					<div class="col-4 text-center">Ticker</div>
+					<div class="col-4 text-center">Price</div>
+					<div class="col-4 text-center">Changes</div>
+				</div>
+			</div>
+			<div id="day-loser" class="mb-2 col-md-12 p-2">
+				<div class="text-center mb-5">
+					<h2>Top Ten Loser</h2>
+				</div>
+				<div
+					class="d-flex justify-content-around detail-title"
+				>
+					<div class="col-4 text-center">Ticker</div>
+					<div class="col-4 text-center">Price</div>
+					<div class="col-4 text-center">Changes</div>
+				</div>
+			</div>
+			<div id="day-active" class="mb-2 col-md-12 p-2">
+				<div class="text-center mb-5">
+					<h2>Top Ten Active</h2>
+				</div>
+				<div
+					class="d-flex justify-content-around detail-title"
+				>
+					<div class="col-4 text-center">Ticker</div>
+					<div class="col-4 text-center">Price</div>
+					<div class="col-4 text-center">Changes</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div id="stocks-detail"></div>
-	</div>
-	<div id="info-spot">
+</div>
 	`
 
 	document
 		.querySelector('#stock-reload')
 		.addEventListener('click', async () => {
+			if (
+				document.querySelector('#stocks-detail') &&
+				document.querySelector('#info-spot')
+			) {
+				document.querySelector('#stocks-detail').innerHTML = ``
+				document.querySelector('#info-spot').innerHTML = ``
+			}
+			loadStockPage()
 			const curBtn = document.querySelector('#stock-reload')
 			curBtn.disabled = true
-			document.querySelector('#stocks-detail').innerHTML = ``
-			document.querySelector('#info-spot').innerHTML = ``
-			console.log('reload')
 			await loadUserStocks()
 			await loadDailyStockDetail()
+			curBtn.disabled = false
 		})
 	formSubmitForNewStock()
 }
@@ -121,12 +262,16 @@ function loadStockPage() {
 async function loadUserStocks() {
 	console.log('loading')
 	const panel = document.querySelector('#stocks-detail')
-	const loader = `<div class="d-flex justify-content-center mt-5">
+	//spinner
+	const loader = `<div class="d-flex justify-content-center mt-1">
 	<div class="spinner-border" role="status">
 	  <span class="visually-hidden">Loading...</span>
 	</div>
   </div>`
 	panel.innerHTML = loader
+	document.querySelector(`#day-gainer`).innerHTML += loader
+	document.querySelector(`#day-loser`).innerHTML += loader
+	document.querySelector(`#day-active`).innerHTML += loader
 	//*********
 	//change
 	//*********
@@ -187,38 +332,47 @@ async function loadUserStocks() {
 				cost: Math.round(
 					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
 				),
-				current: current
+				current: current,
+				pl:
+					(current -
+						Math.round(
+							(((buy + sell) / totalAmount + Number.EPSILON) *
+								100) /
+								100
+						)) *
+					totalAmount
 			})
 		}
 		GlobalStock = presentData
 		panel.innerHTML = ``
 		for (let data of presentData) {
+			let earn = Math.round(((data.pl + Number.EPSILON) * 100) / 100)
 			await addStockRow(
 				data.ticker,
 				data.amount,
 				data.cost,
 				data.current,
+				earn,
 				panel
 			)
 		}
 	}
-	//Add eventlistener after the reload button is loaded
-	document.querySelector('#stock-reload').disabled = false
 }
 
 //add row for users' stocks
-async function addStockRow(ticker, amount, cost, current, panel) {
-	let stockDetailRow = `	<div class="row mt-2 justify-content-center stock-detail">
-	<div class="col-1 d-flex justify-content-center"><span><img
+async function addStockRow(ticker, amount, cost, current, pl, panel) {
+	let stockDetailRow = `	<div class="row m-3 justify-content-center stock-detail">
+	<div class="col-2 d-flex justify-content-center"><span><img
 	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
 	class="rounded-circle"
 	width="25px"
 	height="25px"
 	style="margin-right: 2px"
 />${ticker}</span></div>
-	<div class="col-2 d-flex justify-content-center"><span>${amount}</span></div>
+	<div class="col-1 d-flex justify-content-center"><span>${amount}</span></div>
 	<div class="col-3 d-flex justify-content-center"><span>$${cost}</span></div>
 	<div class="col-3 d-flex justify-content-center"><span>$${current}</span></div>
+	<div class="col-3 d-flex justify-content-center"><span>$${pl}</span></div>
 	</div>`
 	panel.innerHTML += stockDetailRow
 }
@@ -285,49 +439,42 @@ function formSubmitForNewStock() {
 
 async function loadDailyStockDetail() {
 	console.log('loading gainers')
-	const panel = document.querySelector('#info-spot')
-	const htmlCode = `<div id="daily-detail" class="container mt-2">
-	<div class="row text-center justify-content-evenly">
-		<div id="day-gainer" class="card col-md-3 mb-2">
-			<div class="text-center">
-				<h5>Top Ten Gainer</h5>
-			</div>
-			<div class="d-flex justify-content-around detail-title">
-				<div class="col-4">Ticker</div>
-				<div class="col-4">Price</div>
-				<div class="col-4">Changes</div>
-			</div>
-		</div>
-		<div id="day-loser" class="card col-md-3 mb-2">
-			<div class="text-center">
-				<h5>Top Ten Loser</h5>
-			</div>
-			<div class="d-flex justify-content-around detail-title">
-				<div class="col-4">Ticker</div>
-				<div class="col-4">Price</div>
-				<div class="col-4">Changes</div>
-			</div>
-		</div>
-		<div id="day-active" class="card col-md-3 mb-2">
-			<div class="text-center">
-				<h5>Top Ten Active</h5>
-			</div>
-			<div class="d-flex justify-content-around detail-title">
-				<div class="col-4">Ticker</div>
-				<div class="col-4">Price</div>
-				<div class="col-4">Changes</div>
-			</div>
-		</div>
-	</div>
-</div>`
-	panel.innerHTML += htmlCode
-
 	const gainer = await fetch('http://localhost:8000/stockgainer')
 	const gainerinfo = await gainer.json()
 	const loser = await fetch('http://localhost:8000/stockloser')
 	const loserinfo = await loser.json()
 	const active = await fetch('http://localhost:8000/stockactive')
 	const activeinfo = await active.json()
+	document.querySelector(`#day-gainer`).innerHTML = `<div class="text-center">
+	<h3>Top Ten Gainer</h3>
+</div>
+<div
+	class="d-flex justify-content-center detail-title"
+>
+	<div class="col-4 text-center">Ticker</div>
+	<div class="col-4 text-center">Price</div>
+	<div class="col-4 text-center">Changes</div>
+</div>`
+	document.querySelector(`#day-loser`).innerHTML = `								<div class="text-center">
+	<h3>Top Ten Loser</h3>
+</div>
+<div
+	class="d-flex justify-content-around detail-title"
+>
+	<div class="col-4 text-center">Ticker</div>
+	<div class="col-4 text-center">Price</div>
+	<div class="col-4 text-center">Changes</div>
+</div>`
+	document.querySelector(`#day-active`).innerHTML = `								<div class="text-center">
+	<h3>Top Ten Active</h3>
+</div>
+<div
+	class="d-flex justify-content-around detail-title"
+>
+	<div class="col-4 text-center">Ticker</div>
+	<div class="col-4 text-center">Price</div>
+	<div class="col-4 text-center">Changes</div>
+</div>`
 	loadDailyRow('day-gainer', gainerinfo)
 	loadDailyRow('day-loser', loserinfo)
 	loadDailyRow('day-active', activeinfo)
@@ -338,15 +485,15 @@ function loadDailyRow(htmlID, arrayOfObject) {
 		insert.innerHTML += `							<div
 		class="d-flex justify-content-around stock-row"
 	>
-		<div class="col-4 d-flex justify-content-start mb-1"><img
+		<div class="col-4 d-flex text-center justify-content-center mb-1"><img
 		src="https://eodhistoricaldata.com/img/logos/US/${item['Symbol']}.png"
 		class="rounded-circle"
 		width="25px"
 		height="25px"
 		style="margin-right: 2px"
 	/>${item['Symbol']}</div>
-		<div class="col-4">${item['Price (Intraday)']}</div>
-		<div class="col-4">${item['% Change']}%</div>
+		<div class="col-4 text-center">${item['Price (Intraday)']}</div>
+		<div class="col-4 text-center">${item['% Change']}%</div>
 	</div>`
 	}
 }

@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import { UserServices } from '../services/userServices';
-import { checkPassword } from '../utils/hash';
+import { Request, Response } from 'express'
+import { UserServices } from '../services/userServices'
+import { checkPassword } from '../utils/hash'
 // import { 01_init-data } from '..seeds';
 
 export class UserController {
@@ -21,18 +21,23 @@ export class UserController {
 		}
 
 		const user = await this.userService.getUserByUsername(username)
-
-        const verify = user && await checkPassword(password, user.password);
-        if (verify) {
-            if (req.session) {
-                req.session['user'] = { id: user.id, username };
-            }
-            res.status(200).json({ success: true, message: "Login successfully" });
-            return;
-        } else {
-            return res.status(400).redirect('/login.html?error=Incorrect+Username')
-        }
-    };
+		console.log(user)
+		const verify = user && (await checkPassword(password, user[0].password))
+		if (verify) {
+			if (req.session) {
+				req.session['user'] = { id: user![0].id, username }
+			}
+			res.status(200).json({
+				success: true,
+				message: 'Login successfully'
+			})
+			return
+		} else {
+			return res
+				.status(400)
+				.json({ success: false, message: 'Login Failed' })
+		}
+	}
 
     signup = async (req: Request, res: Response) => {
 
@@ -61,8 +66,7 @@ export class UserController {
         return;
     }
 
-    get = async (req: Request, res: Response) => {
-
-       // const { firstName, lastName, email } = req.body; 
-    }
+	get = async (req: Request, res: Response) => {
+		// const { firstName, lastName, email } = req.body;
+	}
 }
