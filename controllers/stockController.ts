@@ -8,7 +8,7 @@ export class StockController {
 		try {
 			const userID: string = req.params.id
 			if (!userID) {
-				res.status(400).json({ msg: 'Invalid ID Provided' })
+				res.status(400).json({ message: 'Invalid ID Provided' })
 				return
 			}
 
@@ -22,6 +22,11 @@ export class StockController {
 		// let id = req.session.id
 		let id = 1
 		let form = req.body
+		if (!req.body) {
+			res.status(400).json({ message: 'No Body Provided' })
+			return
+		}
+
 		const result = await this.stockService.updateStockTrade(
 			id,
 			form.ticker,
