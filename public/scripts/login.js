@@ -1,8 +1,3 @@
-window.onload = () => {
-	logIn()
-	signUp()
-}
-
 function logIn() {
 	const logIn = document.querySelector('#login')
 
@@ -13,7 +8,6 @@ function logIn() {
 
 		const username = form.username.value
 		const password = form.password.value
-		console.log(username, password)
 		if (username && password) {
 			const resp = await fetch('/login', {
 				method: 'POST',
@@ -25,13 +19,13 @@ function logIn() {
 
 			const result = await resp.json()
 			console.log(result)
-			// if (!result.success) {
-			// 	alert('Login Failed')
-			// 	window.location.href = '/login'
-			// } else {
-			// 	alert('Login Success')
-			// 	window.location.href = `/dashboard/${}`
-			// }
+			if (!result.success) {
+				alert('Login Failed')
+				window.location.href = '/login'
+			} else {
+				alert('Login Success')
+				window.location.href = `/dashboard/${result.id}`
+			}
 		}
 	})
 }
@@ -75,3 +69,6 @@ function signUp() {
 		}
 	})
 }
+//##################################################
+logIn()
+signUp()
