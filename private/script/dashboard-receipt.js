@@ -1,3 +1,4 @@
+
 async function load_panel() {
     document.querySelector('#receipt-btn').addEventListener("click", () => {
         const id = 14
@@ -10,7 +11,6 @@ async function load_panel() {
     })
 
 }
-
 
 
 async function addPanels() {
@@ -92,7 +92,7 @@ async function loadSubmit() {
             <!-- Submit image to AI -->
             <div class="modal-body">
                 <form id="receiptAI" enctype=multipart/form-data> 
-                    <input type="file" name=file>
+                    <input type="file" name=file required>
                     <div class="Submit-bar">
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="reset" class="btn btn-primary">Clear</button>
@@ -126,20 +126,39 @@ async function submitReceiptToAI() {
     document.querySelector('#receiptAI').addEventListener("submit", async function (event) {
 
         event.preventDefault()
-        const form = event.target
+        const submitForm = event.target
         const formData = new FormData()
-        receiptImage = form.file.files[0].name
+        receipt = submitForm.file.files[0]
+        receiptName = submitForm.file.files[0].name
+        formData.append(`${receiptName}`, receipt)
+        formData.append(`${receiptName}`, receiptName)
+        console.log(receipt)
+        console.log(receiptName)
 
-        const res = await fetch("http://localhost:5000/")
+        const response = await fetch("/receiptSubmit", {
+            method: "Post",
+            body: formData
+        })
 
-        console.log("fetched")
+        const receiptToAI = await response.json()
         
+        if(!receiptToAI.success){
+            console.log(receiptToAI.message)
+            return
+        } else {
+            
+        console.log("fetched, now go to python")
 
+        const resp = await fetch
+        (`http://localhost:8000/upload/${receiptName}`, {
+            method: "POST"
+        })
 
-
-
-    })
-}
+       const AiResult = await resp.json()
+       
+    }}
+    )}
+    
 
 async function submitReceipt(){
     document.querySelector("#saveReceipt").addEventListener("submit", async function (event) {

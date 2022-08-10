@@ -15,14 +15,14 @@ def find_Amount(para):
     floats = [float(amount) for amount in amounts]
     # filter the duplicated amount
     unique = list(dict.fromkeys(floats))
-    #print(unique)
-    print(f'Money spent: HK${max(unique)}')
+    #print(f'Money spent: HK${max(unique)}')
+    return max(unique)
 
 def find_Date(para):
     date_pattern_1 = r"[\d]{1,4}/[\d]{1,2}/[\d]{1,2}"
     date_pattern_2 = r"[\d]{1,4}-[\d]{1,4}-[\d]{1,4}"
     Dates = re.findall('([\d]{1,4}/[\d]{1,4}/[\d]{1,4}|[\d]{1,4}-[\d]{1,4}-[\d]{1,4})' , para)
-    print(Dates)
+    return Dates
     # if len(Dates) is 0:
     #  Dates = re.findall('[\d]{1,4}.[\d]{1,2}.[\d]{1,2}' , para)
     #  print(f'Dates: {Dates}')
@@ -38,7 +38,8 @@ def find_Name(para):
     
     # Find occur the most
     name = max(Names_list,key=Names_list.count)
-    print(f'This the name of the shop: {name}')
+    return name
+    # print(f'This the name of the shop: {name}')
 
 
 def read_img_cv(img):
@@ -57,8 +58,8 @@ def read_img_cv(img):
     img_rgb = cv2.cvtColor(dst, cv2.COLOR_BGR2RGB)
     #print(pytesseract.image_to_string(img_rgb, lang="chi_tra+eng"))
 
-def read_IMG(img):
-    img_path = os.path.join('./data/',img + '.jpeg')
+def read_IMG(img_path):
+    # img_path = os.path.join('./data/',img + '.jpeg')
     img = Image.open(img_path)
     ## Turn into grey
     img = img.convert("L")

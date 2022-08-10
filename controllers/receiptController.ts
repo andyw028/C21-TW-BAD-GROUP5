@@ -1,19 +1,21 @@
 import { Request, Response } from 'express'
 import { ReceiptServices } from '../services/receiptServices'
 
+
 export class ReceiptController {
-	constructor(private receiptService: ReceiptServices) {}
+	constructor(private receiptService: ReceiptServices) { }
 
 	get = async (req: Request, res: Response) => {
-		try{
-		const userId = req.params.id
-		const allReceipt = await this.receiptService.getReceipt(userId)
-		res.json(allReceipt)
-		
-	} catch (err) {
-		console.error(err.message)
-	}}
-	
+		try {
+			const userId = req.params.id
+			const allReceipt = await this.receiptService.getReceipt(userId)
+			res.json(allReceipt)
+
+		} catch (err) {
+			console.error(err.message)
+		}
+	}
+
 	post = async (req: Request, res: Response) => {
 		res.json()
 	}
@@ -22,5 +24,16 @@ export class ReceiptController {
 	}
 	delete = async (req: Request, res: Response) => {
 		res.json()
+	}
+	submit = async (req: Request, res: Response) => {
+		try {
+			console.log("Image uploaded")
+
+		} catch (err) {
+			res.json({ success: false, message: "Error, please check"})
+
+		} finally {
+			res.json({ success: true})
+		}
 	}
 }

@@ -3,7 +3,7 @@ import { Knex } from 'knex'
 export class StockServices {
 	constructor(private knex: Knex) {}
 
-	async getStocksByID(id: number | string) {
+	async getStocksByID(id: number | string): Promise<any> {
 		console.log('get stock')
 		return this.knex('stocks').select('*').where('user_id', '=', id)
 	}

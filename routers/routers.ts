@@ -1,6 +1,7 @@
 import express from 'express'
 import { userController, receiptController, stockController } from '../server'
 import path from 'path'
+import { formidableMiddleware } from "../utils/formiddable"
 
 export const routes = express.Router()
 
@@ -35,6 +36,7 @@ routes.get('/receipt/:id', receiptController.get)
 routes.post('/receipt/', receiptController.post)
 routes.put('/receipt/:id', receiptController.put)
 routes.delete('/receipt/:id', receiptController.delete)
+routes.post("/receiptSubmit/", formidableMiddleware, receiptController.submit)
 
 routes.get('/stock/:id', stockController.get)
 routes.post('/stock', stockController.post)
