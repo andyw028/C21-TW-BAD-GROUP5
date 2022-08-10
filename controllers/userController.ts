@@ -6,24 +6,16 @@ export class UserController {
 	constructor(private userService: UserServices) {}
 
 	login = async (req: Request, res: Response) => {
-		console.log(req.body)
 		const { username, password } = req.body
-		console.log(username, password)
 		if (!username || !password) {
 			res.status(400).json({ message: 'Invalid username or password' })
 			return
 		}
-
 		const user = await this.userService.getUserByUsername(username)
-		console.log('This is return value', user)
 		let hashed = user[0]['password']
-		console.log(hashed)
 		const verify = user && (await checkPassword(password, hashed))
-		console.log(verify)
 		if (verify) {
-			if (req.session) {
-				req.session['user'] = { id: user[0]['id'], username }
-			}
+			req.session['user'] = { id: user[0]['id'], username: username }
 			res.status(200).json({
 				success: true,
 				message: 'Login successfully',
