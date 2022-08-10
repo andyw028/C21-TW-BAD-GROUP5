@@ -1,9 +1,12 @@
 import { UserController } from "../../controllers/UserController";
 import { UserServices } from "../../services/UserServices";
 import { checkPassword } from "../../utils/hash";
+import { hashPassword } from "../../utils/hash";
+
 import type { Request, Response } from "express";
 import type { Knex } from "knex";
 import { createRequest, createResponse } from "../helper";
+import { knex } from "../../tools/knexConfig";
 
 jest.mock("../../services/UserServices");
 jest.mock("../../utils/hash");
@@ -17,7 +20,7 @@ describe("UserController", () => {
   beforeEach(() => {
     service = new UserServices({} as Knex);
     service.getUserByUsername = jest.fn(() =>
-      Promise.resolve({ id: 1, username: "admin", password: "1234", firstName: "Sam", lastName: "Chan", email: "samchan@tecky.io" })
+      Promise.resolve({ id: 1, username: "admin", password: "hashedPassword" })
     );
 
     req = createRequest();
@@ -25,6 +28,14 @@ describe("UserController", () => {
 
     (checkPassword as jest.Mock).mockResolvedValue(true);
     controller = new UserController(service);
+
+    service.addUser = jest.fn(() =>
+      Promise.resolve({ id: 1, username: "admin", password: "1234", firstName: "Sam", lastName: "Chan", email: "samchan@tecky.io" })
+    );
+
+    (hashPassword as jest.Mock).mockResolvedValue(true);
+    controller = new UserController(service);
+
   });
 
   it("login test - missing username", async () => {
@@ -32,7 +43,7 @@ describe("UserController", () => {
 
     await controller.login(req, res);
 
-    expect(res.status).lastCalledWith(401);
+    expect(res.status).lastCalledWith(400);
     expect(res.json).lastCalledWith({ message: "Invalid username or password" });
     expect(res.json).toBeCalledTimes(1);
   });
@@ -48,7 +59,7 @@ describe("UserController", () => {
   });
 
   it("login test - success", async () => {
-    const username = "jason";
+    const username = "admin";
     const password = "1234";
 
     req.body = { username, password };
@@ -56,8 +67,8 @@ describe("UserController", () => {
 
     expect(service.getUserByUsername).toBeCalledWith(username);
     expect(checkPassword).toBeCalledWith(password, "hashedPassword");
-    expect(req.session.user).toEqual({ id: 1 });
-    expect(res.json).toBeCalledWith({ message: "Login successfully" });
+    expect(req.session.user).toEqual({ id: 1, username: username });
+    expect(res.json).toBeCalledWith({success: true, message: "Login successfully" });
   });
 
   it("signup test - missing username", async () => {
@@ -71,7 +82,7 @@ describe("UserController", () => {
     await controller.signup(req, res);
 
     expect(res.status).lastCalledWith(400);
-    expect(res.json).lastCalledWith({ message: "Missing important data" });
+    expect(res.json).lastCalledWith({ success: false, message: "Missing important data" });
     expect(res.json).toBeCalledTimes(1);
   });
 
@@ -87,36 +98,33 @@ describe("UserController", () => {
     await controller.signup(req, res);
 
     expect(res.status).lastCalledWith(400);
-    expect(res.json).lastCalledWith({ message: "Username already exists" });
+    expect(res.json).lastCalledWith({ success: false, message: "Username already exists" });
     expect(res.json).toBeCalledTimes(1);
   });
 
-  it("signup test - duplicate email", async () => {
-    const username = "john";
+
+  it("signup test - success", async () => {
+    const username = "roy";
     const password = "1234";
-    const firstName = "John";
-    const lastName = "Leung";
-    const email = "samchan@tecky.io"
+    const firstName = "Roy";
+    const lastName = "Chan";
+    const email = "roychan@tecky.io"
 
     req.body = { username, password, firstName, lastName, email };
     await controller.signup(req, res);
 
-    expect(res.status).lastCalledWith(400);
-    expect(res.json).lastCalledWith({ message: "Email already exists" });
+    expect(service.addUser).toBeCalledWith(username, password, firstName, lastName, email);
+    expect(hashPassword).toBeCalledWith(password);
+    // expect(req.session.user).toEqual({ id: user.id, username});
+
+    expect(res.status).lastCalledWith(200);
+    expect(res.json).lastCalledWith({ success: true, message: "Account created successfully" });
     expect(res.json).toBeCalledTimes(1);
+
   });
 
-//   it("signup test - success", async () => {
-//     const username = "roy";
-//     const password = "1234";
-//     const firstName = "Roy";
-//     const lastName = "Chan";
-//     const email = "roychan@tecky.io"
+  afterAll(async () => {
+    await knex.destroy();
+  });
 
-//     req.body = { username, password, firstName, lastName, email };
-//     await controller.signup(req, res);
-
-//   });
-
-  // it("test login - internal server error", () => {});
 });
