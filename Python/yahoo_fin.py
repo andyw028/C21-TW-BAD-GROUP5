@@ -1,10 +1,11 @@
-from yahoo_fin import stock_info as si
+#from yahoo_fin import stock_info as si
 import pandas as pd
 from sanic import Sanic
 from sanic.response import json
+import os
+from main import read_IMG,find_Amount, find_Date,find_Name
 
 app = Sanic("Pocketmon")
-
 
 @app.on_response
 async def add_CORS(request, response):
@@ -50,6 +51,18 @@ def get_daily(request):
     top_ten_gainer = gain[:5]
     g_json = top_ten_gainer.to_dict('records')
     return json(g_json)
+
+@app.post("/upload/<receipt:path>")
+async def handler(request, receipt: str):
+    receipt_path = receipt
+    img_path = os.path.join('../uploads/',receipt_path)
+    result = read_IMG(img_path)
+    predicted_amount = find_Amount(result)
+    predicted_date = find_Date(result)
+    predicted_name = find_Name(result)
+    print(predicted_amount)
+    print(predicted_date)
+    print(predicted_name)
 
 
 if __name__ == "__main__":
