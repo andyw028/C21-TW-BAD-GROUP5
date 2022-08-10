@@ -53,17 +53,14 @@ export class UserController {
 		if (userResult > 0) {
 			res.status(400).json({
 				success: false,
-				message: 'Email already exists'
+				message: 'Email or Username used'
 			})
 			return
 		}
 
         const user = await this.userService.addUser(username, password, email, firstName, lastName);
-        console.log(user.id)
-        console.log(user.username)
         req.session['user'] = { id: user.id, username: user.username }
         res.status(200).json({ success: true, userID:user.id});
-        return;
     }
 
 	get = async (req: Request, res: Response) => {

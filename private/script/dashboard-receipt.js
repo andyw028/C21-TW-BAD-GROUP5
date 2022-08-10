@@ -1,4 +1,5 @@
 
+
 async function load_panel() {
     document.querySelector('#receipt-btn').addEventListener("click", () => {
         const id = 14
@@ -215,4 +216,3 @@ async function submitReceipt() {
     })
 }
 
-load_panel()
