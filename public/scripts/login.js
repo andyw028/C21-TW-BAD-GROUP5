@@ -62,10 +62,12 @@ function signUp() {
 		})
 
 		const result = await resp.json()
+		const UserID = result.userID
 		if (!result.success) {
 			alert('Create Account Failed ')
+			window.location.href = '/signup'
 		} else {
-			window.location.href = '/dashboard.html'
+			window.location.href = `/dashboard/${UserID}`
 		}
 	})
 }

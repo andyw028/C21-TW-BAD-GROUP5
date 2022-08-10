@@ -216,3 +216,4 @@ async function submitReceipt() {
     })
 }
 
+load_panel()
