@@ -8,6 +8,8 @@ export const routes = express.Router()
 routes.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
+routes.use(express.static(path.join(__dirname, '..', 'public')))
+routes.use(express.static(path.join(__dirname, '..', 'private')))
 
 //###############
 //Direction to login page and register page
@@ -27,7 +29,7 @@ routes.get('/testing', (req, res) => {
 
 //Users route MCV
 routes.post('/login', userController.login)
-routes.post('/signup', userController.signup)
+routes.post('/signup', userController.signUp)
 // routes.put('/users', userController.put)
 // routes.delete('/users', userController.delete)
 
@@ -44,6 +46,3 @@ routes.delete('/stock', stockController.delete)
 
 routes.get('/account/:id', userController.get)
 // // routes.post('/account/:id', userController.post)
-
-routes.use(express.static(path.join(__dirname, '..', 'public')))
-routes.use(express.static(path.join(__dirname, '..', 'private')))

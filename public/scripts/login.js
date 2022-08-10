@@ -1,39 +1,34 @@
-window.onload = () => {
-    logIn();
-    signUp();
-  };
-  
-  function logIn() {
-    const logIn = document.querySelector(".login-form");
-    if (!logIn) {
-      return;
-    }
-    
-    logIn.addEventListener("submit", async function (event) {
-      event.preventDefault();
-  
-      const form = event.target;
+function logIn() {
+	const logIn = document.querySelector('#login')
 
-      const username = form.username.value;
-      const password = form.password.value;
-  
-      const resp = await fetch("/login", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-  
-      const result = await resp.json();
-  
-      if (!result.success) {
-        console.log("Incorrect username or password");
-      } else {
-        window.location.href = "/dashboard.html";
-      }
-    });
-  }
+	logIn.addEventListener('submit', async function (event) {
+		event.preventDefault()
+
+		const form = event.target
+
+		const username = form.username.value
+		const password = form.password.value
+		if (username && password) {
+			const resp = await fetch('/login', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ username, password })
+			})
+
+			const result = await resp.json()
+			console.log(result)
+			if (!result.success) {
+				alert('Login Failed')
+				window.location.href = '/login'
+			} else {
+				alert('Login Success')
+				window.location.href = `/dashboard/${result.id}`
+			}
+		}
+	})
+}
 
 function signUp() {
 	const signUp = document.querySelector('.signup-form')
@@ -52,27 +47,28 @@ function signUp() {
 		const password = form.password.value
 		const email = form.email.value
 
-        const resp = await fetch("/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            firstName,
-            lastName,
-            password,
-            email,
-          }),
-        });
-    
-        const result = await resp.json();
-        
+		const resp = await fetch('/signup', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				username,
+				firstName,
+				lastName,
+				password,
+				email
+			})
+		})
 
-        if (!result.success) {
-          alert(`Create Account Failed, ${result.message}`);
-        } else {
-          window.location.href = `/dashboard/${result.userID}`;
-        }
-      });
-    }
+		const result = await resp.json()
+		if (!result.success) {
+			alert('Create Account Failed ')
+		} else {
+			window.location.href = '/dashboard.html'
+		}
+	})
+}
+//##################################################
+logIn()
+signUp()
