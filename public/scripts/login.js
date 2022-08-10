@@ -28,7 +28,7 @@ window.onload = () => {
       const result = await resp.json();
   
       if (!result.success) {
-        console.log("Incorrect username or password");
+        alert("Incorrect username or password");
       } else {
         window.location.href = "/dashboard.html";
       }
@@ -47,11 +47,10 @@ window.onload = () => {
         const form = event.target;
     
         const username = form.username.value;
+        const password = form.password.value;
         const firstName = form.firstName.value;
         const lastName = form.lastName.value;
-        const password = form.password.value;
-        const email = form.email.value;
-  
+        const email = form.email.value;  
 
         const resp = await fetch("/signup", {
           method: "POST",
@@ -60,9 +59,9 @@ window.onload = () => {
           },
           body: JSON.stringify({
             username,
+            password,
             firstName,
             lastName,
-            password,
             email,
           }),
         });
