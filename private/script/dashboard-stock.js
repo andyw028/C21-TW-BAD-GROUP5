@@ -275,7 +275,9 @@ async function loadUserStocks() {
 	//*********
 	//change
 	//*********
-	id = 1
+	const queryString = window.location.pathname
+	let id = queryString[queryString.length - 1]
+	console.log(id)
 	//*********
 	//change
 	//*********

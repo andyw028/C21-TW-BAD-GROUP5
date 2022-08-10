@@ -5,7 +5,7 @@
 
 #mobile-nav {
 	display: none;
-	height: 2.5rem;
+	height: 3.5rem;
 }
 #dashboard-buttons div {
 	cursor: pointer;
@@ -14,15 +14,15 @@
 	cursor: pointer;
 	width: 25%;
 	height: auto;
-	font-size: 0.5rem;
+	font-size: 0.9rem;
 }
 #mobile-buttons div i {
-	font-size: 1rem;
+	font-size: 17px;
 }
 #mobile-buttons div {
 	width: auto;
 	height: auto;
-	font-size: 0.7rem;
+	font-size: 10px;
 }
 #dashboard-panel {
 	position: absolute;
@@ -41,7 +41,7 @@
 		height: 40px;
 	}
 	.text-end button {
-		font-size: 0.7rem;
+		font-size: 1rem;
 	}
 	#top-nav div div a {
 		flex: 1;
