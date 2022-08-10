@@ -17,8 +17,29 @@ export class ReceiptController {
 	}
 
 	post = async (req: Request, res: Response) => {
-		res.json()
+		try {
+			const userID = parseInt(req.params.id) 
+			const receiptName = req.body.shopName
+			const receiptDate = req.body.date
+			const receiptAmount = parseInt(req.body.amount)
+			const receiptImage = req.body.image
+			const expensesType = req.body.expensesType
+			const is_deleted = false
+		
+			const result = await this.receiptService.addReceipt
+			(userID,receiptName,receiptDate,receiptAmount,receiptImage,expensesType,is_deleted)
+			
+			if(result) {
+				res.json({success:true})
+			} else {
+				res.json({success:false, message:"Fail to save your receipt"})
+			}
+
+		}catch (err) {
+			console.error(err.message)
+		}
 	}
+
 	put = async (req: Request, res: Response) => {
 		res.json()
 	}

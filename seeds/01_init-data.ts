@@ -15,10 +15,12 @@ export async function seed(knex: Knex): Promise<void> {
 
 	const typeId = await knex(typeTableName).insert([
 
-		{
-			name:"shopping"
-		}
-
+		{name:"Clothing"},
+		{name:"Food"},
+		{name:"Housing"},
+		{name:"Travel"},
+		{name:"Shopping"},
+		{name:"Others"}
 
 	]).returning("id")
 

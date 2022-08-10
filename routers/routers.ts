@@ -35,7 +35,7 @@ routes.post('/signup', userController.signUp)
 
 //Receipt route MCV
 routes.get('/receipt/:id', receiptController.get)
-routes.post('/receipt/', receiptController.post)
+routes.post('/receipt/:id', receiptController.post)
 routes.put('/receipt/:id', receiptController.put)
 routes.delete('/receipt/:id', receiptController.delete)
 routes.post('/receiptSubmit/', formidableMiddleware, receiptController.submit)
