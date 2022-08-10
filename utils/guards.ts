@@ -17,7 +17,7 @@ export function isLoggedInStatic(
 	if (req.session.user) {
 		next()
 	} else {
-		res.redirect('/login.html')
+		res.redirect('/login')
 	}
 }
 

@@ -43,6 +43,7 @@ routes.post('/receipt/:id', receiptController.post)
 routes.put('/receipt/:id', receiptController.put)
 routes.delete('/receipt/:id', receiptController.delete)
 routes.post('/receiptSubmit/', formidableMiddleware, receiptController.submit)
+routes.get('/receipt/sevenDays/:id', receiptController.getSevenDay)
 
 routes.get('/stock/:id', stockController.get)
 routes.post('/stock', stockController.post)
@@ -51,6 +52,7 @@ routes.delete('/stock', stockController.delete)
 routes.get('/account/:id', userController.get)
 // // routes.post('/account/:id', userController.post)
 routes.use(express.static(path.join(__dirname, '..', 'public')))
+routes.use(express.static(path.join(__dirname, '..', 'node_modules')))
 routes.use(
 	isLoggedInStatic,
 	express.static(path.join(__dirname, '..', 'private'))
