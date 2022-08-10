@@ -5,9 +5,8 @@ async function loadDashboardOverview() {
 }
 
 function loadOverview() {
-
-    const overviewBoard = document.querySelector('#dashboard-panel')
-    overviewBoard.innerHTML = `<nav>
+	const overviewBoard = document.querySelector('#dashboard-panel')
+	overviewBoard.innerHTML = `<nav>
     <div class="container">
         <img src="./images/logo-removebg-preview.png" class="logo">
         <div class="search-bar">

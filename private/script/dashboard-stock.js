@@ -272,15 +272,9 @@ async function loadUserStocks() {
 	document.querySelector(`#day-gainer`).innerHTML += loader
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader
-	//*********
-	//change
-	//*********
-	const queryString = window.location.pathname
+
+	const queryString = window.location.pathname.split('/')
 	let id = queryString[queryString.length - 1]
-	console.log(id)
-	//*********
-	//change
-	//*********
 
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()

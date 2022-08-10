@@ -18,6 +18,11 @@ routes.use(express.static(path.join(__dirname, '..', 'private')))
 routes.get('/login', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 })
+routes.get('/logout', (req, res) => {
+	console.log('ok')
+	req.session['user'] = undefined
+	res.json({ logout: true })
+})
 routes.get('/dashboard/:id', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard2.html'))
 })
