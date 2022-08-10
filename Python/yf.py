@@ -4,6 +4,7 @@ from sanic import Sanic
 from sanic.response import json
 import os
 from main import read_IMG,find_Amount, find_Date,find_Name
+from yahoo_fin import stock_info as si
 
 app = Sanic("Pocketmon")
 
