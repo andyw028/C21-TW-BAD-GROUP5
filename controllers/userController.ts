@@ -8,7 +8,10 @@ export class UserController {
 	login = async (req: Request, res: Response) => {
 		const { username, password } = req.body
 		if (!username || !password) {
-			res.status(400).json({ message: 'Invalid username or password' })
+			res.status(400).json({
+				success: false,
+				message: 'Invalid username or password'
+			})
 			return
 		}
 		const user = await this.userService.getUserByUsername(username)
@@ -62,6 +65,8 @@ export class UserController {
 	}
 
 	get = async (req: Request, res: Response) => {
-		// const { firstName, lastName, email } = req.body;
+		let id = req.params.id
+		const userInfo = await this.userService.getUSerByID(id)
+		res.json(userInfo)
 	}
 }
