@@ -6,9 +6,9 @@ export class UserController {
 	constructor(private userService: UserServices) {}
 
 	login = async (req: Request, res: Response) => {
-		console.log(req.body)
+		// console.log(req.body)
 		const { username, password } = req.body
-		console.log(username, password)
+		// console.log(username, password)
 		if (!username || !password) {
 			res.status(400).json({ message: 'Invalid username or password' })
 			return

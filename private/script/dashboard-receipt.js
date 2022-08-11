@@ -15,6 +15,7 @@ async function load_panel() {
 
 async function addPanels() {
 
+
     const panelHtmlSTR = `
     <div id="submit-panel"></div>
 
