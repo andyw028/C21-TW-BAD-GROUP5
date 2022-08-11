@@ -8,6 +8,7 @@ function logIn() {
 
 		const username = form.username.value
 		const password = form.password.value
+
 		if (username && password) {
 			const resp = await fetch('/login', {
 				method: 'POST',
