@@ -11,11 +11,13 @@ function eventListenerOfOverviewButton() {
 		loadOverview()
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
+		loadCharts()
 	})
 	document.querySelector('#m-overview-btn').addEventListener('click', () => {
 		loadOverview()
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
+		loadCharts()
 	})
 }
 
@@ -93,7 +95,7 @@ function loadOverview() {
     <!-- END OF MIDDLE -->
 </main>
 `
-	document.querySelector('body').innerHTML += `
+	document.querySelector('main').outerHTML += `
 	<canvas id="pie-chart"></canvas>
 	<canvas id="trend-chart"></canvas>
 	`
@@ -223,7 +225,7 @@ async function getMonthlyAndDailySpending() {
 	dailySpend.innerHTML = `HKD$${dailySpending}`
 }
 
-//CHART
+//CHART###########################################################################
 
 function formatOneDate(date) {
 	let dd = String(date.getDate()).padStart(2, '0')
