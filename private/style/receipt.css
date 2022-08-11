@@ -7,36 +7,39 @@
 
 }
 
-.first-modal {
-    background-color: bisque;
-    height:250px;
-    display: flex;
-    flex-wrap: wrap;
-}
-.AIform {
-    background-color: aquamarine;
-    display: flex;
-    flex-wrap: row;
-    justify-content: center;
-    width:100%
-}
-
 #selection {
     display: flex;
-    border: solid black 2px;;
 
 }
 
-.submit-bar {
+.modal-body p {
+    margin-top:20px;
+    text-align: start;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+#receiptTime P {
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: start;
+}
+.Submit-bar {
     width:100%;
     display: flex;
-    justify-content:space-around;
+    justify-content:start;
+    margin-top:30px;
 }
+#AIButton ,#submitButton{
+    margin-right: 10px;
+}
+
 
 
 #submit-panel {
     display: flex;
     justify-content: end;
+    margin-top:20px;
     margin-bottom: 20px;
 
 }
@@ -85,8 +88,24 @@
 
 #receipt-text {
     display: none;
+}
+
+.receiptSelectionType {
+    background: none;
+
+}
 
 
+.receiptBody:hover .receipt-content {
+    border: solid black 5px;
+    padding:5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+
+}
+.receiptBody:hover .card-img{
+    opacity: 0.2;
 }
 
 .receiptBody:hover #receipt-text {
@@ -94,7 +113,7 @@
     text-align: start;
     display:flex;
     position: absolute;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     top: 50%;
 	left: 50%;
@@ -102,11 +121,24 @@
 
 }
 
-.receiptBody:hover .receipt-content {
-    border: solid black 5px;
-
+#edit {
+    display: flex;
+    position: absolute;
+    bottom:-30%
 
 }
-.receiptBody:hover .card-img{
-    opacity: 0.2;
+
+#delete {
+    display: flex;
+    position: absolute;
+    bottom:-30%;
+    right: 15%;
+}
+
+@media screen and (max-width: 500px) {
+
+    .receipt {
+        width:44%;
+    }
+    
 }

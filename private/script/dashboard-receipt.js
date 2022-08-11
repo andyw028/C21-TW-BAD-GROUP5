@@ -60,10 +60,9 @@ async function deleteConfirmFunction() {
 }
 
 async function loadReceiptRecord(id) {
-	const res = await fetch(`/receipt/${id}`)
-	let receiptHTML = ``
-	const receipts = await res.json()
-	console.log(receipts)
+    const res = await fetch(`/receipt/${id}`)
+    let receiptHTML = ``
+    const receipts = await res.json()
 
 	for (const result of receipts) {
 		const realBDay = new Date(result.date)
@@ -82,13 +81,14 @@ async function loadReceiptRecord(id) {
 
 		receiptHTML += `<div class="receipt">
         <div class="receiptBody">
-            <div id="content">
+            <div id="content" data-id = '${result.id}'>
                 <img src="../..${imagePath}" class="card-img">
+
                 <div id ="receipt-text" data-id = '${result.id}'>
                 <div class = "receipt-content" contenteditable=True id="receipt-venue-${result.id}">${result.venue}</div>
                 <div class = "receipt-content" contenteditable=True id="receipt-date-${result.id}">${finalDate}</div>
                 <div class = "receipt-content" contenteditable=True id="receipt-amount-${result.id}">${result.price}</div>
-                <select name="selection" id="receipt-type-${result.id}">
+                <select class = "receiptSelectionType" "name="selection" id="receipt-type-${result.id}">
                     <option value=0 selected>${expensesType}</option>
                     <option value=1>Clothing</option>
                     <option value=2>Food</option>
@@ -98,22 +98,22 @@ async function loadReceiptRecord(id) {
                     <option value=6>Others</option>
                     </select>
 
-
-             
-                <i class="bi bi-pencil-square" id ="edit"></i>
-                <i class="bi bi-file-earmark-x-fill" id = "delete"></i>
+                    <i class="bi bi-pencil-square" id ="edit"></i>
+                    <i class="bi bi-file-earmark-x-fill" id ="delete"></i>
                 </div>
-            </div>
+
+            </div>   
         </div>
     </div>
         `
-	}
-	document.querySelector('#receipt-panel').innerHTML = receiptHTML
+    }
 
-	document.querySelectorAll('#edit').forEach((ele) => {
-		ele.addEventListener('click', async (e) => {
-			const receiptId = e.target.parentElement.dataset.id
-			const result = editConfirmFunction()
+    document.querySelector("#receipt-panel").innerHTML = receiptHTML
+
+    document.querySelectorAll("#edit").forEach((ele) => {
+        ele.addEventListener("click", async (e) => {
+            const receiptId = e.target.parentElement.dataset.id
+            const result = await editConfirmFunction()
 
 			if (result) {
 				const revisedVenue = document.querySelector(
@@ -142,44 +142,52 @@ async function loadReceiptRecord(id) {
 					})
 				})
 
-				const result = await resp.json()
-				if (result.success) {
-					alert('Receipt updated')
-				} else {
-					alert('Error!!! Please check')
-				}
-			}
-		})
+                const result = await resp.json()
+                if (result.success) {
+                    alert("Receipt updated")
+                } else {
+                    alert("Error!!! Please check")
+                }
 
-		document.querySelectorAll('#delete').forEach((ele) => {
-			ele.addEventListener('click', async (e) => {
-				const receiptId = e.target.parentElement.dataset.id
-				const result = deleteConfirmFunction()
-				if (result) {
-					const resp = await fetch(`/receipt/${receiptId}`, {
-						method: 'delete',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							receiptId
-						})
-					})
+            }
+        })
 
-					const result = await resp.json()
-					if (result.success) {
-						alert('Receipt deleted')
-					} else {
-						alert('Error, please check')
-					}
-				}
-			})
-		})
-	})
+    })
+
+    document.querySelectorAll("#delete").forEach((ele) => {
+        ele.addEventListener("click", async (e) => {
+            const receiptId = e.target.parentElement.dataset.id
+            const result = await deleteConfirmFunction()
+            if (result) {
+                const resp = await fetch(`/receipt/${receiptId}`, {
+                    method: "delete",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        receiptId
+                    })
+                })
+
+
+                const result = await resp.json()
+                if (result.success) {
+                    alert("Receipt deleted")
+                } else {
+                    alert("Error, please check")
+                }
+
+            }
+        })
+    })
+
 }
 
+
+
+
 async function loadSubmit() {
-	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Submit your receipt here!!!
 </button>
 
@@ -189,7 +197,7 @@ async function loadSubmit() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Upload your receipt below to our AI</h5>
+                <h2 class="modal-title" id="exampleModalLabel">Upload your receipt below to our AI 🤖🤖🤖</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
@@ -200,17 +208,17 @@ async function loadSubmit() {
                 <form id="receiptAI" enctype=multipart/form-data> 
                     <input type="file" name=file required>
                     
-                    
+                    <p> Please select your receipt language </p>
                     <select class="form-select" aria-label="Default select example" id="selection" name = type>
-                    <option disabled selected hidden>Please select your lan</option>
+                    
                     <option value="0">Chinese</option>
                     <option value="1">English</option>
                     <option value="2">Chinese & English</option>
                     </select>
                     
                     <div class="Submit-bar">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="reset" class="btn btn-primary">Clear</button>
+                    <button type="submit" class="btn btn-primary" id = "AIButton" >Submit</button>
+                    <button type="reset" class="btn btn-primary" id = "AIButton" >Clear</button>
                     </div>
 
                    </form>
@@ -225,59 +233,61 @@ async function loadSubmit() {
 </div>
 `
 
-	document.querySelector('#submit-panel').innerHTML = htmlSTR
+    document.querySelector('#submit-panel').innerHTML = htmlSTR
 }
 
 async function submitReceiptToAI(userID) {
-	document
-		.querySelector('#receiptAI')
-		.addEventListener('submit', async function (event) {
-			event.preventDefault()
-			const submitForm = event.target
-			const formData = new FormData()
-			receipt = submitForm.file.files[0]
-			receiptName = submitForm.file.files[0].name
-			lanType = submitForm.type.value
-			if (lanType === '0') {
-				lanType = 'chi_tra'
-			} else if (lanType === '1') {
-				lanType = 'eng'
-			} else {
-				lanType = 'chi_tra+eng'
-			}
-			formData.append(`${receiptName}`, receipt)
-			formData.append(`${receiptName}`, receiptName)
+    document
+        .querySelector('#receiptAI')
+        .addEventListener('submit', async function (event) {
+            event.preventDefault()
+            const submitForm = event.target
+            const formData = new FormData()
+            receipt = submitForm.file.files[0]
+            receiptName = submitForm.file.files[0].name
+            lanType = submitForm.type.value
+            if (lanType === '0') {
+                lanType = 'chi_tra'
+            } else if (lanType === '1') {
+                lanType = 'eng'
+            } else {
+                lanType = 'chi_tra+eng'
+            }
+            formData.append(`${receiptName}`, receipt)
+            formData.append(`${receiptName}`, receiptName)
 
-			const response = await fetch('/receiptSubmit', {
-				method: 'Post',
-				body: formData
-			})
+            const response = await fetch('/receiptSubmit', {
+                method: 'Post',
+                body: formData
+            })
 
-			const receiptToAI = await response.json()
+            const receiptToAI = await response.json()
 
-			if (!receiptToAI.success) {
-				console.log(receiptToAI.message)
-				return
-			} else {
-				console.log('fetched, now go to python')
+            if (!receiptToAI.success) {
+                console.log(receiptToAI.message)
+                return
+            } else {
 
-				const resp = await fetch(
-					`http://localhost:8000/upload/${receiptName}`,
-					{
-						method: 'POST',
-						body: JSON.stringify({
-							lanType
-						})
-					}
-				)
+                console.log("fetched, now go to python")
 
-				const AIResult = await resp.json()
-				const AIdate = AIResult.date
-				const AIname = AIResult.name
-				const AIamount = AIResult.amount
+                const resp = await fetch
+                    (`http://localhost:8000/upload/${receiptName}`, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            lanType
+                        })
+                    })
 
-				AIresultHtml = `
-    <p>Here are the result from our AI</p>
+                const AIResult = await resp.json()
+                const AIdate = AIResult.date
+                const AIname = AIResult.name
+                const AIamount = AIResult.amount
+
+
+
+
+                AIresultHtml = `
+    <p>Here are the result from our AI, Please check before submit</p>
     <form id = "saveReceipt">
     
     <div class="input-group mb-3">
@@ -298,8 +308,8 @@ async function submitReceiptToAI(userID) {
     aria-describedby="inputGroup-sizing-default" 
     id="amount" name="amount" placeholder = "Amount" required value = ${AIamount}></div>
 
-
-    <select id="selection" name = "type">
+    <h5> Opps, our AI unable to detect expenses type of your receipt, please select by yourself 🙇🙇🙇</h5>
+    <select class="form-select" aria-label="Default select example" id="selection" name = "type">
                     <option value="1">Clothing</option>
                     <option value="2">Food</option>
                     <option value="3">Housing</option>
@@ -309,18 +319,20 @@ async function submitReceiptToAI(userID) {
                     </select>
 
         <div class="Submit-bar">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-primary">Clear</button>
+            <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
+            <button type="reset" class="btn btn-primary" id = "submitButton">Clear</button>
 </div>
 
 </form>
 `
 
-				document.querySelector('#receiptTime').innerHTML = AIresultHtml
-			}
-			// Add function to form
-			submitReceipt(receiptName, userID)
-		})
+                document.querySelector("#receiptTime").innerHTML = AIresultHtml
+            }
+            // Add function to form
+            submitReceipt(receiptName, userID)
+        })
+
+
 }
 
 async function submitReceipt(receiptName, id) {
@@ -360,3 +372,4 @@ async function submitReceipt(receiptName, id) {
 }
 
 load_panel()
+
