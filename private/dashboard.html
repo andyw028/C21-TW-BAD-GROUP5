@@ -4,14 +4,25 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Document</title>
+		<title>PocketMon</title>
 		<!--font-->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="shortcut icon" href="assets/images/favicon.ico" />
+<<<<<<< HEAD
+		
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+
+=======
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
+		/>
+>>>>>>> f0a62b1af435fd7305c76e83797ad078cf440c79
 		<link
 			href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
 			rel="stylesheet"
 		/>
+
 		<!-- Bootstrap -->
 		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
@@ -35,13 +46,12 @@
 		<link rel="stylesheet" href="/style/stock.css" />
 		<link rel="stylesheet" href="/style/calculator.css" />
 		<link rel="stylesheet" href="/style/receipt.css" />
-		<link rel="stylesheet" href="/style/account.css" />
-		<!--chart.js-->
+		<link rel="stylesheet" href="/style/dashboard.css" />
 	</head>
 	<body>
 		<div>
 			<nav class="fixed-top position-relative" id="top-nav">
-				<header class="p-2 text-bg-dark">
+				<header class="p-2 top-nav-header">
 					<div class="container">
 						<div
 							class="d-flex flex-wrap align-items-center justify-content-around"
@@ -128,8 +138,10 @@
 				<!--END-->
 			</div>
 		</div>
-		<!-- These are the chartjs scripts -->
-		<!-- <script defer src="./script/dashboard-chart.js"></script> -->
+
+		<!-- Chart -->
+		<script defer src="/chart.js/dist/chart.js"></script>
+		<script defer src="/script/dashboard-overview.js"></script>
 		<!-- These are the stock scripts -->
 		<script defer src="/script/dashboard-stock.js"></script>
 		<!-- These are the calculator scripts -->
@@ -137,7 +149,5 @@
 		<script defer src="/script/dashboard-receipt.js"></script>
 		<script defer src="/script/dashboard-account.js"></script>
 		<script defer src="/script/header.js"></script>
-		<script defer src="/chart.js/dist/chart.js"></script>
-		<script defer src="/script/dashboard-chart.js"></script>
 	</body>
 </html>

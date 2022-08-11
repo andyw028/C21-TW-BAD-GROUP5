@@ -32,3 +32,4 @@ async function loadAccountPage() {
 		result[0].first_name + ' ' + result[0].last_name
 }
 eventListenerOfAccountButton()
+console.log('load account')

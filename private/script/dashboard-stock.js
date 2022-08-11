@@ -269,10 +269,6 @@ async function loadUserStocks() {
 	</div>
   </div>`
 	panel.innerHTML = loader
-	document.querySelector(`#day-gainer`).innerHTML += loader
-	document.querySelector(`#day-loser`).innerHTML += loader
-	document.querySelector(`#day-active`).innerHTML += loader
-
 	const queryString = window.location.pathname.split('/')
 	let id = queryString[queryString.length - 1]
 
@@ -378,7 +374,6 @@ function formSubmitForNewStock() {
 		.querySelector('#stock-form')
 		.addEventListener('submit', async (e) => {
 			e.preventDefault()
-			console.log('dgauysgd')
 			//make the form
 			const form = e.target
 			const obj = {}
@@ -408,13 +403,13 @@ function formSubmitForNewStock() {
 				obj['amount'] = form['amount'].value
 			}
 			obj['price'] = form.price.value
-
-			console.log(obj)
 			//checking
 			if (!obj.ticker || !obj.price || !obj.amount) {
 				alert("You Haven't Enter All Detail")
 			} else {
-				const result = await fetch('/stock', {
+				const queryString = window.location.pathname.split('/')
+				let id = queryString[queryString.length - 1]
+				const result = await fetch(`/stock/${id}`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -434,6 +429,14 @@ function formSubmitForNewStock() {
 }
 
 async function loadDailyStockDetail() {
+	const loader = `<div class="d-flex justify-content-center mt-1">
+	<div class="spinner-border" role="status">
+	  <span class="visually-hidden">Loading...</span>
+	</div>
+  </div>`
+	document.querySelector(`#day-gainer`).innerHTML += loader
+	document.querySelector(`#day-loser`).innerHTML += loader
+	document.querySelector(`#day-active`).innerHTML += loader
 	console.log('loading gainers')
 	const gainer = await fetch('http://localhost:8000/stockgainer')
 	const gainerinfo = await gainer.json()
@@ -497,3 +500,4 @@ function loadDailyRow(htmlID, arrayOfObject) {
 //MAIN
 //###################################################################################
 eventListenerOfStockButton()
+console.log('load stock')

@@ -79,7 +79,7 @@ describe("UserController", () => {
     const email = "johnleung@tecky.io"
 
     req.body = { username, password, firstName, lastName, email };
-    await controller.signup(req, res);
+    await controller.signUp(req, res);
 
     expect(res.status).lastCalledWith(400);
     expect(res.json).lastCalledWith({ success: false, message: "Missing important data" });
@@ -95,7 +95,7 @@ describe("UserController", () => {
     const email = "johnleung@tecky.io"
 
     req.body = { username, password, firstName, lastName, email };
-    await controller.signup(req, res);
+    await controller.signUp(req, res);
 
     expect(res.status).lastCalledWith(400);
     expect(res.json).lastCalledWith({ success: false, message: "Username already exists" });
@@ -110,7 +110,7 @@ describe("UserController", () => {
     const email = "roychan@tecky.io"
 
     req.body = { username, password, firstName, lastName, email };
-    await controller.signup(req, res);
+    await controller.signUp(req, res);
 
     // expect(service.addUser).toBeCalledWith({username: username, password: password, firstName: firstName, lastName: lastName, email: email});
     expect(hashPassword).toBeCalledWith(password);

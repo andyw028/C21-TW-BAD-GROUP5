@@ -19,8 +19,7 @@ export class StockController {
 		}
 	}
 	post = async (req: Request, res: Response) => {
-		// let id = req.session.id
-		let id = 1
+		let id = req.params.id
 		let form = req.body
 		if (!req.body) {
 			res.status(400).json({ message: 'No Body Provided' })

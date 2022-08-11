@@ -23,7 +23,7 @@ routes.get('/logout', (req, res) => {
 	res.json({ logout: true })
 })
 routes.get('/dashboard/:id', isLoggedInApi, isExactUser, (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard2.html'))
+	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard.html'))
 })
 
 // testing, need to delete later
@@ -47,7 +47,7 @@ routes.get('/receipt/sevenDays/:id', receiptController.getSevenDay)
 routes.get('/receipt/monthly/:id', receiptController.getMonthly)
 
 routes.get('/stock/:id', stockController.get)
-routes.post('/stock', stockController.post)
+routes.post('/stock/:id', stockController.post)
 routes.delete('/stock', stockController.delete)
 
 routes.get('/account/:id', userController.get)
