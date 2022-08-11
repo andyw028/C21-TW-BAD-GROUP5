@@ -25,7 +25,7 @@ export function isLoggedInApi(req: Request, res: Response, next: NextFunction) {
 	if (req.session.user) {
 		next()
 	} else {
-		res.status(401).json({ message: 'unauthorized' })
+		res.status(401).redirect('/404.html')
 	}
 }
 
