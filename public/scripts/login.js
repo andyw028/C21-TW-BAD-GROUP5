@@ -20,10 +20,10 @@ function logIn() {
 			const result = await resp.json()
 			console.log(result)
 			if (!result.success) {
-				alert('Login Failed')
+				alert(result.message)
 				window.location.href = '/login'
 			} else {
-				alert('Login Success')
+				alert(result.message)
 				window.location.href = `/dashboard/${result.id}`
 			}
 		}

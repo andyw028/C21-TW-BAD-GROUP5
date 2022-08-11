@@ -8,7 +8,10 @@ export class UserController {
 	login = async (req: Request, res: Response) => {
 		const { username, password } = req.body
 		if (!username || !password) {
-			res.status(400).json({ message: 'Invalid username or password' })
+			res.status(400).json({
+				success: false,
+				message: 'Invalid username or password'
+			})
 			return
 		}
 		const user = await this.userService.getUserByUsername(username)

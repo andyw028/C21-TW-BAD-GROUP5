@@ -44,6 +44,7 @@ routes.put('/receipt/:id', receiptController.put)
 routes.delete('/receipt/:id', receiptController.delete)
 routes.post('/receiptSubmit/', formidableMiddleware, receiptController.submit)
 routes.get('/receipt/sevenDays/:id', receiptController.getSevenDay)
+routes.get('/receipt/monthly/:id', receiptController.getMonthly)
 
 routes.get('/stock/:id', stockController.get)
 routes.post('/stock', stockController.post)
