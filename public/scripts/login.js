@@ -8,6 +8,7 @@ function logIn() {
 
 		const username = form.username.value
 		const password = form.password.value
+
 		if (username && password) {
 			const resp = await fetch('/login', {
 				method: 'POST',
@@ -20,10 +21,10 @@ function logIn() {
 			const result = await resp.json()
 			console.log(result)
 			if (!result.success) {
-				alert('Login Failed')
+				alert(result.message)
 				window.location.href = '/login'
 			} else {
-				alert('Login Success')
+				alert(result.message)
 				window.location.href = `/dashboard/${result.id}`
 			}
 		}

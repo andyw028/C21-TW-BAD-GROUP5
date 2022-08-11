@@ -3,7 +3,7 @@ import { client } from './tools/pg'
 import { knex } from './tools/knexConfig'
 import expressSession from 'express-session'
 import path from 'path'
-import fs from "fs"
+import fs from 'fs'
 import formidable from 'formidable'
 
 client.connect()
@@ -23,7 +23,7 @@ app.use(
 	})
 )
 //file upload route
-const uploadDir = "uploads"
+const uploadDir = 'uploads'
 fs.mkdirSync(uploadDir, { recursive: true })
 
 export const form = formidable({
@@ -31,15 +31,12 @@ export const form = formidable({
 	keepExtensions: true,
 	maxFiles: 1,
 	maxFileSize: 200 * 1024 ** 2, // the default limit is 200KB
-	filter: (part) => part.mimetype?.startsWith("image/") || false,
+	filter: (part) => part.mimetype?.startsWith('image/') || false,
 	filename: (originalName, originalExt, part, form) => {
-	
 		let fieldName = part.name
 		return `${fieldName}`
-	  },
-	
-  })
-app.use(express.static(path.join(__dirname, "uploads")))
+	}
+})
 //###################################
 //Controller and Services Declaration
 //###################################
@@ -59,13 +56,15 @@ export const stockController = new StockController(stockService)
 //Routes
 //########################
 import { routes } from './routers/routers'
+import { isLoggedInStatic } from './utils/guards'
 app.use('/', routes)
 
 //########################
 //Static Files
 //########################
+app.use(express.static(path.join(__dirname, 'uploads')))
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, 'private')))
+app.use(isLoggedInStatic, express.static(path.join(__dirname, 'private')))
 app.use((req, res) => {
 	res.sendFile(path.join(__dirname, 'public', '404.html'))
 })

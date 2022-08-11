@@ -1,12 +1,12 @@
-
+const queryString = window.location.pathname.split('/')
+let id = queryString[queryString.length - 1]
 
 async function load_panel() {
     document.querySelector('#receipt-btn').addEventListener("click", () => {
-        const id = 14
         addPanels()
         loadReceiptRecord(id)
         loadSubmit()
-        submitReceiptToAI()
+        submitReceiptToAI(id)
         
     })
 
@@ -29,37 +29,35 @@ async function loadReceiptRecord(id) {
     const res = await fetch(`/receipt/${id}`)
     let receiptHTML = ``
     const receipts = await res.json()
+    console.log(receipts)
 
-    for (const result in receipts) {
+    for (const result of receipts) {
         const realBDay = new Date(result.date)
         let year = realBDay.getFullYear().toString()
         let month = "0" + (realBDay.getMonth() + 1).toString()
         let date = "0" + realBDay.getDate().toString()
-        let hour = "0" + realBDay.getHours().toString()
-        let mins = "0" + realBDay.getMinutes().toString()
         const finalDate =
             year +
             "-" +
             month.substring(month.length - 2) +
             "-" +
             date.substring(date.length - 2) +
-            " (" +
-            hour.substring(hour.length - 2) +
-            ":" +
-            mins.substring(mins.length - 2) +
-            ")"
+            " (" 
 
+        imagePath = `/${result.image}`
+        console.log(imagePath)
+    
 
         receiptHTML +=
             `<div class="receipt">
         <div class="receiptBody">
-            <img src=${result.image} class="card-img">
+            <img src="${imagePath}" class="card-img">
 
             <div id="content">
                 <p class="receipt-text">
                     Venue: ${result.venue}
                     Date: ${finalDate}
-                    Amount: ${result.price}
+                    Expenses: HKD${result.price}
                     type: ${result.type} 
                 </p>
             </div>
@@ -118,7 +116,7 @@ async function loadSubmit() {
 
 }
 
-async function submitReceiptToAI() {
+async function submitReceiptToAI(userID) {
 
     document.querySelector('#receiptAI').addEventListener("submit", async function (event) {
 
@@ -165,9 +163,9 @@ async function submitReceiptToAI() {
             const AIname = AIResult.name
             const AIamount = AIResult.amount
 
-            console.log(AIdate)
-            console.log(AIname)
-            console.log(AIamount)
+            //console.log(AIdate)
+            //console.log(AIname)
+            //console.log(AIamount)
 
     
     
@@ -176,7 +174,15 @@ async function submitReceiptToAI() {
     <form id = "saveReceipt">
     <input type="text" class="form-control" id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}>
     <input type="text" class="form-control" id="date"  name="date" placeholder = "Date" required value = ${AIdate}>
-    <input type="text" class="form-control" id="amount"  name="amount" placeholder = "Amount" required value = HKD${AIamount}>
+    <input type="text" class="form-control" id="amount"  name="amount" placeholder = "Amount" required value = ${AIamount}>
+    <select id="selection" name = "type">
+                    <option value="1">Clothing</option>
+                    <option value="2">Food</option>
+                    <option value="3">Housing</option>
+                    <option value="4">Travel</option>
+                    <option value="5">Shopping</option>
+                    <option value="6">Others</option>
+                    </select>
         <div class="Submit-bar">
             <button type="submit" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-primary">Clear</button>
@@ -185,34 +191,48 @@ async function submitReceiptToAI() {
 </div>`
 
     document.querySelector("#receiptTime").innerHTML = AIresultHtml
-
-}})
-
+}
 // Add function to form
-submitReceipt
+submitReceipt(receiptName,userID)
+})
+
 
 }
 
 
-async function submitReceipt() {
+async function submitReceipt(receiptName,id) {
     document.querySelector("#saveReceipt").addEventListener("submit", async function (event) {
 
         event.preventDefault()
         const form = event.target
-        const formData = new FormData()
-        formData.append("shopName", form.shopName.value)
-        formData.append("date", form.date.value)
-        formData.append("amount ", form.amount.value)
-        formData.append("image", receiptImage)
-        console.log(receiptImage)
-
-        const res = await fetch("/receipt", {
+        const shopName = form.shopName.value
+        const date = form.date.value
+        const amount = form.amount.value
+        const image = receiptName
+        const expensesType = form.type.value
+        
+        const res = await fetch(`/receipt/${id}`, {
             method: "Post",
-            body: formData
+            headers: {
+                "Content-Type": "application/json",
+              },
+            body: JSON.stringify({
+                shopName,
+                date,
+                amount,
+                image,
+                expensesType
+              }),
         })
 
-        console.log("testing")
+        const result = await res.json()
 
+        if(result.success) {
+            alert ("Your receipt is saved successfully")
+            
+        } else {
+            alert (result.message)
+    }
 
     })
 }

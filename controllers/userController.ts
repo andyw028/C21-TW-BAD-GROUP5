@@ -6,34 +6,38 @@ export class UserController {
 	constructor(private userService: UserServices) {}
 
 	login = async (req: Request, res: Response) => {
-		// console.log(req.body)
 		const { username, password } = req.body
-		// console.log(username, password)
 		if (!username || !password) {
-			res.status(400).json({ message: 'Invalid username or password' })
+			res.status(400).json({
+				success: false,
+				message: 'Invalid username or password'
+			})
 			return
 		}
-
+		console.log(username, password)
 		const user = await this.userService.getUserByUsername(username)
-		console.log('This is return value', user)
-		let hashed = user[0]['password']
-		console.log(hashed)
-		const verify = user && (await checkPassword(password, hashed))
-		console.log(verify)
-		if (verify) {
-			if (req.session) {
-				req.session['user'] = { id: user[0]['id'], username }
-			}
-			res.status(200).json({
-				success: true,
-				message: 'Login successfully',
-				id: user[0]['id']
+		if (!user || !user[0]) {
+			res.status(400).json({
+				success: false,
+				message: 'No such User'
 			})
 			return
 		} else {
-			return res
-				.status(400)
-				.json({ success: false, message: 'Login Failed' })
+			let hashed = user[0]['password']
+			const verify = user && (await checkPassword(password, hashed))
+			if (verify) {
+				req.session['user'] = { id: user[0]['id'], username: username }
+				res.status(200).json({
+					success: true,
+					message: 'Login successfully',
+					id: user[0]['id']
+				})
+				return
+			} else {
+				return res
+					.status(400)
+					.json({ success: false, message: 'Login Failed' })
+			}
 		}
 	}
 
@@ -70,6 +74,11 @@ export class UserController {
 	}
 
 	get = async (req: Request, res: Response) => {
-		// const { firstName, lastName, email } = req.body;
+		let id = req.params.id
+		if (isNaN(parseInt(id))) {
+			res.status(400).json({ message: 'No ID provided' })
+		}
+		const userInfo = await this.userService.getUSerByID(id)
+		res.json(userInfo)
 	}
 }

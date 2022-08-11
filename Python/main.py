@@ -42,7 +42,7 @@ def find_Name(para):
     Names = re.findall(shop_name_pattern, para)
     #print(Names)
     Names_list = []
-    if len(Names) <= 5:
+    if len(Names) < 7:
         for i in len(Names):
             Names_list.append(Names[i])
     else:
