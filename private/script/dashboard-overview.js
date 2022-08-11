@@ -19,27 +19,21 @@ function loadOverview() {
               <span class="material-icons-sharp">analytics</span>
               <div class="middle">
                 <div class="left">
-                  <h3>Last Month's Expenses</h3>
-                  <h1>$25,000</h1>
-                </div>
-                <div class="progress">
-                  <svg>
-                    <circle cx="38" cy="38" r="36"></circle>
-                  </svg>
-                  <div class="number">
-                    <p>70%</p>
-                  </div>
+                  <h3>Welcome back,</h3>
+                  <h1 id="username-display"></h1>
+                  <h3>Today's expenses</h3>
+                  <h1 id="dailySpend">$</h1>
                 </div>
               </div>
-              <small class="text-muted">Last 30 Days</small>
+              <!-- <small class="text-muted">Let's get started.</small> -->
             </div>
 
             <div class="expenses">
             <span class="material-icons-sharp">bar_chart</span>
             <div class="middle">
               <div class="left">
-                <h3>Total Expenses</h3>
-                <h1>$14,160</h1>
+                <h3>Last month's expenses</h3>
+                <h1 id="monthlySpend">$</h1>
               </div>
               <div class="progress">
                 <svg>
@@ -50,15 +44,15 @@ function loadOverview() {
                 </div>
               </div>
             </div>
-            <small class="text-muted">Last 24 Hours</small>
-          </div>
+            <small class="text-muted">Last 30 Days</small>
+            </div>
           <!------------ END OF EXPENSES -------------->
-          <div class="income">
+          <div class="stock-return">
             <span class="material-icons-sharp">stacked_line_chart</span>
             <div class="middle">
               <div class="left">
-                <h3>Total Income</h3>
-                <h1>$10,864</h1>
+                <h3>Stock return</h3>
+                <h1 id="stockIncome">$</h1>
               </div>
               <div class="progress">
                 <svg>
@@ -72,8 +66,12 @@ function loadOverview() {
             <small class="text-muted">Last 24 Hours</small>
           </div>
         </div>
-        
+        <!------------ END OF EXPENSES -------------->
         <!------------ END OF INSIGHTS -------------->
+
+        <div class="header">
+            <h1>My Analysis</h1>
+        </div>
 
         <!-- END OF CHART -->
 
@@ -81,6 +79,18 @@ function loadOverview() {
     <!-- END OF MIDDLE -->
 </main>`
 }
+
+
+async function themeChanger() {
+    const themeBtn = document.querySelector('.theme-btn');
+
+    themeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+
+        themeBtn.querySelector('span:first-child').classList.toggle('active');
+        themeBtn.querySelector('span:last-child').classList.toggle('active');
+    })
+};
 
 async function retrieveStockPL() {
 	const queryString = window.location.pathname.split('/')
@@ -195,6 +205,7 @@ async function getMonthlyAndDailySpending() {
 	dailySpend.innerHTML = dailySpending
 }
 eventListenerOfOverviewButton()
+themeChanger()
 loadOverview()
 retrieveStockPL()
 getMonthlyAndDailySpending()

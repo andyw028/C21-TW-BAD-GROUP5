@@ -23,7 +23,7 @@ routes.get('/logout', (req, res) => {
 	res.json({ logout: true })
 })
 routes.get('/dashboard/:id', isLoggedInApi, isExactUser, (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard2.html'))
+	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard.html'))
 })
 
 // testing, need to delete later
