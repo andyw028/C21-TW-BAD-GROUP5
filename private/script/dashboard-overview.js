@@ -85,16 +85,16 @@ function loadOverview() {
 
 
 
-async function themeChanger() {
-    const themeBtn = document.querySelector('.theme-btn');
+// async function themeChanger() {
+//     const themeBtn = document.querySelector('.theme-btn');
 
-    themeBtn.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
+//     themeBtn.addEventListener('click', () => {
+//         document.body.classList.toggle('dark-theme');
 
-        themeBtn.querySelector('span:first-child').classList.toggle('active');
-        themeBtn.querySelector('span:last-child').classList.toggle('active');
-    })
-};
+//         themeBtn.querySelector('span:first-child').classList.toggle('active');
+//         themeBtn.querySelector('span:last-child').classList.toggle('active');
+//     })
+// };
 
 async function retrieveStockPL() {
 	const queryString = window.location.pathname.split('/')
@@ -209,7 +209,7 @@ async function getMonthlyAndDailySpending() {
 	dailySpend.innerHTML = dailySpending
 }
 eventListenerOfOverviewButton()
-themeChanger()
+// themeChanger()
 loadOverview()
 retrieveStockPL()
 getMonthlyAndDailySpending()
