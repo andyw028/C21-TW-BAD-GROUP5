@@ -1,13 +1,13 @@
 function eventListenerOfOverviewButton() {
-    document.querySelector('#overview-btn').addEventListener('click', () => {
-        loadOverview()
-    });
+	document.querySelector('#overview-btn').addEventListener('click', () => {
+		loadOverview()
+	})
 }
 
 function loadOverview() {
-    const overviewBoard = document.querySelector('#dashboard-panel')
+	const overviewBoard = document.querySelector('#dashboard-panel')
 
-    overviewBoard.innerHTML = `
+	overviewBoard.innerHTML = `
 <main>
     <section class="middle">
         <div class="header">
@@ -339,7 +339,47 @@ async function retrieveStockPL() {
 		stockPL.innerHTML = pl
 	}
 }
+function formatOneDate(date) {
+	let dd = String(date.getDate()).padStart(2, '0')
+	let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
+	let yyyy = date.getFullYear()
 
-loadDashboardOverview()
+	let today = yyyy + '-' + mm + '-' + dd
+	return today
+}
+
+async function getMonthlyAndDailySpending() {
+	//eventlisteners
+	const monthlySpend = document.querySelector('#monthlySpend')
+	const dailySpend = document.querySelector('#dailySpend')
+
+	const queryString = window.location.pathname.split('/')
+	let id = queryString[queryString.length - 1]
+
+	//Monthly Spend
+	const serverMonthlyDetail = await fetch(`/receipt/monthly/${id}`)
+	const monthlyData = await serverDetail.json()
+	let monthlyResult = monthlyData.reduce(
+		(acc, cur) => acc + parseInt(cur.sum),
+		0
+	)
+	monthlySpend.innerHTML = monthlyResult
+	//Daily Spend
+
+	let today = new Date()
+	today = formatOneDate(today)
+	const serverDailyDetail = await fetch(`/receipt/sevenDays/${id}`)
+	let dailyData = await serverDailyDetail.json()
+	let dailyDataNew = dailyData.data
+	let dailySpending = 0
+	dailyDataNew.foreach((item) => {
+		if (formatOneDate(item.date) === today) {
+			dailySpending += parseFloat(item.price)
+		}
+	})
+	dailySpend.innerHTML = dailySpending
+}
+eventListenerOfOverviewButton()
 loadOverview()
 retrieveStockPL()
+getMonthlyAndDailySpending()
