@@ -343,7 +343,7 @@ nav .profile-area button {
   transform: translate(5px, 5px);
 }
 
-.d-flex .container main .insights .sales svg circle {
+.d-flex .container main .insights .user-info svg circle {
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }

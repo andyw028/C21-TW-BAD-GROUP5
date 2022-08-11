@@ -435,7 +435,7 @@ main .insights svg circle {
   transform: translate(5px, 5px);
 }
 
-main .insights .sales svg circle {
+main .insights .user-info svg circle {
   stroke-dashoffset: -30;
   stroke-dasharray: 200;
 }
