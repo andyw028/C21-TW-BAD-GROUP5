@@ -500,3 +500,4 @@ function loadDailyRow(htmlID, arrayOfObject) {
 //MAIN
 //###################################################################################
 eventListenerOfStockButton()
+console.log('load stock')

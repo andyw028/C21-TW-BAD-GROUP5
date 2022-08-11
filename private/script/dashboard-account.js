@@ -29,3 +29,4 @@ async function loadAccountPage() {
 }
 
 eventListenerOfAccountButton()
+console.log('load account')

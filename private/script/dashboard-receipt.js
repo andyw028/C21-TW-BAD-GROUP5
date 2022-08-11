@@ -2,54 +2,46 @@ const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
 async function load_panel() {
-    document.querySelector('#receipt-btn').addEventListener("click", () => {
-        addPanels()
-        loadReceiptRecord(id)
-        loadSubmit()
-        submitReceiptToAI(id)
-        
-    })
-
+	document.querySelector('#receipt-btn').addEventListener('click', () => {
+		addPanels()
+		loadReceiptRecord(id)
+		loadSubmit()
+		submitReceiptToAI(id)
+	})
 }
 
-
 async function addPanels() {
-
-
-    const panelHtmlSTR = `
+	const panelHtmlSTR = `
     <div id="submit-panel"></div>
 
     <div id="receipt-panel"></div>
     `
-    document.querySelector("#dashboard-panel").innerHTML = panelHtmlSTR
-
+	document.querySelector('#dashboard-panel').innerHTML = panelHtmlSTR
 }
 
 async function loadReceiptRecord(id) {
-    const res = await fetch(`/receipt/${id}`)
-    let receiptHTML = ``
-    const receipts = await res.json()
-    console.log(receipts)
+	const res = await fetch(`/receipt/${id}`)
+	let receiptHTML = ``
+	const receipts = await res.json()
+	console.log(receipts)
 
-    for (const result of receipts) {
-        const realBDay = new Date(result.date)
-        let year = realBDay.getFullYear().toString()
-        let month = "0" + (realBDay.getMonth() + 1).toString()
-        let date = "0" + realBDay.getDate().toString()
-        const finalDate =
-            year +
-            "-" +
-            month.substring(month.length - 2) +
-            "-" +
-            date.substring(date.length - 2) +
-            " (" 
+	for (const result of receipts) {
+		const realBDay = new Date(result.date)
+		let year = realBDay.getFullYear().toString()
+		let month = '0' + (realBDay.getMonth() + 1).toString()
+		let date = '0' + realBDay.getDate().toString()
+		const finalDate =
+			year +
+			'-' +
+			month.substring(month.length - 2) +
+			'-' +
+			date.substring(date.length - 2) +
+			' ('
 
-        imagePath = `/${result.image}`
-        console.log(imagePath)
-    
+		imagePath = `/${result.image}`
+		console.log(imagePath)
 
-        receiptHTML +=
-            `<div class="receipt">
+		receiptHTML += `<div class="receipt">
         <div class="receiptBody">
             <img src="${imagePath}" class="card-img">
 
@@ -64,16 +56,13 @@ async function loadReceiptRecord(id) {
         </div>
     </div>
         `
-    }
+	}
 
-    document.querySelector("#receipt-panel").innerHTML = receiptHTML
-
+	document.querySelector('#receipt-panel').innerHTML = receiptHTML
 }
 
 async function loadSubmit() {
-
-    htmlSTR =
-        `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Submit your receipt here!!!
 </button>
 
@@ -112,64 +101,62 @@ async function loadSubmit() {
 </div>
 `
 
-    document.querySelector('#submit-panel').innerHTML = htmlSTR
-
+	document.querySelector('#submit-panel').innerHTML = htmlSTR
 }
 
 async function submitReceiptToAI(userID) {
+	document
+		.querySelector('#receiptAI')
+		.addEventListener('submit', async function (event) {
+			event.preventDefault()
+			const submitForm = event.target
+			const formData = new FormData()
+			receipt = submitForm.file.files[0]
+			receiptName = submitForm.file.files[0].name
+			lanType = submitForm.type.value
+			if (lanType === '0') {
+				lanType = 'chi_tra'
+			} else if (lanType === '1') {
+				lanType = 'eng'
+			} else {
+				lanType = 'chi_tra+eng'
+			}
+			formData.append(`${receiptName}`, receipt)
+			formData.append(`${receiptName}`, receiptName)
 
-    document.querySelector('#receiptAI').addEventListener("submit", async function (event) {
+			const response = await fetch('/receiptSubmit', {
+				method: 'Post',
+				body: formData
+			})
 
-        event.preventDefault()
-        const submitForm = event.target
-        const formData = new FormData()
-        receipt = submitForm.file.files[0]
-        receiptName = submitForm.file.files[0].name
-        lanType = submitForm.type.value
-        if (lanType === "0") {
-            lanType = "chi_tra"
-        } else if (lanType === "1") {
-            lanType = "eng"
-        } else {
-            lanType = "chi_tra+eng"
-        }
-        formData.append(`${receiptName}`, receipt)
-        formData.append(`${receiptName}`, receiptName)
+			const receiptToAI = await response.json()
 
-        const response = await fetch("/receiptSubmit", {
-            method: "Post",
-            body: formData
-        })
+			if (!receiptToAI.success) {
+				console.log(receiptToAI.message)
+				return
+			} else {
+				console.log('fetched, now go to python')
 
-        const receiptToAI = await response.json()
+				const resp = await fetch(
+					`http://localhost:8000/upload/${receiptName}`,
+					{
+						method: 'POST',
+						body: JSON.stringify({
+							lanType
+						})
+					}
+				)
 
-        if (!receiptToAI.success) {
-            console.log(receiptToAI.message)
-            return
-        } else {
+				const AIResult = await resp.json()
+				const AIdate = AIResult.date
+				const AIname = AIResult.name
+				const AIamount = AIResult.amount
 
-            console.log("fetched, now go to python")
+				//console.log(AIdate)
+				//console.log(AIname)
+				//console.log(AIamount)
 
-            const resp = await fetch
-                (`http://localhost:8000/upload/${receiptName}`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        lanType
-                    })
-                })
-
-            const AIResult = await resp.json()
-            const AIdate = AIResult.date
-            const AIname = AIResult.name
-            const AIamount = AIResult.amount
-
-            //console.log(AIdate)
-            //console.log(AIname)
-            //console.log(AIamount)
-
-    
-    
-    AIresultHtml = `<div class="modal-body" id ="receiptTime">
+				AIresultHtml = `<div class="modal-body" id ="receiptTime">
     <p>Here are the result from our AI</p>
     <form id = "saveReceipt">
     <input type="text" class="form-control" id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}>
@@ -190,51 +177,48 @@ async function submitReceiptToAI(userID) {
 </form>
 </div>`
 
-    document.querySelector("#receiptTime").innerHTML = AIresultHtml
-}
-// Add function to form
-submitReceipt(receiptName,userID)
-})
-
-
+				document.querySelector('#receiptTime').innerHTML = AIresultHtml
+			}
+			// Add function to form
+			submitReceipt(receiptName, userID)
+		})
 }
 
+async function submitReceipt(receiptName, id) {
+	document
+		.querySelector('#saveReceipt')
+		.addEventListener('submit', async function (event) {
+			event.preventDefault()
+			const form = event.target
+			const shopName = form.shopName.value
+			const date = form.date.value
+			const amount = form.amount.value
+			const image = receiptName
+			const expensesType = form.type.value
 
-async function submitReceipt(receiptName,id) {
-    document.querySelector("#saveReceipt").addEventListener("submit", async function (event) {
+			const res = await fetch(`/receipt/${id}`, {
+				method: 'Post',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					shopName,
+					date,
+					amount,
+					image,
+					expensesType
+				})
+			})
 
-        event.preventDefault()
-        const form = event.target
-        const shopName = form.shopName.value
-        const date = form.date.value
-        const amount = form.amount.value
-        const image = receiptName
-        const expensesType = form.type.value
-        
-        const res = await fetch(`/receipt/${id}`, {
-            method: "Post",
-            headers: {
-                "Content-Type": "application/json",
-              },
-            body: JSON.stringify({
-                shopName,
-                date,
-                amount,
-                image,
-                expensesType
-              }),
-        })
+			const result = await res.json()
 
-        const result = await res.json()
-
-        if(result.success) {
-            alert ("Your receipt is saved successfully")
-            
-        } else {
-            alert (result.message)
-    }
-
-    })
+			if (result.success) {
+				alert('Your receipt is saved successfully')
+			} else {
+				alert(result.message)
+			}
+		})
 }
 
 load_panel()
+console.log('load Reciept')

@@ -24,7 +24,6 @@ async function loadcharts() {
 	let trendDates = trendResult.dates
 	let trendData = trendResult.data
 	let trendChartData = [0, 0, 0, 0, 0, 0, 0]
-	console.log(trendDates, trendData)
 	trendDates.forEach((date, index) => {
 		for (let data of trendData) {
 			let currentDate = formatOneDate(new Date(data.date))
@@ -88,4 +87,4 @@ async function loadcharts() {
 	// //Pie Chart End
 }
 
-loadcharts()
+console.log('load charts')
