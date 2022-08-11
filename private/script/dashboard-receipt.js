@@ -2,44 +2,45 @@ const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
 async function load_panel() {
-    document.querySelector('#receipt-btn').addEventListener("click", () => {
-        addPanels()
-        loadReceiptRecord(id)
-        loadSubmit()
-        submitReceiptToAI(id)
-
-    })
-
+	document.querySelector('#receipt-btn').addEventListener('click', () => {
+		addPanels()
+		loadReceiptRecord(id)
+		loadSubmit()
+		submitReceiptToAI(id)
+	})
+	document.querySelector('#m-receipt-btn').addEventListener('click', () => {
+		addPanels()
+		loadReceiptRecord(id)
+		loadSubmit()
+		submitReceiptToAI(id)
+	})
 }
 
 const TypeMapping = {
-    1: "Clothing",
-    2: "Food",
-    3: "Housing",
-    4: "Travel",
-    5: "Shopping",
-    6: "Others"
+	1: 'Clothing',
+	2: 'Food',
+	3: 'Housing',
+	4: 'Travel',
+	5: 'Shopping',
+	6: 'Others'
 }
 
 const TypeMappings = new Map([
-    ["Clothing", 1],
-    ["Food", 2],
-    ["Housing", 3],
-    ["Travel", 4],
-    ["Shopping", 5],
-    ["Others", 6]
+	['Clothing', 1],
+	['Food', 2],
+	['Housing', 3],
+	['Travel', 4],
+	['Shopping', 5],
+	['Others', 6]
 ])
 
-
 async function addPanels() {
-
-    const panelHtmlSTR = `
+	const panelHtmlSTR = `
     <div id="submit-panel"></div>
 
     <div id="receipt-panel"></div>
     `
-    document.querySelector("#dashboard-panel").innerHTML = panelHtmlSTR
-
+	document.querySelector('#dashboard-panel').innerHTML = panelHtmlSTR
 }
 
 //async function confirmFunction(id) {
@@ -50,14 +51,12 @@ async function addPanels() {
 //document.querySelector(`#receipt-amount-${id}`).getAttribute('contenteditable') = True
 //document.querySelector(`#receipt-type-${id}`).getAttribute('contenteditable') = True}}
 
-
 async function editConfirmFunction() {
-    return result = confirm("Would you like to edit your receipt?")
-
+	return (result = confirm('Would you like to edit your receipt?'))
 }
 
 async function deleteConfirmFunction() {
-    return result = confirm("Would you like to delete this receipt?")
+	return (result = confirm('Would you like to delete this receipt?'))
 }
 
 async function loadReceiptRecord(id) {
@@ -65,24 +64,22 @@ async function loadReceiptRecord(id) {
     let receiptHTML = ``
     const receipts = await res.json()
 
-    for (const result of receipts) {
-        const realBDay = new Date(result.date)
-        let year = realBDay.getFullYear().toString()
-        let month = "0" + (realBDay.getMonth() + 1).toString()
-        let date = "0" + realBDay.getDate().toString()
-        const finalDate =
-            year +
-            "-" +
-            month.substring(month.length - 2) +
-            "-" +
-            date.substring(date.length - 2)
+	for (const result of receipts) {
+		const realBDay = new Date(result.date)
+		let year = realBDay.getFullYear().toString()
+		let month = '0' + (realBDay.getMonth() + 1).toString()
+		let date = '0' + realBDay.getDate().toString()
+		const finalDate =
+			year +
+			'-' +
+			month.substring(month.length - 2) +
+			'-' +
+			date.substring(date.length - 2)
 
-        imagePath = `/${result.image}`
-        expensesType = TypeMapping[result.type]
+		imagePath = `/${result.image}`
+		expensesType = TypeMapping[result.type]
 
-
-        receiptHTML +=
-            `<div class="receipt">
+		receiptHTML += `<div class="receipt">
         <div class="receiptBody">
             <div id="content" data-id = '${result.id}'>
                 <img src="../..${imagePath}" class="card-img">
@@ -118,28 +115,32 @@ async function loadReceiptRecord(id) {
             const receiptId = e.target.parentElement.dataset.id
             const result = await editConfirmFunction()
 
-            if (result) {
-                const revisedVenue = document.querySelector(`#receipt-venue-${receiptId}`).innerText;
-                const revisedDate = document.querySelector(`#receipt-date-${receiptId}`).innerText;
-                const revisedAmount = document.querySelector(`#receipt-amount-${receiptId}`).innerText
-                const e = document.querySelector(`#receipt-type-${receiptId}`)
-                const text = e.options[e.selectedIndex].text
-                const revisedType = TypeMappings.get(text)
+			if (result) {
+				const revisedVenue = document.querySelector(
+					`#receipt-venue-${receiptId}`
+				).innerText
+				const revisedDate = document.querySelector(
+					`#receipt-date-${receiptId}`
+				).innerText
+				const revisedAmount = document.querySelector(
+					`#receipt-amount-${receiptId}`
+				).innerText
+				const e = document.querySelector(`#receipt-type-${receiptId}`)
+				const text = e.options[e.selectedIndex].text
+				const revisedType = TypeMappings.get(text)
 
-
-                const resp = await fetch(`/receipt/${receiptId}`,
-                    {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            venue: revisedVenue,
-                            date: revisedDate,
-                            amount: revisedAmount,
-                            type: revisedType
-                        })
-                    })
+				const resp = await fetch(`/receipt/${receiptId}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						venue: revisedVenue,
+						date: revisedDate,
+						amount: revisedAmount,
+						type: revisedType
+					})
+				})
 
                 const result = await resp.json()
                 if (result.success) {
@@ -334,42 +335,40 @@ async function submitReceiptToAI(userID) {
 
 }
 
-
 async function submitReceipt(receiptName, id) {
-    document.querySelector("#saveReceipt").addEventListener("submit", async function (event) {
+	document
+		.querySelector('#saveReceipt')
+		.addEventListener('submit', async function (event) {
+			event.preventDefault()
+			const form = event.target
+			const shopName = form.shopName.value
+			const date = form.date.value
+			const amount = form.amount.value
+			const image = receiptName
+			const expensesType = form.type.value
 
-        event.preventDefault()
-        const form = event.target
-        const shopName = form.shopName.value
-        const date = form.date.value
-        const amount = form.amount.value
-        const image = receiptName
-        const expensesType = form.type.value
+			const res = await fetch(`/receipt/${id}`, {
+				method: 'Post',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					shopName,
+					date,
+					amount,
+					image,
+					expensesType
+				})
+			})
 
-        const res = await fetch(`/receipt/${id}`, {
-            method: "Post",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                shopName,
-                date,
-                amount,
-                image,
-                expensesType
-            }),
-        })
+			const result = await res.json()
 
-        const result = await res.json()
-
-        if (result.success) {
-            alert("Your receipt is saved successfully")
-
-        } else {
-            alert(result.message)
-        }
-
-    })
+			if (result.success) {
+				alert('Your receipt is saved successfully')
+			} else {
+				alert(result.message)
+			}
+		})
 }
 
 load_panel()

@@ -86,5 +86,3 @@ async function loadcharts() {
 	const pieCharExpense = new Chart(pieChartPlaceHolder, pieConfig)
 	// //Pie Chart End
 }
-
-console.log('load charts')

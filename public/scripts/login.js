@@ -21,7 +21,8 @@ function logIn() {
 			const result = await resp.json()
 			console.log(result)
 			if (!result.success) {
-				alert(result.message)
+				// alert(result.message)
+				Swal.fire('Nice!', 'ok', 'success')
 				window.location.href = '/login'
 			} else {
 				alert(result.message)
