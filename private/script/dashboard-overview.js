@@ -19,6 +19,11 @@ function eventListenerOfOverviewButton() {
 		getMonthlyAndDailySpending()
 		loadCharts()
 	})
+	document.querySelector('#brand-logo').addEventListener('click', () => {
+		const queryString = window.location.pathname.split('/')
+		let id = queryString[queryString.length - 1]
+		window.location.href = `/dashboard/${id}`
+	})
 }
 
 function loadOverview() {
@@ -98,6 +103,7 @@ function loadOverview() {
 	document.querySelector('main').outerHTML += `
 	<canvas id="pie-chart"></canvas>
 	<canvas id="trend-chart"></canvas>
+
 	`
 }
 
@@ -175,7 +181,7 @@ async function retrieveStockPL() {
 			})
 		}
 		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
-		stockPL.innerHTML = `USD$${pl}`
+		stockPL.innerHTML = `USD$${parseInt(pl)}`
 	}
 }
 function formatOneDate(date) {
@@ -284,7 +290,6 @@ async function loadCharts() {
 		consumptionTypes[index] = item.name
 		eachConsumptionTotal[index] += parseInt(item.sum)
 	})
-
 	const expenseTypeData = {
 		labels: consumptionTypes,
 		datasets: [
@@ -310,5 +315,8 @@ async function loadCharts() {
 		data: expenseTypeData
 	}
 	const pieCharExpense = new Chart(pieChartPlaceHolder, pieConfig)
+	if (!consumptionTypes[0]) {
+		pieChartPlaceHolder.style.display = 'none'
+	}
 	// //Pie Chart End
 }

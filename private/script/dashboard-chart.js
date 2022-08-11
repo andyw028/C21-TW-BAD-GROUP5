@@ -61,7 +61,16 @@ async function loadcharts() {
 		consumptionTypes[index] = item.name
 		eachConsumptionTotal[index] += parseInt(item.sum)
 	})
-
+	if (!consumptionTypes) {
+		consumptionTypes = [
+			'Clothing',
+			'Food',
+			'Housing',
+			'Travel',
+			'Shopping',
+			'Others'
+		]
+	}
 	const expenseTypeData = {
 		labels: consumptionTypes,
 		datasets: [
