@@ -61,10 +61,10 @@ async function deleteConfirmFunction() {
 }
 
 async function loadReceiptRecord(id) {
-    const res = await fetch(`/receipt/${id}`)
-    let receiptHTML = ``
-    const receipts = await res.json()
-    console.log(receipts)
+	const res = await fetch(`/receipt/${id}`)
+	let receiptHTML = ``
+	const receipts = await res.json()
+	console.log(receipts)
 
     for (const result of receipts) {
         const realBDay = new Date(result.date)
@@ -191,9 +191,7 @@ async function loadReceiptRecord(id) {
 
 
 async function loadSubmit() {
-
-    htmlSTR =
-        `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Submit your receipt here!!!
 </button>
 
@@ -239,36 +237,35 @@ async function loadSubmit() {
 </div>
 `
 
-    document.querySelector('#submit-panel').innerHTML = htmlSTR
-
+	document.querySelector('#submit-panel').innerHTML = htmlSTR
 }
 
 async function submitReceiptToAI(userID) {
+	document
+		.querySelector('#receiptAI')
+		.addEventListener('submit', async function (event) {
+			event.preventDefault()
+			const submitForm = event.target
+			const formData = new FormData()
+			receipt = submitForm.file.files[0]
+			receiptName = submitForm.file.files[0].name
+			lanType = submitForm.type.value
+			if (lanType === '0') {
+				lanType = 'chi_tra'
+			} else if (lanType === '1') {
+				lanType = 'eng'
+			} else {
+				lanType = 'chi_tra+eng'
+			}
+			formData.append(`${receiptName}`, receipt)
+			formData.append(`${receiptName}`, receiptName)
 
-    document.querySelector('#receiptAI').addEventListener("submit", async function (event) {
+			const response = await fetch('/receiptSubmit', {
+				method: 'Post',
+				body: formData
+			})
 
-        event.preventDefault()
-        const submitForm = event.target
-        const formData = new FormData()
-        receipt = submitForm.file.files[0]
-        receiptName = submitForm.file.files[0].name
-        lanType = submitForm.type.value
-        if (lanType === "0") {
-            lanType = "chi_tra"
-        } else if (lanType === "1") {
-            lanType = "eng"
-        } else {
-            lanType = "chi_tra+eng"
-        }
-        formData.append(`${receiptName}`, receipt)
-        formData.append(`${receiptName}`, receiptName)
-
-        const response = await fetch("/receiptSubmit", {
-            method: "Post",
-            body: formData
-        })
-
-        const receiptToAI = await response.json()
+			const receiptToAI = await response.json()
 
         if (!receiptToAI.success) {
             console.log(receiptToAI.message)
@@ -381,3 +378,4 @@ async function submitReceipt(receiptName, id) {
 }
 
 load_panel()
+console.log('load Reciept')

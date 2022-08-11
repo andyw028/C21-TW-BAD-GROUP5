@@ -1,315 +1,320 @@
-async function loadDashboardOverview() {
+window.onload = () => {
+	loadOverview()
+	eventListenerOfOverviewButton()
+	retrieveStockPL()
+	getMonthlyAndDailySpending()
+	loadCharts()
+}
+
+function eventListenerOfOverviewButton() {
 	document.querySelector('#overview-btn').addEventListener('click', () => {
 		loadOverview()
+		retrieveStockPL()
+		getMonthlyAndDailySpending()
+		loadCharts()
+	})
+	document.querySelector('#m-overview-btn').addEventListener('click', () => {
+		loadOverview()
+		retrieveStockPL()
+		getMonthlyAndDailySpending()
+		loadCharts()
 	})
 }
 
 function loadOverview() {
 	const overviewBoard = document.querySelector('#dashboard-panel')
-	overviewBoard.innerHTML = `<nav>
-    <div class="container">
-        <img src="./images/logo-removebg-preview.png" class="logo">
-        <div class="search-bar">
-            <span class="material-icons-sharp">search</span>
-            <input type="search" placeholder="Search">
-        </div>
-        <div class="profile-area">
-            <div class="theme-btn">
-                <span class="material-icons-sharp active">light_mode</span>
-                <span class="material-icons-sharp">dark_mode</span>
-
-            </div>
-            <div class="profile">
-                <div class="profile-photo">
-                    <!-- <img src="./"> -->
-                </div>
-                <h5>Austin Tse</h5>
-                <span class="material-icons-sharp">expand_more</span>
-            </div>
-            <button id="menu-btn">
-                <span class="material-icons-sharp">menu</span>
-            </button>
-        </div>
-    </div>
-</nav>
-<!-- END OF NAVBAR-->
-
+	overviewBoard.innerHTML = ''
+	overviewBoard.innerHTML += `
 <main>
-    <aside>
-        <button id="close-btn">
-            <span class="material-icons-sharp">close</span>
-        </button>
-
-        <!-- END OF SIDEBAR -->
-        
-        <div class="updates">
-            <span class="material-icons-sharp">update</span>
-            <h4></h4>
-            <p></p
-            <p></p>
-            <a href="#">Log out</a>
-        </div>
-    </aside>
-    <!-------------------- END OF ASIDE ----------------------->
-
     <section class="middle">
         <div class="header">
             <h1>Overview</h1>
-            <input type="date">
         </div>
 
         <div class="insights">
-            <div class="sales">
+            <div class="user-info">
               <span class="material-icons-sharp">analytics</span>
               <div class="middle">
                 <div class="left">
-                  <h3>Last Month's Expenses</h3>
-                  <h1>$25,000</h1>
-                </div>
-                <div class="progress">
-                  <svg>
-                    <circle cx="38" cy="38" r="36"></circle>
-                  </svg>
-                  <div class="number">
-                    <p>70%</p>
-                  </div>
+                  <h3>Welcome back,</h3>
+                  <h1 id="username-display"></h1>
+                  <h3>Today's expenses</h3>
+                  <h1 id="dailySpend">$</h1>
                 </div>
               </div>
-              <small class="text-muted">Last 30 Days</small>
+              <!-- <small class="text-muted">Let's get started.</small> -->
             </div>
-        </div>
-        <!------------ END OF SALES -------------->
-        
-        <div class="monthly-report">
-            <div class="report">
-                <h3>Income</h3>
-                <div>
-                    <details>
-                        <h1>$50,000</h1>
-                        <h6 class="success">+10.5%</h6>
-                    </details>
-                    <p class="text-muted">Compared to last month</p>
-                </div>
-            </div>
-            <!-- END OF INCOME REPORT -->
-            <div class="report">
-                <h3>Expenses</h3>
-                <div>
-                    <details>
-                        <h1>$15,000</h1>
-                        <h6 class="danger">-5.5%</h6>
-                    </details>
-                    <p class="text-muted">Compared to last month</p>
-                </div>
-            </div>
-            <!-- END OF EXPENSES REPORT -->
-            <div class="report">
-                <h3>Stocks Returns</h3>
-                <div>
-                    <details>
-                        <h1>$10,000</h1>
-                        <h6 class="success">5.0%</h6>
-                    </details>
-                    <p class="text-muted">Compared to last month</p>
-                </div>
-            </div>
-            <!-- END OF STOCKS RETURNS -->
-        </div>
-        <!-- END OF MONTHLY REPORT -->
 
-        <div class="fast-payment">
-            <h2>Total expenses</h2>
-            <div class="badges">
-                <div class="badge">
-                    <span class="material-icons-sharp">add</span>
+            <div class="expenses">
+            <span class="material-icons-sharp">bar_chart</span>
+            <div class="middle">
+              <div class="left">
+                <h3>This month's expenses</h3>
+                <h1 id="monthlySpend"></h1>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>62%</p>
                 </div>
-                <div class="badge">
-                    <span class="bg-primary"></span>
-                    <div>
-                        <h5>Fitness</h5>
-                        <h4>$500</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-success"></span>
-                    <div>
-                        <h5>Broadband</h5>
-                        <h4>$200</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-primary"></span>
-                    <div>
-                        <h5>Water</h5>
-                        <h4>$300</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-danger"></span>
-                    <div>
-                        <h5>Entertainment</h5>
-                        <h4>$350</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-primary"></span>
-                    <div>
-                        <h5>Education</h5>
-                        <h4>$999</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-danger"></span>
-                    <div>
-                        <h5>Electricity</h5>
-                        <h4>$109</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-success"></span>
-                    <div>
-                        <h5>Lunch</h5>
-                        <h4>$1500</h4>
-                    </div>
-                </div>
-                <div class="badge">
-                    <span class="bg-success"></span>
-                    <div>
-                        <h5>Dinner</h5>
-                        <h4>$3000</h4>
-                    </div>
-                </div>
+              </div>
             </div>
+            </div>
+          <!------------ END OF EXPENSES -------------->
+          <div class="stock-return">
+            <span class="material-icons-sharp">stacked_line_chart</span>
+            <div class="middle">
+              <div class="left">
+                <h3>Stock return</h3>
+                <h1 id="stockIncome"></h1>
+              </div>
+              <div class="progress">
+                <svg>
+                  <circle cx="38" cy="38" r="36"></circle>
+                </svg>
+                <div class="number">
+                  <p>44%</p>
+                </div>
+              </div>
+            </div>
+            <small class="text-muted">Last 24 Hours</small>
+          </div>
         </div>
-        <!-- END OF TOTAL EXPENSES -->
+        <!------------ END OF EXPENSES -------------->
+        <!------------ END OF INSIGHTS -------------->
 
-        <canvas id="chart"></canvas>
+        <div class="header">
+            <h1>My Analysis</h1>
+        </div>
 
         <!-- END OF CHART -->
 
     </section>
     <!-- END OF MIDDLE -->
-
-    <section class="right">
-
-        <div class="recent-transactions">
-            <div class="header">
-                <h2>Recent Receipts</h2>
-                <a href="#">More <span class="material-icons-sharp">chevron_right</span>
-                </a>
-            </div>
-    
-            <div class="transaction">
-                <div class="service">
-                    <div class="icon bg-danger-light">
-                        <span class="material-icons-sharp danger">sports_esports</span>
-                    </div>
-                    <div class="details">
-                        <h4>Video games</h4>
-                        <p>09/08/2022</p>
-                    </div>
-                </div>
-                <div class="card-details">
-                    <div class="details">
-                        <p>Octopus</p>
-                        <small class="text-muted">Cash</small>
-                    </div>
-                </div>
-                <h4>-HKD$100</h4>
-            </div>
-            <!-------- END OF RECEIPTS --------->
-
-            <div class="transaction">
-                <div class="service">
-                    <div class="icon bg-danger-light">
-                        <span class="material-icons-sharp danger">medication</span>
-                    </div>
-                    <div class="details">
-                        <h4>Medic</h4>
-                        <p>09/08/2022</p>
-                    </div>
-                </div>
-                <div class="card-details">
-                    <div class="card bg-primary">
-                        <img src="./images/visa.png">
-                    </div>
-                    <div class="details">
-                        <p>*1920</p>
-                        <small class="text-muted">Credit Card</small>
-                    </div>
-                </div>
-                <h4>-HKD$1000</h4>
-            </div>
-            <!-------- END OF RECEIPTS --------->
-
-            <div class="transaction">
-                <div class="service">
-                    <div class="icon bg-success-light">
-                        <span class="material-icons-sharp success">fitness_center</span>
-                    </div>
-                    <div class="details">
-                        <h4>Gym room</h4>
-                        <p>09/08/2022</p>
-                    </div>
-                </div>
-                <div class="card-details">
-
-                    <div class="details">
-                        <p>Octopus</p>
-                        <small class="text-muted">Cash</small>
-                    </div>
-                </div>
-                <h4>-HKD$50</h4>
-            </div>
-            <!-------- END OF RECEIPTS --------->
-        </div>
-        <!-------- END OF RECENT RECEIPTS --------->
-        <div class="investments">
-            <div class="header">
-                <h2>Stocks Tracker</h2>
-                <a href="#">More <span class="material-icons-sharp">chevron_right</span></a>
-            </div>
-
-            <div class="investment">
-                <img src="./images/tesla.png">
-                <h4>Tesla</h4>
-                <div class="date-time">
-                    <p>9 AUG, 2022</p>
-                    <small class="text-muted">01:00pm</small>
-                </div>
-                <div class="bonds">
-                    <p>TSLA</p>
-                    <small class="text-muted">Stock</small>
-                </div>
-                <div class="amount">
-                    <h4>$10,000</h4>
-                    <small class="success">1.51%</small>
-                </div>
-            </div>
-
-            <div class="investment">
-                <img src="./images/mcdonalds.png">
-                <h4>McDonald's</h4>
-                <div class="date-time">
-                    <p>9 AUG, 2022</p>
-                    <small class="text-muted">01:00pm</small>
-                </div>
-                <div class="bonds">
-                    <p>MCD</p>
-                    <small class="text-muted">Stock</small>
-                </div>
-                <div class="amount">
-                    <h4>$20,000</h4>
-                    <small class="danger">-0.34%</small>
-                </div>
-            </div>
-            <!-- END OF INVESTMENT -->
-
-        </div>
-        <!-------------------------- END OF INVESTMENTS ------------------------>
-    </section>
-    <!-- END OF RIGHT -->
-</main>`
+</main>
+`
+	document.querySelector('main').outerHTML += `
+	<canvas id="pie-chart"></canvas>
+	<canvas id="trend-chart"></canvas>
+	`
 }
 
-loadDashboardOverview()
+async function themeChanger() {
+	const themeBtn = document.querySelector('.theme-btn')
+
+	themeBtn.addEventListener('click', () => {
+		document.body.classList.toggle('dark-theme')
+
+		themeBtn.querySelector('span:first-child').classList.toggle('active')
+		themeBtn.querySelector('span:last-child').classList.toggle('active')
+	})
+}
+
+async function retrieveStockPL() {
+	const queryString = window.location.pathname.split('/')
+	let id = queryString[queryString.length - 1]
+
+	const stockPL = document.querySelector('#stockIncome')
+
+	const stockDetailsFromDB = await fetch(`/stock/${id}`)
+	const result = await stockDetailsFromDB.json()
+	if (!result[0]) {
+		stockPL.innerHTML = 0
+	} else {
+		let stockSet = new Set()
+		//Get all stock name as a set
+		for (let i of result) {
+			stockSet.add(i['ticker'])
+		}
+		//turn set to array
+		let stockArr = Array.from(stockSet)
+		//prepare to format the data to table on the page
+		let query = stockArr.join('&')
+		//get stock current price data from python yFinance API
+		let yahooStockPrice = await fetch(
+			`http://localhost:8000/stock/${query}`,
+			{
+				method: 'GET'
+			}
+		)
+		let parseYF = await yahooStockPrice.json()
+		//Array for data to be printed on the stock page
+		let presentData = []
+		for (let stock of stockArr) {
+			//filter the particular stock for calculation
+			let filtered = result.filter((item) => item.ticker === stock)
+			let current = 0,
+				totalAmount = 0,
+				buy = 0,
+				sell = 0
+
+			//add up all buy and sell of current stock
+			for (let item of filtered) {
+				if (!item.is_buy) {
+					sell -= parseInt(item.price) * item.amount
+					totalAmount -= item.amount
+				} else {
+					buy += parseInt(item.price) * item.amount
+					totalAmount += item.amount
+				}
+			}
+
+			current = parseYF[stock]
+			current = Math.round((current + Number.EPSILON) * 100) / 100
+			presentData.push({
+				ticker: stock,
+				amount: totalAmount,
+				cost: Math.round(
+					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
+				),
+				current: current,
+				pl:
+					(current -
+						Math.round(
+							(((buy + sell) / totalAmount + Number.EPSILON) *
+								100) /
+								100
+						)) *
+					totalAmount
+			})
+		}
+		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
+		stockPL.innerHTML = `USD$${pl}`
+	}
+}
+function formatOneDate(date) {
+	let dd = String(date.getDate()).padStart(2, '0')
+	let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
+	let yyyy = date.getFullYear()
+
+	let today = yyyy + '-' + mm + '-' + dd
+	return today
+}
+
+async function getMonthlyAndDailySpending() {
+	//eventlisteners
+	const monthlySpend = document.querySelector('#monthlySpend')
+	const dailySpend = document.querySelector('#dailySpend')
+
+	const queryString = window.location.pathname.split('/')
+	let id = queryString[queryString.length - 1]
+
+	//Monthly Spend
+	const serverMonthlyDetail = await fetch(`/receipt/monthly/${id}`)
+	const monthlyData = await serverMonthlyDetail.json()
+	let monthlyResult = monthlyData.reduce(
+		(acc, cur) => acc + parseFloat(cur.sum),
+		0
+	)
+	monthlySpend.innerHTML = `HKD$${monthlyResult}`
+	//Daily Spend
+
+	let today = new Date()
+	today = today.toISOString()
+	const serverDailyDetail = await fetch(`/receipt/sevenDays/${id}`)
+	let dailyData = await serverDailyDetail.json()
+	let dailyDataNew = dailyData.data
+	let dailySpending = 0
+	for (let item of dailyDataNew) {
+		if (today === item.date) {
+			dailySpending += parseFloat(item.price)
+		}
+	}
+	dailySpend.innerHTML = `HKD$${dailySpending}`
+}
+
+//CHART###########################################################################
+
+function formatOneDate(date) {
+	let dd = String(date.getDate()).padStart(2, '0')
+	let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
+	let yyyy = date.getFullYear()
+
+	let today = yyyy + '-' + mm + '-' + dd
+	return today
+}
+
+async function loadCharts() {
+	let id = window.location.pathname.split('/').at(-1)
+	//Pie Chart is for this month's expenses
+	const pieChartPlaceHolder = document.querySelector('#pie-chart')
+	//Trend Chart is for last 7 days expenses
+	const trendChartPLaceHolder = document.querySelector('#trend-chart')
+
+	//Getting Data from server
+	const pie = await fetch(`/receipt/monthly/${id}`)
+	const trend = await fetch(`/receipt/sevenDays/${id}`)
+	let pieResult = await pie.json()
+	let trendResult = await trend.json()
+
+	//For the Trend Chart Start
+	let trendDates = trendResult.dates
+	let trendData = trendResult.data
+	let trendChartData = [0, 0, 0, 0, 0, 0, 0]
+	trendDates.forEach((date, index) => {
+		for (let data of trendData) {
+			let currentDate = formatOneDate(new Date(data.date))
+			let price = parseInt(data.price)
+			if (currentDate === date) {
+				trendChartData[index] += price
+			}
+		}
+	})
+
+	const trendChartDetails = {
+		labels: trendDates,
+		datasets: [
+			{
+				label: 'Expense of Pass 7 Days',
+				data: trendChartData,
+				borderColor: 'rgb(67,57,83)',
+				fill: false,
+				tension: 0.3
+			}
+		]
+	}
+	const trendConfig = {
+		type: 'line',
+		data: trendChartDetails
+	}
+	const trendExpense = new Chart(trendChartPLaceHolder, trendConfig)
+	//Trend Chart End
+
+	// //Pie Chart Start
+	let consumptionTypes = []
+	let eachConsumptionTotal = [0, 0, 0, 0, 0, 0]
+
+	pieResult.forEach((item, index) => {
+		consumptionTypes[index] = item.name
+		eachConsumptionTotal[index] += parseInt(item.sum)
+	})
+
+	const expenseTypeData = {
+		labels: consumptionTypes,
+		datasets: [
+			{
+				data: eachConsumptionTotal,
+				backgroundColor: [
+					'rgb(255, 99, 132)',
+					'rgb(54, 162, 235)',
+					'rgb(25, 100, 86)',
+					'rgb(55, 205, 86)',
+					'rgb(255, 5, 86)',
+					'rgb(255, 5, 186)'
+				],
+				hoverOffset: 6
+			}
+		]
+	}
+	const pieConfig = {
+		type: 'doughnut',
+		data: expenseTypeData
+	}
+	const pieCharExpense = new Chart(pieChartPlaceHolder, pieConfig)
+	// //Pie Chart End
+}
+
+console.log('load overview')
+console.log('load charts')

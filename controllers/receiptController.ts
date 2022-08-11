@@ -93,11 +93,30 @@ export class ReceiptController {
 	getSevenDay = async (req: Request, res: Response) => {
 		try {
 			const userID = req.params.id
+			if (!userID) {
+				res.json({ message: 'No params ID' })
+				return
+			}
 			const sevenDaysReceipt =
 				await this.receiptService.getSevenDaysReceipt(userID)
 			res.json(sevenDaysReceipt)
 		} catch (err) {
 			console.log(err.message)
+		}
+	}
+
+	getMonthly = async (req: Request, res: Response) => {
+		try {
+			const userID = req.params.id
+			if (!userID) {
+				res.json({ message: 'No params ID' })
+				return
+			}
+			const monthlyTypeReceipt =
+				await this.receiptService.getReceiptByThisMonth(userID)
+			res.json(monthlyTypeReceipt)
+		} catch (e) {
+			console.log(e.message)
 		}
 	}
 

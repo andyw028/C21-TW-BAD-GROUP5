@@ -115,3 +115,4 @@ function calculate() {
 }
 
 addEventListenerForCalculator()
+console.log('loadTheCalculator')

@@ -1,4 +1,9 @@
 import { Knex } from 'knex'
+import {
+	formatDate,
+	formatToMonthStartAndEnd,
+	getPreviousSixDay
+} from '../utils/date'
 
 export class ReceiptServices {
 	constructor(private knex: Knex) {}
@@ -11,51 +16,30 @@ export class ReceiptServices {
 		return result
 	}
 
-	async getReceiptByThisMonth(id: string) {}
+	async getReceiptByThisMonth(id: string) {
+		let today = new Date()
+		let { start, end } = formatToMonthStartAndEnd(today)
+		const monthlyResult = await this.knex('receipts')
+			.innerJoin('types', 'receipts.type', 'types.id')
+			.groupBy('types.name')
+			.select('types.name')
+			.sum('receipts.price')
+			.where('receipts.users_id', id)
+			.where('receipts.date', '>=', `${start}`)
+			.andWhere('receipts.date', '<', `${end}`)
+		console.log(monthlyResult)
+		return monthlyResult
+	}
 
 	async getSevenDaysReceipt(id: string) {
 		//###################################################################
 		//####################FUNCTIONS THAT GET 7 DAYS######################
 		//###################################################################
-		function getPreviousDay(date = new Date(), days: number) {
-			const previous = new Date(date.getTime())
-			previous.setDate(date.getDate() - days)
-			return previous
-		}
-
-		function getPreviousSixDay() {
-			let dateArr = []
-			let today = new Date()
-			dateArr.unshift(today)
-			dateArr.unshift(getPreviousDay(today, 1))
-			dateArr.unshift(getPreviousDay(today, 2))
-			dateArr.unshift(getPreviousDay(today, 3))
-			dateArr.unshift(getPreviousDay(today, 4))
-			dateArr.unshift(getPreviousDay(today, 5))
-			dateArr.unshift(getPreviousDay(today, 6))
-			return dateArr
-		}
-
-		function formatOneDate(date: any) {
-			let dd = String(date.getDate()).padStart(2, '0')
-			let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
-			let yyyy = date.getFullYear()
-
-			let today = yyyy + '-' + mm + '-' + dd
-			return today
-		}
-
 		let dates = getPreviousSixDay()
 
-		function formatDate(dateArr: Array<Date | string>) {
-			for (let i = 0; i < dateArr.length; i++) {
-				dateArr[i] = formatOneDate(dateArr[i])
-			}
-			return dateArr
-		}
 		//HERE IS THE 7 DAYS' DATE
 		let formatted = formatDate(dates)
-		console.log(formatted)
+
 		//###################################################################
 		//###################################################################
 		//###################################################################
@@ -63,6 +47,7 @@ export class ReceiptServices {
 			.select('date', 'price')
 			.where('date', '<=', formatted[6])
 			.andWhere('date', '>=', formatted[0])
+			.where('receipts.users_id', id)
 		return { dates: formatted, data: sevenDaysData }
 	}
 
