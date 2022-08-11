@@ -1,3 +1,37 @@
+/* .btn-primary {
+--bs-btn-bg:#ffc107
+} */
+
+.modal {
+    --bs-modal-width:700px;
+
+}
+
+.first-modal {
+    background-color: bisque;
+    height:250px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.AIform {
+    background-color: aquamarine;
+    display: flex;
+    flex-wrap: row;
+    justify-content: center;
+    width:100%
+}
+
+#selection {
+    display: flex;
+    border: solid black 2px;;
+
+}
+
+.submit-bar {
+    width:100%;
+    display: flex;
+    justify-content:space-around;
+}
 
 
 #submit-panel {
@@ -14,6 +48,7 @@
 
 }
 
+
 #receipt-panel {
     display: flex;
     flex-wrap: wrap;
@@ -21,6 +56,7 @@
 }
 
 .receipt {
+    position: relative;
     width:31%;
     height: 450px;
     border: 5px solid black;
@@ -34,14 +70,43 @@
 
 }
 
+#content {
+    width: 100%;
+    height: 100%;
+
+}
 .card-img {
-    width:60%;
+    display: flex;
+    position:relative;
+    z-index: -1;
+    width:100%;
     height: 440px;
 }
 
-.content {
-    display: flex;
+#receipt-text {
+    display: none;
+
+
+}
+
+.receiptBody:hover #receipt-text {
+    font-size: 20px;
+    text-align: start;
+    display:flex;
+    position: absolute;
     flex-direction: row;
     flex-wrap: wrap;
+    top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 
+}
+
+.receiptBody:hover .receipt-content {
+    border: solid black 5px;
+
+
+}
+.receiptBody:hover .card-img{
+    opacity: 0.2;
 }

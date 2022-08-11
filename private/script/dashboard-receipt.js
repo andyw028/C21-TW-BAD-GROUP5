@@ -7,10 +7,28 @@ async function load_panel() {
         loadReceiptRecord(id)
         loadSubmit()
         submitReceiptToAI(id)
-        
+
     })
 
 }
+
+const TypeMapping = {
+    1: "Clothing",
+    2: "Food",
+    3: "Housing",
+    4: "Travel",
+    5: "Shopping",
+    6: "Others"
+}
+
+const TypeMappings = new Map([
+    ["Clothing", 1],
+    ["Food", 2],
+    ["Housing", 3],
+    ["Travel", 4],
+    ["Shopping", 5],
+    ["Others", 6]
+])
 
 
 async function addPanels() {
@@ -22,6 +40,24 @@ async function addPanels() {
     `
     document.querySelector("#dashboard-panel").innerHTML = panelHtmlSTR
 
+}
+
+//async function confirmFunction(id) {
+// const result = confirm("Would you like to edit your receipt?")
+// if (result) {
+// document.querySelector(`#receipt-venue-${id}`).getAttribute('contenteditable') = True
+// document.querySelector(`#receipt-date-${id}`).getAttribute('contenteditable') = True
+//document.querySelector(`#receipt-amount-${id}`).getAttribute('contenteditable') = True
+//document.querySelector(`#receipt-type-${id}`).getAttribute('contenteditable') = True}}
+
+
+async function editConfirmFunction() {
+    return result = confirm("Would you like to edit your receipt?")
+
+}
+
+async function deleteConfirmFunction() {
+    return result = confirm("Would you like to delete this receipt?")
 }
 
 async function loadReceiptRecord(id) {
@@ -40,34 +76,119 @@ async function loadReceiptRecord(id) {
             "-" +
             month.substring(month.length - 2) +
             "-" +
-            date.substring(date.length - 2) +
-            " (" 
+            date.substring(date.length - 2)
 
         imagePath = `/${result.image}`
-        console.log(imagePath)
-    
+        expensesType = TypeMapping[result.type]
+
 
         receiptHTML +=
             `<div class="receipt">
         <div class="receiptBody">
-            <img src="${imagePath}" class="card-img">
-
             <div id="content">
-                <p class="receipt-text">
-                    Venue: ${result.venue}
-                    Date: ${finalDate}
-                    Expenses: HKD${result.price}
-                    type: ${result.type} 
-                </p>
+                <img src="../..${imagePath}" class="card-img">
+                <div id ="receipt-text" data-id = '${result.id}'>
+                <div class = "receipt-content" contenteditable=True id="receipt-venue-${result.id}">${result.venue}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-date-${result.id}">${finalDate}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-amount-${result.id}">${result.price}</div>
+                <select name="selection" id="receipt-type-${result.id}">
+                    <option value=0 selected>${expensesType}</option>
+                    <option value=1>Clothing</option>
+                    <option value=2>Food</option>
+                    <option value=3>Housing</option>
+                    <option value=4>Travel</option>
+                    <option value=5>Shopping</option>
+                    <option value=6>Others</option>
+                    </select>
+
+
+             
+                <i class="bi bi-pencil-square" id ="edit"></i>
+                <i class="bi bi-file-earmark-x-fill" id = "delete"></i>
+                </div>
             </div>
         </div>
     </div>
         `
     }
-
     document.querySelector("#receipt-panel").innerHTML = receiptHTML
 
+    document.querySelectorAll("#edit").forEach((ele) => {
+        ele.addEventListener("click", async (e) => {
+            const receiptId = e.target.parentElement.dataset.id
+            const result = editConfirmFunction()
+
+            if (result) {
+                const revisedVenue = document.querySelector(`#receipt-venue-${receiptId}`).innerText;
+                const revisedDate = document.querySelector(`#receipt-date-${receiptId}`).innerText;
+                const revisedAmount = document.querySelector(`#receipt-amount-${receiptId}`).innerText
+                const e = document.querySelector(`#receipt-type-${receiptId}`)
+                const text = e.options[e.selectedIndex].text
+                const revisedType = TypeMappings.get(text)
+
+
+                const resp = await fetch(`/receipt/${receiptId}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            venue: revisedVenue,
+                            date: revisedDate,
+                            amount: revisedAmount,
+                            type: revisedType
+                        })
+                    })
+
+                const result = await resp.json()
+                if (result.success) {
+                    alert("Receipt updated")
+                } else {
+                    alert("Error!!! Please check")
+                }
+            }
+
+
+
+
+        })
+
+        document.querySelectorAll("#delete").forEach((ele) => {
+            ele.addEventListener("click", async (e) => {
+                const receiptId = e.target.parentElement.dataset.id
+                const result = deleteConfirmFunction()
+                if (result) {
+
+                    const resp = await fetch(`/receipt/${receiptId}`, {
+                        method: "delete",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            receiptId
+                        })
+                    })
+
+                    const result = await resp.json()
+                    if (result.success) {
+                        alert("Receipt deleted")
+                    } else {
+                        alert("Error, please check")
+                    }
+
+                }
+
+            })
+        })
+    }
+
+    )
+
 }
+
+
+
 
 async function loadSubmit() {
 
@@ -89,20 +210,27 @@ async function loadSubmit() {
 
             <!-- Submit image to AI -->
             <div class="modal-body">
+
                 <form id="receiptAI" enctype=multipart/form-data> 
                     <input type="file" name=file required>
-                    <select id="selection" name = type>
-                    <option value="0">Chinese receipt</option>
-                    <option value="1">english receipt</option>
-                    <option value="2">Chinese & english receipt</option>
+                    
+                    
+                    <select class="form-select" aria-label="Default select example" id="selection" name = type>
+                    <option disabled selected hidden>Please select your lan</option>
+                    <option value="0">Chinese</option>
+                    <option value="1">English</option>
+                    <option value="2">Chinese & English</option>
                     </select>
+                    
                     <div class="Submit-bar">
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="reset" class="btn btn-primary">Clear</button>
-                    
-                </div>
+                    </div>
+
                    </form>
             </div>
+
+
             <div class="modal-body" id ="receiptTime">
             </div>
 
@@ -162,18 +290,32 @@ async function submitReceiptToAI(userID) {
             const AIname = AIResult.name
             const AIamount = AIResult.amount
 
-            //console.log(AIdate)
-            //console.log(AIname)
-            //console.log(AIamount)
 
-    
-    
-    AIresultHtml = `<div class="modal-body" id ="receiptTime">
+
+
+            AIresultHtml = `
     <p>Here are the result from our AI</p>
     <form id = "saveReceipt">
-    <input type="text" class="form-control" id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}>
-    <input type="text" class="form-control" id="date"  name="date" placeholder = "Date" required value = ${AIdate}>
-    <input type="text" class="form-control" id="amount"  name="amount" placeholder = "Amount" required value = ${AIamount}>
+    
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" 
+    aria-describedby="inputGroup-sizing-default" 
+    id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}></div>
+
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" 
+    aria-describedby="inputGroup-sizing-default" 
+    id="date" name="date" placeholder = "Date" required value = ${AIdate}></div>
+
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" 
+    aria-describedby="inputGroup-sizing-default" 
+    id="amount" name="amount" placeholder = "Amount" required value = ${AIamount}></div>
+
+
     <select id="selection" name = "type">
                     <option value="1">Clothing</option>
                     <option value="2">Food</option>
@@ -182,24 +324,26 @@ async function submitReceiptToAI(userID) {
                     <option value="5">Shopping</option>
                     <option value="6">Others</option>
                     </select>
+
         <div class="Submit-bar">
             <button type="submit" class="btn btn-primary">Submit</button>
             <button type="reset" class="btn btn-primary">Clear</button>
 </div>
+
 </form>
-</div>`
+`
 
-    document.querySelector("#receiptTime").innerHTML = AIresultHtml
+            document.querySelector("#receiptTime").innerHTML = AIresultHtml
+        }
+        // Add function to form
+        submitReceipt(receiptName, userID)
+    })
+
+
 }
-// Add function to form
-submitReceipt(receiptName,userID)
-})
 
 
-}
-
-
-async function submitReceipt(receiptName,id) {
+async function submitReceipt(receiptName, id) {
     document.querySelector("#saveReceipt").addEventListener("submit", async function (event) {
 
         event.preventDefault()
@@ -209,29 +353,29 @@ async function submitReceipt(receiptName,id) {
         const amount = form.amount.value
         const image = receiptName
         const expensesType = form.type.value
-        
+
         const res = await fetch(`/receipt/${id}`, {
             method: "Post",
             headers: {
                 "Content-Type": "application/json",
-              },
+            },
             body: JSON.stringify({
                 shopName,
                 date,
                 amount,
                 image,
                 expensesType
-              }),
+            }),
         })
 
         const result = await res.json()
 
-        if(result.success) {
-            alert ("Your receipt is saved successfully")
-            
+        if (result.success) {
+            alert("Your receipt is saved successfully")
+
         } else {
-            alert (result.message)
-    }
+            alert(result.message)
+        }
 
     })
 }

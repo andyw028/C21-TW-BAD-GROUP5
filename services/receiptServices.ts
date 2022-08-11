@@ -3,7 +3,7 @@ import { Knex } from 'knex'
 export class ReceiptServices {
 	constructor(private knex: Knex) {}
 
-	async getReceipt(id: string) {
+	async getReceipt(id: string|number) {
 		const result = await this.knex('receipts')
 			.select('*')
 			.where('users_id', id)
@@ -90,7 +90,19 @@ export class ReceiptServices {
 		return receiptID
 	}
 
-	async updateReceipt() {}
+	async updateReceipt(receiptID:number, venue:string,date:string|number,price:number ,type:number) {
 
-	async deleteReceipt() {}
+		const result = await this.knex('receipts').update({venue:venue, date:date, price:price, type:type}).where("id", receiptID).returning("id")
+		return result
+		
+
+
+	}
+
+	async deleteReceipt(receiptID:number) {
+
+		const result = await this.knex('receipts').update({is_deleted:true}).where("id", receiptID).returning("id")
+		return result
+
+	}
 }
