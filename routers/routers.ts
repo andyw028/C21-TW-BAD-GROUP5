@@ -47,7 +47,7 @@ routes.get('/receipt/sevenDays/:id', receiptController.getSevenDay)
 routes.get('/receipt/monthly/:id', receiptController.getMonthly)
 
 routes.get('/stock/:id', stockController.get)
-routes.post('/stock', stockController.post)
+routes.post('/stock/:id', stockController.post)
 routes.delete('/stock', stockController.delete)
 
 routes.get('/account/:id', userController.get)

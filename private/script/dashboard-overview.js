@@ -304,7 +304,6 @@ function loadOverview() {
                 </div>
             </div>
             <!-- END OF INVESTMENT -->
-
         </div>
         <!-------------------------- END OF INVESTMENTS ------------------------>
     </section>
@@ -312,4 +311,79 @@ function loadOverview() {
 </main>`
 }
 
+async function retrieveStockPL() {
+	const queryString = window.location.pathname.split('/')
+	let id = queryString[queryString.length - 1]
+
+	const stockPL = document.querySelector('#stockIncome')
+	const stockDetailsFromDB = await fetch(`/stock/${id}`)
+	const result = await stockDetailsFromDB.json()
+	if (!result[0]) {
+		stockPL.innerHTML = 0
+	} else {
+		let stockSet = new Set()
+		//Get all stock name as a set
+		for (let i of result) {
+			stockSet.add(i['ticker'])
+		}
+		//turn set to array
+		let stockArr = Array.from(stockSet)
+		//prepare to format the data to table on the page
+		let query = stockArr.join('&')
+		//get stock current price data from python yFinance API
+		let yahooStockPrice = await fetch(
+			`http://localhost:8000/stock/${query}`,
+			{
+				method: 'GET'
+			}
+		)
+		let parseYF = await yahooStockPrice.json()
+		// console.log('stocks are', parseYF)
+		//Array for data to be printed on the stock page
+		let presentData = []
+		for (let stock of stockArr) {
+			//filter the particular stock for calculation
+			let filtered = result.filter((item) => item.ticker === stock)
+			let current = 0,
+				totalAmount = 0,
+				buy = 0,
+				sell = 0
+
+			//add up all buy and sell of current stock
+			for (let item of filtered) {
+				if (!item.is_buy) {
+					sell -= parseInt(item.price) * item.amount
+					totalAmount -= item.amount
+				} else {
+					buy += parseInt(item.price) * item.amount
+					totalAmount += item.amount
+				}
+			}
+
+			current = parseYF[stock]
+			current = Math.round((current + Number.EPSILON) * 100) / 100
+			presentData.push({
+				ticker: stock,
+				amount: totalAmount,
+				cost: Math.round(
+					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
+				),
+				current: current,
+				pl:
+					(current -
+						Math.round(
+							(((buy + sell) / totalAmount + Number.EPSILON) *
+								100) /
+								100
+						)) *
+					totalAmount
+			})
+		}
+		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
+		stockPL.innerHTML = pl
+	}
+}
+
 loadDashboardOverview()
+loadOverview()
+retrieveStockPL()

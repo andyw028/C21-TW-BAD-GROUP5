@@ -88,4 +88,4 @@ async function loadcharts() {
 	// //Pie Chart End
 }
 
-loadcharts()
+// loadcharts()

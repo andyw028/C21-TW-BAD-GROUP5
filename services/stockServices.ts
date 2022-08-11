@@ -9,7 +9,7 @@ export class StockServices {
 	}
 
 	async updateStockTrade(
-		user_id: number,
+		user_id: number | string,
 		ticker: string,
 		price: number,
 		amount: number,
