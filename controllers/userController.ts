@@ -65,6 +65,8 @@ export class UserController {
 	}
 
 	get = async (req: Request, res: Response) => {
-		// const { firstName, lastName, email } = req.body;
+		let id = req.params.id
+		const userInfo = await this.userService.getUSerByID(id)
+		res.json(userInfo)
 	}
 }

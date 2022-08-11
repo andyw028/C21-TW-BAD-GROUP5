@@ -10,6 +10,12 @@ export class UserServices {
 			.returning(['id', 'username', 'password'])
 	}
 
+	async getUSerByID(id: any) {
+		return await this.knex('users')
+			.select('username', 'email', 'first_name', 'last_name')
+			.where('id', id)
+	}
+
 	async addUser(
 		username: string,
 		password: string,
@@ -46,8 +52,13 @@ export class UserServices {
 		lastName: string
 	) {}
 
-	async checkAC(username:string, userEmail:string) {
-        const resultCount = await (await (this.knex('users').select("*").where('username', username).orWhere('email',userEmail))).length
-        return resultCount
-    }
+	async checkAC(username: string, userEmail: string) {
+		const resultCount = await (
+			await this.knex('users')
+				.select('*')
+				.where('username', username)
+				.orWhere('email', userEmail)
+		).length
+		return resultCount
+	}
 }
