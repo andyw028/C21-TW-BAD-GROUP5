@@ -312,7 +312,7 @@ async function submitReceiptToAI(userID) {
                 console.log("fetched, now go to python")
 
                 const resp = await fetch
-                    (`http://localhost:8000/upload/${receiptName}`, {
+                    (`python.samor.me/upload/${receiptName}`, {
                         method: "POST",
                         body: JSON.stringify({
                             lanType
