@@ -106,8 +106,10 @@ function loadOverview() {
 </main>
 `
 	document.querySelector('main').outerHTML += `
+	<div class="charts-container">
 	<canvas id="pie-chart"></canvas>
 	<canvas id="trend-chart"></canvas>
+	</div>
 
 	`
 }
