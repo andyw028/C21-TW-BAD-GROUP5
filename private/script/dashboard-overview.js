@@ -4,7 +4,7 @@ window.onload = () => {
 	eventListenerOfOverviewButton()
 	getMonthlyAndDailySpending()
 	loadCharts()
-	chartTesting()
+	// chartTesting()
 }
 
 function eventListenerOfOverviewButton() {
@@ -13,7 +13,7 @@ function eventListenerOfOverviewButton() {
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
-		chartTesting()
+		// chartTesting()
 
 	})
 	document.querySelector('#m-overview-btn').addEventListener('click', () => {
@@ -21,7 +21,7 @@ function eventListenerOfOverviewButton() {
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
-		chartTesting()
+		// chartTesting()
 
 	})
 	document.querySelector('#brand-logo').addEventListener('click', () => {
@@ -99,8 +99,6 @@ function loadOverview() {
             <h1>My Analysis</h1>
         </div>
 
-		<canvas id="chart"></canvas>
-
         <!-- END OF CHART -->
 
     </section>
@@ -110,8 +108,6 @@ function loadOverview() {
 	document.querySelector('main').outerHTML += `
 	<canvas id="pie-chart"></canvas>
 	<canvas id="trend-chart"></canvas>
-	<canvas id="chart"></canvas>
-
 
 	`
 }

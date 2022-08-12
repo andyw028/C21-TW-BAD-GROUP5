@@ -386,6 +386,23 @@ canvas#chart {
 	padding: var(--card-padding);
 }
 
+canvas#pie-chart {
+	background: var(--color-white);
+	max-height: 25%;
+	max-width: 50%;
+	margin-top: 2rem;
+	border-radius: var(--card-border-radius);
+	padding: var(--card-padding);
+}
+
+canvas#trend-chart {
+	background: var(--color-white);
+	max-width: 50%;
+	margin-top: 2rem;
+	border-radius: var(--card-border-radius);
+	padding: var(--card-padding);
+}
+
 /* ============= MEDIA QUERIES FOR TABLETS & IPHONES=============== */
 @media screen and (max-width: 1024px) {
 	nav .profile-area {
