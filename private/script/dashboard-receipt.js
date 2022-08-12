@@ -52,11 +52,45 @@ async function addPanels() {
 //document.querySelector(`#receipt-type-${id}`).getAttribute('contenteditable') = True}}
 
 async function editConfirmFunction() {
-	return (result = confirm('Would you like to edit your receipt?'))
+
+    const result = await Swal.fire({
+        title: 'Do you want to save the changes?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          return true
+        } else if (result.isDenied) {
+            return false
+        }
+      })
+      return result
+      
 }
 
+
+
 async function deleteConfirmFunction() {
-	return (result = confirm('Would you like to delete this receipt?'))
+
+    const result = await Swal.fire({
+        title: 'Do you want to delete this receipt?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        denyButtonText: `Don't delete`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          return true
+        } else if (result.isDenied) {
+         return false
+        }
+      })
+      return result
+      
 }
 
 async function loadReceiptRecord(id) {
@@ -144,9 +178,13 @@ async function loadReceiptRecord(id) {
 
                 const result = await resp.json()
                 if (result.success) {
-                    alert("Receipt updated")
+                    await Swal.fire("Receipt updated", 'success')
+                    loadReceiptRecord(id)
+                    loadSubmit()
+                    submitReceiptToAI(id)
+
                 } else {
-                    alert("Error!!! Please check")
+                    await Swal.fire("Error!!! Please check", 'error')
                 }
 
             }
@@ -172,9 +210,13 @@ async function loadReceiptRecord(id) {
 
                 const result = await resp.json()
                 if (result.success) {
-                    alert("Receipt deleted")
+                    await Swal.fire("Receipt deleted", 'success')
+                    loadReceiptRecord(id)
+                    loadSubmit()
+                    submitReceiptToAI(id)
                 } else {
-                    alert("Error, please check")
+                    await Swal.fire("Error, please check", 'error')
+
                 }
 
             }
@@ -320,7 +362,7 @@ async function submitReceiptToAI(userID) {
 
         <div class="Submit-bar">
             <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
-            <button type="reset" class="btn btn-primary" id = "submitButton">Clear</button>
+            <button type="reset" class="btn btn-primary" id = "submitButton">Cancel</button>
 </div>
 
 </form>
@@ -364,9 +406,12 @@ async function submitReceipt(receiptName, id) {
 			const result = await res.json()
 
 			if (result.success) {
-				alert('Your receipt is saved successfully')
+                await Swal.fire("Your receipt is saved successfully", 'success')
+                loadReceiptRecord(id)
+                loadSubmit()
+                submitReceiptToAI(id)
 			} else {
-				alert(result.message)
+                await Swal.fire(result.message, 'error')
 			}
 		})
 }
