@@ -9,7 +9,7 @@ env:
     POSTGRES_DB: bad_proj
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: postgres
-    POSTGRES_HOST: 5432
+    POSTGRES_HOST: postgres
 
 jobs:
     testing:
