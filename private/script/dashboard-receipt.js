@@ -72,7 +72,6 @@ async function editConfirmFunction() {
 }
 
 
-
 async function deleteConfirmFunction() {
 
     const result = await Swal.fire({
