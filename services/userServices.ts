@@ -53,7 +53,7 @@ export class UserServices {
 	) {}
 
 	async checkAC(username: string, userEmail: string) {
-		const resultCount = await (
+		const resultCount = (
 			await this.knex('users')
 				.select('*')
 				.where('username', username)
