@@ -3,8 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const client = new pg.Client({
-	host: process.env.POSTGRES_HOST,
-	database: process.env.POSTGRES_DB_NAME,
-	user: process.env.POSTGRES_DB_USERNAME,
-	password: process.env.POSTGRES_DB_PASSWORD
+	database: process.env.DB_NAME,
+	user: process.env.DB_USERNAME,
+	password: process.env.DB_PASSWORD
 })
