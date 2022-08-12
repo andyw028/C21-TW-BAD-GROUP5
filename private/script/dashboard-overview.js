@@ -94,6 +94,8 @@ function loadOverview() {
             <h1>My Analysis</h1>
         </div>
 
+		<canvas id="chart"></canvas>
+
         <!-- END OF CHART -->
 
     </section>

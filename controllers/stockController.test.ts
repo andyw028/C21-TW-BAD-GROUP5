@@ -1,10 +1,10 @@
-import { StockController } from '../../controllers/stockController'
-import { StockServices } from '../../services/stockServices'
+import { StockController } from './stockController'
+import { StockServices } from '../services/stockServices'
 import type { Request, Response } from 'express'
 import type { Knex } from 'knex'
 import { createRequest, createResponse } from '../helper'
 
-jest.mock('../../services/StockServices')
+jest.mock('../services/stockServices')
 
 describe('stockController test', () => {
 	let controller: StockController

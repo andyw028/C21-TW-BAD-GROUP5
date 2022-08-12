@@ -27,8 +27,8 @@ async function logIn() {
 			} else {
 				// alert(result.message)
 				await Swal.fire('Nice!', result.message, 'success')
+				window.location.href = `/dashboard/${result.id}`
 			}
-			window.location.href = `/dashboard/${result.id}`
 		}
 	})
 }
