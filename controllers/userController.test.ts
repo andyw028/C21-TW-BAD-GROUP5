@@ -1,5 +1,5 @@
-import { UserController } from './UserController'
-import { UserServices } from '../services/UserServices'
+import { UserController } from './userController'
+import { UserServices } from '../services/userServices'
 import { checkPassword } from '../utils/hash'
 import { hashPassword } from '../utils/hash'
 
@@ -8,7 +8,7 @@ import type { Knex } from 'knex'
 import { createRequest, createResponse } from '../helper'
 import { knex } from '../tools/knexConfig'
 
-jest.mock('../services/UserServices')
+jest.mock('../services/userServices')
 jest.mock('../utils/hash')
 
 describe('UserController', () => {
