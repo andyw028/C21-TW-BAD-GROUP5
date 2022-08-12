@@ -9,4 +9,3 @@ function loadLogout() {
 }
 
 loadLogout()
-console.log('load logout')

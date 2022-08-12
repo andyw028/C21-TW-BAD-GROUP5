@@ -25,7 +25,7 @@ app.use(
 //file upload route
 const uploadDir = 'uploads'
 fs.mkdirSync(uploadDir, { recursive: true })
-
+app.use(express.static(path.join(__dirname, 'uploads')))
 export const form = formidable({
 	uploadDir,
 	keepExtensions: true,
@@ -62,7 +62,6 @@ app.use('/', routes)
 //########################
 //Static Files
 //########################
-app.use(express.static(path.join(__dirname, 'uploads')))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(isLoggedInStatic, express.static(path.join(__dirname, 'private')))
 app.use((req, res) => {

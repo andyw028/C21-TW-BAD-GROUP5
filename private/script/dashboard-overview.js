@@ -1,7 +1,7 @@
 window.onload = () => {
 	loadOverview()
-	eventListenerOfOverviewButton()
 	retrieveStockPL()
+	eventListenerOfOverviewButton()
 	getMonthlyAndDailySpending()
 	loadCharts()
 }
@@ -18,6 +18,11 @@ function eventListenerOfOverviewButton() {
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
+	})
+	document.querySelector('#brand-logo').addEventListener('click', () => {
+		const queryString = window.location.pathname.split('/')
+		let id = queryString[queryString.length - 1]
+		window.location.href = `/dashboard/${id}`
 	})
 }
 
@@ -100,6 +105,7 @@ function loadOverview() {
 	document.querySelector('main').outerHTML += `
 	<canvas id="pie-chart"></canvas>
 	<canvas id="trend-chart"></canvas>
+
 	`
 }
 
@@ -123,7 +129,7 @@ async function retrieveStockPL() {
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()
 	if (!result[0]) {
-		stockPL.innerHTML = 0
+		stockPL.innerHTML = `USD$0`
 	} else {
 		let stockSet = new Set()
 		//Get all stock name as a set
@@ -166,12 +172,6 @@ async function retrieveStockPL() {
 			current = parseYF[stock]
 			current = Math.round((current + Number.EPSILON) * 100) / 100
 			presentData.push({
-				ticker: stock,
-				amount: totalAmount,
-				cost: Math.round(
-					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
-				),
-				current: current,
 				pl:
 					(current -
 						Math.round(
@@ -183,7 +183,8 @@ async function retrieveStockPL() {
 			})
 		}
 		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
-		stockPL.innerHTML = `USD$${pl}`
+		console.log(pl)
+		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
 	}
 }
 function formatOneDate(date) {
@@ -207,7 +208,7 @@ async function getMonthlyAndDailySpending() {
 	const serverMonthlyDetail = await fetch(`/receipt/monthly/${id}`)
 	const monthlyData = await serverMonthlyDetail.json()
 	let monthlyResult = monthlyData.reduce(
-		(acc, cur) => acc + parseFloat(cur.sum),
+		(acc, cur) => acc + parseInt(cur.sum),
 		0
 	)
 	monthlySpend.innerHTML = `HKD$${monthlyResult}`
@@ -221,7 +222,7 @@ async function getMonthlyAndDailySpending() {
 	let dailySpending = 0
 	for (let item of dailyDataNew) {
 		if (today === item.date) {
-			dailySpending += parseFloat(item.price)
+			dailySpending += parseInt(item.price)
 		}
 	}
 	dailySpend.innerHTML = `HKD$${dailySpending}`
@@ -292,7 +293,6 @@ async function loadCharts() {
 		consumptionTypes[index] = item.name
 		eachConsumptionTotal[index] += parseInt(item.sum)
 	})
-
 	const expenseTypeData = {
 		labels: consumptionTypes,
 		datasets: [
@@ -308,15 +308,18 @@ async function loadCharts() {
 				],
 				hoverOffset: 6
 			}
-		]
+		],
+		options: {
+			maintainAspectRatio: false
+		}
 	}
 	const pieConfig = {
 		type: 'doughnut',
 		data: expenseTypeData
 	}
 	const pieCharExpense = new Chart(pieChartPlaceHolder, pieConfig)
+	if (!consumptionTypes[0]) {
+		pieChartPlaceHolder.style.display = 'none'
+	}
 	// //Pie Chart End
 }
-
-console.log('load overview')
-console.log('load charts')

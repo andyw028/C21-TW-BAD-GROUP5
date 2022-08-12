@@ -10,10 +10,14 @@ function eventListenerOfAccountButton() {
 }
 async function loadAccountPage() {
 	const panel = document.querySelector('#dashboard-panel')
-	panel.innerHTML = `<div id= "AccountPage" class= "row">
-<div id="username" class="col-md-3">Username: </div>
-<div id="email" class= "col-md-3">Email: </div>
-<div id="name" class= "col-md-3">Name: </div>
+	panel.innerHTML = `
+	<div class="card card-ac" style="width:30rem;">
+	<img class="card-img-top" src="/img/progress.jpg" alt="Card image cap">
+	<div class="card-body";>
+	<div id= "AccountPage" class= "row">
+<div id="username" class="col-md-7">Username: </div>
+<div id="email" class= "col-md-7">Email: </div>
+<div id="name" class= "col-md-7">Name: </div>
 `
 
 	const queryString = window.location.pathname.split('/')
@@ -27,6 +31,4 @@ async function loadAccountPage() {
 	document.querySelector('#name').innerHTML +=
 		result[0].first_name + ' ' + result[0].last_name
 }
-
 eventListenerOfAccountButton()
-console.log('load account')

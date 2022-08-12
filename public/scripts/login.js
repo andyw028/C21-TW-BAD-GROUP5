@@ -1,4 +1,4 @@
-function logIn() {
+async function logIn() {
 	const logIn = document.querySelector('#login')
 
 	logIn.addEventListener('submit', async function (event) {
@@ -21,17 +21,19 @@ function logIn() {
 			const result = await resp.json()
 			console.log(result)
 			if (!result.success) {
-				alert(result.message)
+				// alert(result.message)
+				await Swal.fire('OOPS!', result.message, 'error')
 				window.location.href = '/login'
 			} else {
-				alert(result.message)
-				window.location.href = `/dashboard/${result.id}`
+				// alert(result.message)
+				await Swal.fire('Nice!', result.message, 'success')
 			}
+			window.location.href = `/dashboard/${result.id}`
 		}
 	})
 }
 
-function signUp() {
+async function signUp() {
 	const signUp = document.querySelector('.signup-form')
 	if (!signUp) {
 		return
@@ -65,9 +67,11 @@ function signUp() {
 		const result = await resp.json()
 		const UserID = result.userID
 		if (!result.success) {
-			alert('Create Account Failed ')
+			// alert('Create Account Failed ')
+			await Swal.fire('OOPS!', 'Failed To Create Account', 'error')
 			window.location.href = '/signup'
 		} else {
+			await Swal.fire('Nice!', 'Registered!', 'success')
 			window.location.href = `/dashboard/${UserID}`
 		}
 	})

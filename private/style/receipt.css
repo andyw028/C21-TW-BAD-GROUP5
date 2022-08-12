@@ -1,8 +1,45 @@
+/* .btn-primary {
+--bs-btn-bg:#ffc107
+} */
+
+.modal {
+    --bs-modal-width:700px;
+
+}
+
+#selection {
+    display: flex;
+
+}
+
+.modal-body p {
+    margin-top:20px;
+    text-align: start;
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+#receiptTime P {
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: start;
+}
+.Submit-bar {
+    width:100%;
+    display: flex;
+    justify-content:start;
+    margin-top:30px;
+}
+#AIButton ,#submitButton{
+    margin-right: 10px;
+}
+
 
 
 #submit-panel {
     display: flex;
     justify-content: end;
+    margin-top:20px;
     margin-bottom: 20px;
 
 }
@@ -14,6 +51,7 @@
 
 }
 
+
 #receipt-panel {
     display: flex;
     flex-wrap: wrap;
@@ -21,10 +59,11 @@
 }
 
 .receipt {
+    position: relative;
     width:31%;
-    height: 450px;
-    border: 5px solid black;
-    border-radius: 10px;
+    height: 100%;
+    box-shadow: 0px 2px 10px;
+    border-radius: 15px;
     margin: 10px;
 }
 
@@ -34,14 +73,76 @@
 
 }
 
+#content {
+    width: 100%;
+    height: 100%;
+
+}
+#content img {
+    border-radius: 15px;
+}
 .card-img {
-    width:60%;
+    display: flex;
+    position:relative;
+    z-index: -1;
+    width:100%;
     height: 440px;
 }
 
-.content {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+#receipt-text {
+    display: none;
+}
 
+.receiptSelectionType {
+    background: none;
+
+}
+
+
+.receiptBody:hover .receipt-content {
+    box-shadow: 0px 2px 10px;
+    border-radius:15px;
+    padding:5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+
+}
+.receiptBody:hover .card-img{
+    opacity: 0.2;
+}
+
+.receiptBody:hover #receipt-text {
+    font-size: 20px;
+    text-align: start;
+    display:flex;
+    position: absolute;
+    flex-direction: column;
+    flex-wrap: wrap;
+    top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+}
+
+#edit {
+    display: flex;
+    position: absolute;
+    bottom:-30%
+
+}
+
+#delete {
+    display: flex;
+    position: absolute;
+    bottom:-30%;
+    right: 15%;
+}
+
+@media screen and (max-width: 500px) {
+
+    .receipt {
+        width:100%;
+    }
+    
 }
