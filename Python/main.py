@@ -1,7 +1,7 @@
 import pytesseract
 import os
 import cv2
-from PIL import Image, ImageFilter, ImageEnhance
+from PIL import Image, ImageFilter
 from matplotlib import pyplot as plt
 import re
 from datetime import date
