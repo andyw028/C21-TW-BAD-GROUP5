@@ -14,7 +14,6 @@ export class UserController {
 			})
 			return
 		}
-		console.log(username, password)
 		const user = await this.userService.getUserByUsername(username)
 		if (!user || !user[0]) {
 			res.status(400).json({
