@@ -95,4 +95,3 @@ async function loadcharts() {
 	const pieCharExpense = new Chart(pieChartPlaceHolder, pieConfig)
 	// //Pie Chart End
 }
-<<<<<<< HEAD
