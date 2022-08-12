@@ -127,7 +127,7 @@ async function retrieveStockPL() {
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()
 	if (!result[0]) {
-		stockPL.innerHTML = 0
+		stockPL.innerHTML = `USD$0`
 	} else {
 		let stockSet = new Set()
 		//Get all stock name as a set
@@ -181,7 +181,8 @@ async function retrieveStockPL() {
 			})
 		}
 		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
-		stockPL.innerHTML = `USD$${parseInt(pl)}`
+		console.log(pl)
+		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
 	}
 }
 function formatOneDate(date) {

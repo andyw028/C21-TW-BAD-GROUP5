@@ -123,6 +123,7 @@ body {
 		border-radius: 20px;
 		font-size: 20px;
 		width: 130px;
+		max-height: 100px;
 		min-height: 40px;
 	}
 }
