@@ -1,7 +1,7 @@
-import { UserServices } from '../../services/userServices'
+import { UserServices } from './userServices'
 import type { Knex as KnexType } from 'knex'
 import Knex from 'knex'
-import knexConfig from '../../knexfile'
+import knexConfig from '../knexfile'
 
 describe('UserServices', () => {
 	let service: UserServices

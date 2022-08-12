@@ -1,15 +1,15 @@
-import { UserController } from '../../controllers/UserController'
-import { UserServices } from '../../services/UserServices'
-import { checkPassword } from '../../utils/hash'
-import { hashPassword } from '../../utils/hash'
+import { UserController } from './UserController'
+import { UserServices } from '../services/UserServices'
+import { checkPassword } from '../utils/hash'
+import { hashPassword } from '../utils/hash'
 
 import type { Request, Response } from 'express'
 import type { Knex } from 'knex'
 import { createRequest, createResponse } from '../helper'
-import { knex } from '../../tools/knexConfig'
+import { knex } from '../tools/knexConfig'
 
-jest.mock('../../services/UserServices')
-jest.mock('../../utils/hash')
+jest.mock('../services/UserServices')
+jest.mock('../utils/hash')
 
 describe('UserController', () => {
 	let controller: UserController
