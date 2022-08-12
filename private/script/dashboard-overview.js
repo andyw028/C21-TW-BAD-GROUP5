@@ -4,6 +4,7 @@ window.onload = () => {
 	eventListenerOfOverviewButton()
 	getMonthlyAndDailySpending()
 	loadCharts()
+	// chartTesting()
 }
 
 function eventListenerOfOverviewButton() {
@@ -12,12 +13,16 @@ function eventListenerOfOverviewButton() {
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
+		// chartTesting()
+
 	})
 	document.querySelector('#m-overview-btn').addEventListener('click', () => {
 		loadOverview()
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
+		// chartTesting()
+
 	})
 	document.querySelector('#brand-logo').addEventListener('click', () => {
 		const queryString = window.location.pathname.split('/')
@@ -46,8 +51,13 @@ function loadOverview() {
                   <h3>Today's expenses</h3>
                   <h1 id="dailySpend">$</h1>
                 </div>
+				<div class="progress">
+			      <div class="circular--landscape"> 
+				      <img src="../img/money-pig-icon.jpg" /> 
+				  </div>
               </div>
-              <!-- <small class="text-muted">Let's get started.</small> -->
+              </div>
+              <small class="text-muted">Let's get started.</small>
             </div>
 
             <div class="expenses">
@@ -58,33 +68,28 @@ function loadOverview() {
                 <h1 id="monthlySpend"></h1>
               </div>
               <div class="progress">
-                <svg>
-                  <circle cx="38" cy="38" r="36"></circle>
-                </svg>
-                <div class="number">
-                  <p>62%</p>
-                </div>
+			      <div class="circular--landscape"> 
+				      <img src="../img/money-icon.jpg" /> 
+				  </div>
               </div>
             </div>
+			<small class="text-muted">Last 30 Days</small>
             </div>
           <!------------ END OF EXPENSES -------------->
           <div class="stock-return">
             <span class="material-icons-sharp">stacked_line_chart</span>
             <div class="middle">
               <div class="left">
-                <h3>Stock return</h3>
+                <h3>Stock Return</h3>
                 <h1 id="stockIncome"></h1>
               </div>
               <div class="progress">
-                <svg>
-                  <circle cx="38" cy="38" r="36"></circle>
-                </svg>
-                <div class="number">
-                  <p>44%</p>
-                </div>
+			      <div class="circular--landscape"> 
+			      <img src="../img/stock-icon.jpg" /> 
+		          </div>
               </div>
             </div>
-            <small class="text-muted">Last 24 Hours</small>
+            <small class="text-muted">Find more details on Stock page.</small>
           </div>
         </div>
         <!------------ END OF EXPENSES -------------->
@@ -94,8 +99,6 @@ function loadOverview() {
             <h1>My Analysis</h1>
         </div>
 
-		<canvas id="chart"></canvas>
-
         <!-- END OF CHART -->
 
     </section>
@@ -103,22 +106,24 @@ function loadOverview() {
 </main>
 `
 	document.querySelector('main').outerHTML += `
+	<div class="charts-container">
 	<canvas id="pie-chart"></canvas>
 	<canvas id="trend-chart"></canvas>
+	</div>
 
 	`
 }
 
-async function themeChanger() {
-	const themeBtn = document.querySelector('.theme-btn')
+// async function themeChanger() {
+// 	const themeBtn = document.querySelector('.theme-btn')
 
-	themeBtn.addEventListener('click', () => {
-		document.body.classList.toggle('dark-theme')
+// 	themeBtn.addEventListener('click', () => {
+// 		document.body.classList.toggle('dark-theme')
 
-		themeBtn.querySelector('span:first-child').classList.toggle('active')
-		themeBtn.querySelector('span:last-child').classList.toggle('active')
-	})
-}
+// 		themeBtn.querySelector('span:first-child').classList.toggle('active')
+// 		themeBtn.querySelector('span:last-child').classList.toggle('active')
+// 	})
+// }
 
 async function retrieveStockPL() {
 	const queryString = window.location.pathname.split('/')
@@ -322,4 +327,36 @@ async function loadCharts() {
 		pieChartPlaceHolder.style.display = 'none'
 	}
 	// //Pie Chart End
+}
+
+async function chartTesting() {
+
+	const chart = document.querySelector("#chart").getContext('2d');
+
+	// create a new chart instance
+	new Chart(chart, {
+		type: 'line',
+		data: {
+			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+
+			datasets: [
+				{
+					label: 'Expenses',
+					data: [30000, 33537, 49631, 59095, 57828, 36684, 33572, 39974, 48847, 48116, 61004],
+					borderColor: 'green',
+					borderWidth: 2
+				},
+				{
+					label: 'Income',
+					data: [50000, 50000, 50000, 55000, 52000, 51000, 50000, 55000, 50000, 50000, 50000],
+					borderColor: 'pink',
+					borderWidth: 2
+				}
+			]
+		},
+		options: {
+			responsive: true
+		}
+	})
+
 }
