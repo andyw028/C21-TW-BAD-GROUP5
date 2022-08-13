@@ -40,7 +40,6 @@ function eventListenerOfStockButton() {
 }
 
 function loadStockPage() {
-	console.log('adding page')
 	//Loading the stock page into the panel
 	const panel = document.querySelector('#dashboard-panel')
 	//loading the table title plus buttons
@@ -260,7 +259,6 @@ function loadStockPage() {
 
 //load all stock and calculates
 async function loadUserStocks() {
-	console.log('loading')
 	const panel = document.querySelector('#stocks-detail')
 	//spinner
 	const loader = `<div class="d-flex justify-content-center mt-1">
@@ -294,7 +292,6 @@ async function loadUserStocks() {
 			}
 		)
 		let parseYF = await yahooStockPrice.json()
-		// console.log('stocks are', parseYF)
 		//Array for data to be printed on the stock page
 		let presentData = []
 		for (let stock of stockArr) {
@@ -396,7 +393,6 @@ function formSubmitForNewStock() {
 						form['amount'].value
 					) {
 						obj['amount'] = form['amount'].value
-						console.log('cls')
 					}
 				}
 			} else {
@@ -417,7 +413,6 @@ function formSubmitForNewStock() {
 					body: JSON.stringify(obj)
 				})
 				let DBResult = await result.json()
-				console.log('updated', DBResult)
 				//Clear the form just to be sure
 				document.getElementById('stock-form').reset()
 				await loadUserStocks()
@@ -437,14 +432,12 @@ async function loadDailyStockDetail() {
 	document.querySelector(`#day-gainer`).innerHTML += loader
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader
-	console.log('loading gainers')
 	const gainer = await fetch('//python.samor.me/stockgainer')
 	const gainerinfo = await gainer.json()
 	const loser = await fetch('//python.samor.me/stockloser')
 	const loserinfo = await loser.json()
 	const active = await fetch('//python.samor.me/stockactive')
 	const activeinfo = await active.json()
-	console.log(gainerinfo, loserinfo, activeinfo)
 	document.querySelector(`#day-gainer`).innerHTML = `<div class="text-center">
 	<h3>Top Ten Gainer</h3>
 </div>
