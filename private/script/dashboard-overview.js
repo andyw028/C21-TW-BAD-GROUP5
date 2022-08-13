@@ -147,12 +147,9 @@ async function retrieveStockPL() {
 		//prepare to format the data to table on the page
 		let query = stockArr.join('&')
 		//get stock current price data from python yFinance API
-		let yahooStockPrice = await fetch(
-			`http://python.samor.me/stock/${query}`,
-			{
-				method: 'GET'
-			}
-		)
+		let yahooStockPrice = await fetch(`//python.samor.me/stock/${query}`, {
+			method: 'GET'
+		})
 		let parseYF = await yahooStockPrice.json()
 		//Array for data to be printed on the stock page
 		let presentData = []
