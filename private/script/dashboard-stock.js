@@ -439,7 +439,6 @@ async function loadDailyStockDetail() {
 	document.querySelector(`#day-active`).innerHTML += loader
 	console.log('loading gainers')
 	const gainer = await fetch('http://python.samor.me/stockgainer')
-	console.log(gainer)
 	const gainerinfo = await gainer.json()
 	const loser = await fetch('http://python.samor.me/stockloser')
 	const loserinfo = await loser.json()
