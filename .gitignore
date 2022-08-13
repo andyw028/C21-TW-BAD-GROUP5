@@ -8,3 +8,4 @@ data
 BAD
 *.sql
 package-lock.json
+.vscode

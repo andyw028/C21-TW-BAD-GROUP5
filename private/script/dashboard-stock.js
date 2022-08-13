@@ -288,7 +288,7 @@ async function loadUserStocks() {
 		let query = stockArr.join('&')
 		//get stock current price data from python yFinance API
 		let yahooStockPrice = await fetch(
-			`http://localhost:8000/stock/${query}`,
+			`http://python.samor.me/stock/${query}`,
 			{
 				method: 'GET'
 			}
@@ -438,11 +438,11 @@ async function loadDailyStockDetail() {
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader
 	console.log('loading gainers')
-	const gainer = await fetch('http://localhost:8000/stockgainer')
+	const gainer = await fetch('http://python.samor.me/stockgainer')
 	const gainerinfo = await gainer.json()
-	const loser = await fetch('http://localhost:8000/stockloser')
+	const loser = await fetch('http://python.samor.me/stockloser')
 	const loserinfo = await loser.json()
-	const active = await fetch('http://localhost:8000/stockactive')
+	const active = await fetch('http://python.samor.me/stockactive')
 	const activeinfo = await active.json()
 	document.querySelector(`#day-gainer`).innerHTML = `<div class="text-center">
 	<h3>Top Ten Gainer</h3>
