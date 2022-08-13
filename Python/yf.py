@@ -10,7 +10,7 @@ app = Sanic("Pocketmon")
 
 @app.on_response
 async def add_CORS(request, response):
-    response.headers['Access-Control-Allow-Origin'] = "https://python.samor.me"
+    response.headers['Access-Control-Allow-Origin'] = "*"
 
 
 @app.get("/stock/<ticker>")
