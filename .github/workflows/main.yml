@@ -28,6 +28,7 @@ jobs:
             - run: |
                   yarn install 
                   yarn knex migrate:latest --env test
+                  yarn knex seed:run --env test
                   yarn jest
     deploy:
         if: github.ref_name == 'production'
