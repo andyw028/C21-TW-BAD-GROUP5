@@ -8,16 +8,6 @@ describe('StockService', () => {
 
 	beforeEach(async () => {
 		stockService = new StockServices(knex)
-		await knex('stocks').del()
-		await knex('stocks')
-			.insert({
-				ticker: 'TSLA',
-				price: 600.0,
-				is_buy: true,
-				amount: 1,
-				user_id: 1
-			})
-			.returning(['ticker', 'price', 'is_buy', 'amount', 'user_id'])
 	})
 
 	it('should get all stock', async () => {
