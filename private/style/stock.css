@@ -32,6 +32,10 @@ body {
 .stock-detail {
 	font-size: 1.6rem;
 }
+.stock-image {
+	width: 25px !important;
+	height: 25px !important;
+}
 @media screen and (max-width: 500px) {
 	#stock-table-title div span,
 	.stock-detail div span {

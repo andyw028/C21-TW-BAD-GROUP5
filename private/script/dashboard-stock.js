@@ -350,7 +350,7 @@ async function addStockRow(ticker, amount, cost, current, pl, panel) {
 	let stockDetailRow = `	<div class="row m-3 justify-content-center stock-detail">
 	<div class="col-2 d-flex justify-content-center"><span><img
 	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
-	class="rounded-circle"
+	class="rounded-circle stock-image"
 	width="25px"
 	height="25px"
 	style="margin-right: 2px"
@@ -477,7 +477,7 @@ function loadDailyRow(htmlID, arrayOfObject) {
 	>
 		<div class="col-4 d-flex text-center justify-content-center mb-1"><img
 		src="https://eodhistoricaldata.com/img/logos/US/${item['Symbol']}.png"
-		class="rounded-circle"
+		class="rounded-circle stock-image"
 		width="25px"
 		height="25px"
 		style="margin-right: 2px"
