@@ -15,10 +15,13 @@ function eventListenerOfStockButton() {
 		}
 		loadStockPage()
 		const curBtn = document.querySelector('#stock-reload')
+		const addBtn = document.querySelector('#add-stock')
 		curBtn.disabled = true
+		addBtn.disabled = true
 		await loadUserStocks()
 		await loadDailyStockDetail()
 		curBtn.disabled = false
+		addBtn.disabled = false
 	})
 	document
 		.querySelector('#m-stock-btn')
@@ -32,17 +35,20 @@ function eventListenerOfStockButton() {
 			}
 			loadStockPage()
 			const curBtn = document.querySelector('#stock-reload')
+			const addBtn = document.querySelector('#add-stock')
 			curBtn.disabled = true
+			addBtn.disabled = true
 			await loadUserStocks()
 			await loadDailyStockDetail()
 			curBtn.disabled = false
+			addBtn.disabled = false
 		})
 }
 
 function loadStockPage() {
 	//Loading the stock page into the panel
 	const panel = document.querySelector('#dashboard-panel')
-	//loading the table title plus buttons
+	//loading the whole page table
 	panel.innerHTML = `				<div class="col-md-12 d-flex flex-row-reverse">
 	<!-- Button trigger modal -->
 	<button
