@@ -375,8 +375,8 @@ async function submitReceiptToAI(userID) {
 async function submitReceipt(receiptName, id) {
     console.log("adding el to submit form")
 	document
-		.querySelector('#submitButton')
-		.addEventListener('click', async function (event) {
+		.querySelector('#saveReceipt')
+		.addEventListener('submit', async function (event) {
 			event.preventDefault()
 			const form = event.target
 			const shopName = form.shopName.value
@@ -384,7 +384,8 @@ async function submitReceipt(receiptName, id) {
 			const amount = form.amount.value
 			const image = receiptName
 			const expensesType = form.type.value
-
+            console.log(form)
+            console.log(shopName, date, amount, image, expensesType)
 			const res = await fetch(`/receipt/${id}`, {
 				method: 'Post',
 				headers: {
