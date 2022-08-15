@@ -1,10 +1,8 @@
 function eventListenerOfAccountButton() {
 	document.querySelector('#acc-btn').addEventListener('click', () => {
-		console.log('1')
 		loadAccountPage()
 	})
 	document.querySelector('#m-acc-btn').addEventListener('click', () => {
-		console.log('1')
 		loadAccountPage()
 	})
 }
@@ -71,7 +69,7 @@ async function loadAccountPage() {
 		  formObject['lastName'] = form.lastName.value
 		  formObject['email'] = form.email.value
 		  formObject['password'] = form.password.value
-		console.log(formObject)
+
 		  const res = await fetch(`/account/${id}`, {
 			method: 'POST',
 			headers: {
@@ -80,7 +78,6 @@ async function loadAccountPage() {
 			body: JSON.stringify(formObject),
 		  })
 		  const result = await res.json()
-		  console.log(result)
 		  await loadAccountPage()
 		form.firstName.value = ""
 		form.lastName.value = ""

@@ -89,8 +89,7 @@ export class UserController {
 	post = async (req:Request, res: Response) => {
 		const form = req.body
 		const id = req.params.id
-		console.log(form)
-		console.log(id)
+		
 		if (!form || !id || (isNaN(parseInt(id)))){
 			res.json({ message: 'Invalid'})
 			return
@@ -101,7 +100,7 @@ export class UserController {
 			return
 		}
 		const result = await this.userService.changeUserInfo(form['firstName'], form['lastName'], form['email'], form['password'], id)
-		console.log(result)
+		
 		res.json(result)
 
 }
