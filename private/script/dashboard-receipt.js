@@ -365,11 +365,10 @@ async function submitReceiptToAI(userID) {
 `
 
                 document.querySelector("#receiptTime").innerHTML = AIresultHtml
+                await submitReceipt(receiptName, userID)
             }
             // Add function to form
-            await submitReceipt(receiptName, userID)
         })
-
 
 }
 
