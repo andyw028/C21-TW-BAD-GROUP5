@@ -3,10 +3,17 @@ import { userController, receiptController, stockController } from '../server'
 import path from 'path'
 import { formidableMiddleware } from '../utils/formiddable'
 import { isExactUser, isLoggedInApi, isLoggedInStatic } from '../utils/guards'
-
+import { logger } from '../tools/winston'
+let visitCount = 0
 export const routes = express.Router()
 
 routes.get('/', (req, res) => {
+	if (req.session['user']!.id) {
+		res.redirect(`/dashboard/${req.session['user']!.id}`)
+		return
+	}
+	visitCount += 1
+	logger.info(`This is number ${visitCount} visitor`)
 	res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
 })
 
@@ -18,15 +25,12 @@ routes.get('/login', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 })
 routes.get('/logout', (req, res) => {
+	logger.info(`User With id ${req.session['user']!.id} logged out`)
 	req.session['user'] = undefined
 	res.json({ logout: true })
 })
 routes.get('/dashboard/:id', isLoggedInApi, isExactUser, (req, res) => {
-	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard.html'))
-})
-
-// testing, need to delete later
-routes.get('/testing', (req, res) => {
+	logger.info(`User with ID ${req.params.id} is currently logging in`)
 	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard.html'))
 })
 
