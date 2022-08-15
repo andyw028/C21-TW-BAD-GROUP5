@@ -7,12 +7,19 @@ export class ReceiptController {
 	get = async (req: Request, res: Response) => {
 		try {
 			const userID = parseInt(req.params.id)
+
+			if (!userID) {
+				res.json({ success: false, message: "userID missing" })
+				return
+			}
+
 			if (isNaN(userID)) {
 				res.status(400).json({
 					message: 'Invalid ID'
 				})
 				return
 			}
+
 			const allReceipt = await this.receiptService.getReceipt(userID)
 			res.json(allReceipt)
 		} catch (err) {
@@ -43,6 +50,8 @@ export class ReceiptController {
 			const receiptImage = req.body.image
 			const expensesType = req.body.expensesType
 			const is_deleted = false
+
+
 			const result = await this.receiptService.addReceipt(
 				userID,
 				receiptName,
@@ -95,13 +104,15 @@ export class ReceiptController {
 
 			if (result.length === 0) {
 				res.status(400).json({ success: false })
-				return
+			} else {
+				res.json({ success: true })
 			}
-			res.json({ success: true })
+
 		} catch (err) {
 			console.error(err.message)
 		}
 	}
+
 	delete = async (req: Request, res: Response) => {
 		try {
 			const receiptID = parseInt(req.params.id)

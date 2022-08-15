@@ -92,6 +92,11 @@ async function loadReceiptRecord(id) {
 	let receiptHTML = ``
 	const receipts = await res.json()
 
+    if(receipts.success === false) {
+        await Swal.fire("You did not login", 'error')
+        window.location.href = `/login`
+    } else {
+
 	for (const result of receipts) {
 		const realBDay = new Date(result.date)
 		let year = realBDay.getFullYear().toString()
@@ -198,19 +203,28 @@ async function loadReceiptRecord(id) {
 					})
 				})
 
-				const result = await resp.json()
-				if (result.success) {
-					await Swal.fire('Receipt deleted', 'success')
-					loadReceiptRecord(id)
-					loadSubmit()
-					submitReceiptToAI(id)
-				} else {
-					await Swal.fire('Error, please check', 'error')
-				}
-			}
-		})
-	})
+
+                const result = await resp.json()
+                if (result.success) {
+                    await Swal.fire("Receipt deleted", 'success')
+                    loadReceiptRecord(id)
+                    loadSubmit()
+                    submitReceiptToAI(id)
+                } else {
+                    await Swal.fire("Error, please check", 'error')
+
+                }
+
+            }
+        })
+    })
+
 }
+
+}
+
+
+
 
 async function loadSubmit() {
 	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -350,11 +364,13 @@ async function submitReceiptToAI(userID) {
 </form>
 `
 
-				document.querySelector('#receiptTime').innerHTML = AIresultHtml
-			}
-			// Add function to form
-			submitReceipt(receiptName, userID)
-		})
+                document.querySelector("#receiptTime").innerHTML = AIresultHtml
+            }
+            // Add function to form
+            await submitReceipt(receiptName, userID)
+        })
+
+
 }
 
 async function submitReceipt(receiptName, id) {
