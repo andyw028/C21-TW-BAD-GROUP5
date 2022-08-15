@@ -1,7 +1,7 @@
 import pytesseract
 import os
 import cv2
-from PIL import Image, ImageFilter, ImageEnhance
+from PIL import Image, ImageFilter
 from matplotlib import pyplot as plt
 import re
 from datetime import date
@@ -12,7 +12,7 @@ today = date.today()
 today_date = today.strftime("%d/%m/%Y")
 
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
 def find_Amount(para):
@@ -86,10 +86,3 @@ def read_IMG(img_path,type):
     para = pytesseract.image_to_string(img, lang=f'{type}')
     print(para)
     return(para)
-
-if __name__ == "__main__":
-    result = read_IMG('testing4')
-    print(result)
-    find_Amount(result)
-    find_Date(result)
-    find_Name(result)

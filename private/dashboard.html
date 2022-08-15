@@ -10,13 +10,6 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="shortcut icon" href="assets/images/favicon.ico" />
 
-		
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"/>
-
-
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp"
-		/>
-
 		<link
 			href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
 			rel="stylesheet"
@@ -73,6 +66,14 @@
 								<div id="stock-btn">Stock</div>
 								<div id="cal-btn">Calculator</div>
 							</div>
+							<div class="theme-btn">
+								<span class="material-icons-sharp active"
+									>light_mode</span
+								>
+								<span class="material-icons-sharp"
+									>dark_mode</span
+								>
+							</div>
 							<div class="text-end">
 								<button
 									id="logout"
@@ -87,7 +88,7 @@
 				</header>
 			</nav>
 		</div>
-		<nav id="mobile-nav" class="text-bg-dark fixed-bottom">
+		<nav id="mobile-nav" class="mobile-nav-bg fixed-bottom">
 			<div class="container">
 				<div
 					id="mobile-buttons"
@@ -134,12 +135,12 @@
 
 		<!-- The panel for async loading -->
 		<div class="d-flex justify-content-center mt-2">
-			<div id="dashboard-panel" class="container position-relative">
+			<div id="dashboard-panel" class="container position-relative mt-2">
 				<!--ADD-->
 				<!--END-->
 			</div>
 		</div>
-		<br />
+		<!-- Break Line to make sure mobile works -->
 		<br />
 		<br />
 		<br />
@@ -149,7 +150,12 @@
 		<!-- Chart -->
 		<script defer src="/chart.js/dist/chart.js"></script>
 		<script defer src="/script/dashboard-overview.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"
+			integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
 		<script defer src="/script/dashboard-chart.js"></script>
 
 		<!-- These are the stock scripts -->

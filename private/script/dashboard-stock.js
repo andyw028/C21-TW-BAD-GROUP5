@@ -15,10 +15,13 @@ function eventListenerOfStockButton() {
 		}
 		loadStockPage()
 		const curBtn = document.querySelector('#stock-reload')
+		const addBtn = document.querySelector('#add-stock')
 		curBtn.disabled = true
+		addBtn.disabled = true
 		await loadUserStocks()
 		await loadDailyStockDetail()
 		curBtn.disabled = false
+		addBtn.disabled = false
 	})
 	document
 		.querySelector('#m-stock-btn')
@@ -32,18 +35,20 @@ function eventListenerOfStockButton() {
 			}
 			loadStockPage()
 			const curBtn = document.querySelector('#stock-reload')
+			const addBtn = document.querySelector('#add-stock')
 			curBtn.disabled = true
+			addBtn.disabled = true
 			await loadUserStocks()
 			await loadDailyStockDetail()
 			curBtn.disabled = false
+			addBtn.disabled = false
 		})
 }
 
 function loadStockPage() {
-	console.log('adding page')
 	//Loading the stock page into the panel
 	const panel = document.querySelector('#dashboard-panel')
-	//loading the table title plus buttons
+	//loading the whole page table
 	panel.innerHTML = `				<div class="col-md-12 d-flex flex-row-reverse">
 	<!-- Button trigger modal -->
 	<button
@@ -260,7 +265,6 @@ function loadStockPage() {
 
 //load all stock and calculates
 async function loadUserStocks() {
-	console.log('loading')
 	const panel = document.querySelector('#stocks-detail')
 	//spinner
 	const loader = `<div class="d-flex justify-content-center mt-1">
@@ -287,14 +291,10 @@ async function loadUserStocks() {
 		//prepare to format the data to table on the page
 		let query = stockArr.join('&')
 		//get stock current price data from python yFinance API
-		let yahooStockPrice = await fetch(
-			`http://localhost:8000/stock/${query}`,
-			{
-				method: 'GET'
-			}
-		)
+		let yahooStockPrice = await fetch(`//python.samor.me/stock/${query}`, {
+			method: 'GET'
+		})
 		let parseYF = await yahooStockPrice.json()
-		// console.log('stocks are', parseYF)
 		//Array for data to be printed on the stock page
 		let presentData = []
 		for (let stock of stockArr) {
@@ -356,7 +356,7 @@ async function addStockRow(ticker, amount, cost, current, pl, panel) {
 	let stockDetailRow = `	<div class="row m-3 justify-content-center stock-detail">
 	<div class="col-2 d-flex justify-content-center"><span><img
 	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
-	class="rounded-circle"
+	class="rounded-circle stock-image"
 	width="25px"
 	height="25px"
 	style="margin-right: 2px"
@@ -396,7 +396,6 @@ function formSubmitForNewStock() {
 						form['amount'].value
 					) {
 						obj['amount'] = form['amount'].value
-						console.log('cls')
 					}
 				}
 			} else {
@@ -417,7 +416,6 @@ function formSubmitForNewStock() {
 					body: JSON.stringify(obj)
 				})
 				let DBResult = await result.json()
-				console.log('updated', DBResult)
 				//Clear the form just to be sure
 				document.getElementById('stock-form').reset()
 				await loadUserStocks()
@@ -437,12 +435,11 @@ async function loadDailyStockDetail() {
 	document.querySelector(`#day-gainer`).innerHTML += loader
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader
-	console.log('loading gainers')
-	const gainer = await fetch('http://localhost:8000/stockgainer')
+	const gainer = await fetch('//python.samor.me/stockgainer')
 	const gainerinfo = await gainer.json()
-	const loser = await fetch('http://localhost:8000/stockloser')
+	const loser = await fetch('//python.samor.me/stockloser')
 	const loserinfo = await loser.json()
-	const active = await fetch('http://localhost:8000/stockactive')
+	const active = await fetch('//python.samor.me/stockactive')
 	const activeinfo = await active.json()
 	document.querySelector(`#day-gainer`).innerHTML = `<div class="text-center">
 	<h3>Top Ten Gainer</h3>
@@ -486,7 +483,7 @@ function loadDailyRow(htmlID, arrayOfObject) {
 	>
 		<div class="col-4 d-flex text-center justify-content-center mb-1"><img
 		src="https://eodhistoricaldata.com/img/logos/US/${item['Symbol']}.png"
-		class="rounded-circle"
+		class="rounded-circle stock-image"
 		width="25px"
 		height="25px"
 		style="margin-right: 2px"

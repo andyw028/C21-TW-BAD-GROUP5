@@ -60,7 +60,11 @@ export class UserServices {
 	}
 
 	async checkAC(username: string, userEmail: string) {
+<<<<<<< HEAD
 		const resultCount = 
+=======
+		const resultCount = (
+>>>>>>> refs/remotes/origin/main
 			await this.knex('users')
 				.select('*')
 				.where('username', username)

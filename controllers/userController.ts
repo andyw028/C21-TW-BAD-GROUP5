@@ -17,7 +17,6 @@ export class UserController {
 			})
 			return
 		}
-		console.log(username, password)
 		const user = await this.userService.getUserByUsername(username)
 		if (!user || !user[0]) {
 			res.status(400).json({
@@ -57,23 +56,27 @@ export class UserController {
 
 		const userResult = await this.userService.checkAC(email, username)
 
+<<<<<<< HEAD
 		if (userResult.length > 0) {
+=======
+		if (userResult > 1) {
+>>>>>>> refs/remotes/origin/main
 			res.status(400).json({
 				success: false,
 				message: 'Email already exists'
 			})
 			return
+		} else {
+			const user = await this.userService.addUser(
+				username,
+				password,
+				email,
+				firstName,
+				lastName
+			)
+			req.session['user'] = { id: user.id, username: user.username }
+			res.status(200).json({ success: true, userID: user.id })
 		}
-
-		const user = await this.userService.addUser(
-			username,
-			password,
-			email,
-			firstName,
-			lastName
-		)
-		req.session['user'] = { id: user.id, username: user.username }
-		res.status(200).json({ success: true, userID: user.id })
 	}
 
 	get = async (req: Request, res: Response) => {

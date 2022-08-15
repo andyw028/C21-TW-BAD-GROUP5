@@ -52,51 +52,45 @@ async function addPanels() {
 //document.querySelector(`#receipt-type-${id}`).getAttribute('contenteditable') = True}}
 
 async function editConfirmFunction() {
-
-    const result = await Swal.fire({
-        title: 'Do you want to save the changes?',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Save',
-        denyButtonText: `Don't save`,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          return true
-        } else if (result.isDenied) {
-            return false
-        }
-      })
-      return result
-      
+	const result = await Swal.fire({
+		title: 'Do you want to save the changes?',
+		showDenyButton: true,
+		showCancelButton: true,
+		confirmButtonText: 'Save',
+		denyButtonText: `Don't save`
+	}).then((result) => {
+		/* Read more about isConfirmed, isDenied below */
+		if (result.isConfirmed) {
+			return true
+		} else if (result.isDenied) {
+			return false
+		}
+	})
+	return result
 }
 
-
-
 async function deleteConfirmFunction() {
-
-    const result = await Swal.fire({
-        title: 'Do you want to delete this receipt?',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Delete',
-        denyButtonText: `Don't delete`,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          return true
-        } else if (result.isDenied) {
-         return false
-        }
-      })
-      return result
-      
+	const result = await Swal.fire({
+		title: 'Do you want to delete this receipt?',
+		showDenyButton: true,
+		showCancelButton: true,
+		confirmButtonText: 'Delete',
+		denyButtonText: `Don't delete`
+	}).then((result) => {
+		/* Read more about isConfirmed, isDenied below */
+		if (result.isConfirmed) {
+			return true
+		} else if (result.isDenied) {
+			return false
+		}
+	})
+	return result
 }
 
 async function loadReceiptRecord(id) {
-    const res = await fetch(`/receipt/${id}`)
-    let receiptHTML = ``
-    const receipts = await res.json()
+	const res = await fetch(`/receipt/${id}`)
+	let receiptHTML = ``
+	const receipts = await res.json()
 
 	for (const result of receipts) {
 		const realBDay = new Date(result.date)
@@ -140,14 +134,14 @@ async function loadReceiptRecord(id) {
         </div>
     </div>
         `
-    }
+	}
 
-    document.querySelector("#receipt-panel").innerHTML = receiptHTML
+	document.querySelector('#receipt-panel').innerHTML = receiptHTML
 
-    document.querySelectorAll("#edit").forEach((ele) => {
-        ele.addEventListener("click", async (e) => {
-            const receiptId = e.target.parentElement.dataset.id
-            const result = await editConfirmFunction()
+	document.querySelectorAll('#edit').forEach((ele) => {
+		ele.addEventListener('click', async (e) => {
+			const receiptId = e.target.parentElement.dataset.id
+			const result = await editConfirmFunction()
 
 			if (result) {
 				const revisedVenue = document.querySelector(
@@ -176,60 +170,50 @@ async function loadReceiptRecord(id) {
 					})
 				})
 
-                const result = await resp.json()
-                if (result.success) {
-                    await Swal.fire("Receipt updated", 'success')
-                    loadReceiptRecord(id)
-                    loadSubmit()
-                    submitReceiptToAI(id)
+				const result = await resp.json()
+				if (result.success) {
+					await Swal.fire('Receipt updated', 'success')
+					loadReceiptRecord(id)
+					loadSubmit()
+					submitReceiptToAI(id)
+				} else {
+					await Swal.fire('Error!!! Please check', 'error')
+				}
+			}
+		})
+	})
 
-                } else {
-                    await Swal.fire("Error!!! Please check", 'error')
-                }
+	document.querySelectorAll('#delete').forEach((ele) => {
+		ele.addEventListener('click', async (e) => {
+			const receiptId = e.target.parentElement.dataset.id
+			const result = await deleteConfirmFunction()
+			if (result) {
+				const resp = await fetch(`/receipt/${receiptId}`, {
+					method: 'delete',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						receiptId
+					})
+				})
 
-            }
-        })
-
-    })
-
-    document.querySelectorAll("#delete").forEach((ele) => {
-        ele.addEventListener("click", async (e) => {
-            const receiptId = e.target.parentElement.dataset.id
-            const result = await deleteConfirmFunction()
-            if (result) {
-                const resp = await fetch(`/receipt/${receiptId}`, {
-                    method: "delete",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        receiptId
-                    })
-                })
-
-
-                const result = await resp.json()
-                if (result.success) {
-                    await Swal.fire("Receipt deleted", 'success')
-                    loadReceiptRecord(id)
-                    loadSubmit()
-                    submitReceiptToAI(id)
-                } else {
-                    await Swal.fire("Error, please check", 'error')
-
-                }
-
-            }
-        })
-    })
-
+				const result = await resp.json()
+				if (result.success) {
+					await Swal.fire('Receipt deleted', 'success')
+					loadReceiptRecord(id)
+					loadSubmit()
+					submitReceiptToAI(id)
+				} else {
+					await Swal.fire('Error, please check', 'error')
+				}
+			}
+		})
+	})
 }
 
-
-
-
 async function loadSubmit() {
-    htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Submit your receipt here!!!
 </button>
 
@@ -275,60 +259,58 @@ async function loadSubmit() {
 </div>
 `
 
-    document.querySelector('#submit-panel').innerHTML = htmlSTR
+	document.querySelector('#submit-panel').innerHTML = htmlSTR
 }
 
 async function submitReceiptToAI(userID) {
-    document
-        .querySelector('#receiptAI')
-        .addEventListener('submit', async function (event) {
-            event.preventDefault()
-            const submitForm = event.target
-            const formData = new FormData()
-            receipt = submitForm.file.files[0]
-            receiptName = submitForm.file.files[0].name
-            lanType = submitForm.type.value
-            if (lanType === '0') {
-                lanType = 'chi_tra'
-            } else if (lanType === '1') {
-                lanType = 'eng'
-            } else {
-                lanType = 'chi_tra+eng'
-            }
-            formData.append(`${receiptName}`, receipt)
-            formData.append(`${receiptName}`, receiptName)
+	document
+		.querySelector('#receiptAI')
+		.addEventListener('submit', async function (event) {
+			event.preventDefault()
+			const submitForm = event.target
+			const formData = new FormData()
+			receipt = submitForm.file.files[0]
+			receiptName = submitForm.file.files[0].name
+			lanType = submitForm.type.value
+			if (lanType === '0') {
+				lanType = 'chi_tra'
+			} else if (lanType === '1') {
+				lanType = 'eng'
+			} else {
+				lanType = 'chi_tra+eng'
+			}
+			formData.append(`${receiptName}`, receipt)
+			formData.append(`${receiptName}`, receiptName)
 
-            const response = await fetch('/receiptSubmit', {
-                method: 'Post',
-                body: formData
-            })
+			const response = await fetch('/receiptSubmit', {
+				method: 'Post',
+				body: formData
+			})
 
-            const receiptToAI = await response.json()
+			const receiptToAI = await response.json()
 
-            if (!receiptToAI.success) {
-                console.log(receiptToAI.message)
-                return
-            } else {
+			if (!receiptToAI.success) {
+				console.log(receiptToAI.message)
+				return
+			} else {
+				console.log('fetched, now go to python')
 
-                console.log("fetched, now go to python")
+				const resp = await fetch(
+					`//python.samor.me/upload/${receiptName}`,
+					{
+						method: 'POST',
+						body: JSON.stringify({
+							lanType
+						})
+					}
+				)
 
-                const resp = await fetch
-                    (`http://localhost:8000/upload/${receiptName}`, {
-                        method: "POST",
-                        body: JSON.stringify({
-                            lanType
-                        })
-                    })
+				const AIResult = await resp.json()
+				const AIdate = AIResult.date
+				const AIname = AIResult.name
+				const AIamount = AIResult.amount
 
-                const AIResult = await resp.json()
-                const AIdate = AIResult.date
-                const AIname = AIResult.name
-                const AIamount = AIResult.amount
-
-
-
-
-                AIresultHtml = `
+				AIresultHtml = `
     <p>Here are the result from our AI, Please check before submit</p>
     <form id = "saveReceipt">
     
@@ -368,13 +350,11 @@ async function submitReceiptToAI(userID) {
 </form>
 `
 
-                document.querySelector("#receiptTime").innerHTML = AIresultHtml
-            }
-            // Add function to form
-            submitReceipt(receiptName, userID)
-        })
-
-
+				document.querySelector('#receiptTime').innerHTML = AIresultHtml
+			}
+			// Add function to form
+			submitReceipt(receiptName, userID)
+		})
 }
 
 async function submitReceipt(receiptName, id) {
@@ -406,15 +386,14 @@ async function submitReceipt(receiptName, id) {
 			const result = await res.json()
 
 			if (result.success) {
-                await Swal.fire("Your receipt is saved successfully", 'success')
-                loadReceiptRecord(id)
-                loadSubmit()
-                submitReceiptToAI(id)
+				await Swal.fire('Your receipt is saved successfully', 'success')
+				loadReceiptRecord(id)
+				loadSubmit()
+				submitReceiptToAI(id)
 			} else {
-                await Swal.fire(result.message, 'error')
+				await Swal.fire(result.message, 'error')
 			}
 		})
 }
 
 load_panel()
-
