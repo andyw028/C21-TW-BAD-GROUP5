@@ -23,18 +23,11 @@ async function loadAccountPage() {
 <div id="email" class= "col-md-7">Email: </div>
 <div id="name" class= "col-md-7">Name: </div></div></div></div>
 `
-// panel.innerHTML += `
-// 	<div id= "card-ac2">  
-//     <div class="card-ac2" style="width:50rem;">
-// 	<img class="card-img2" src="/img/coffee.jpg" alt="">
-// 	<div class="card-body";>
-// 	<div id= "ac-img2" class= "colum"></div></div></div>
 
-// `
-
-	accPanel.innerHTML += `<div class="col-md-6" ><form id="changeUserinfo"  >
-<div class="form-group">
-
+	accPanel.innerHTML += `
+	
+	<div class="col-md-6" ><form id="changeUserinfo"  >
+	<div class="form-group">
   <label for="exampleInputUsername1">Change first name</label>
   <input name="firstName " class="form-control" id="firstName" aria-describedby="userName Help" placeholder="firstName" required>
   <small id="userNameHelp" class="form-text text-muted">Change user name if you want.</small>

@@ -56,12 +56,9 @@ export class UserController {
 
 		const userResult = await this.userService.checkAC(email, username)
 
-<<<<<<< HEAD
-		if (userResult.length > 0) {
-=======
 		if (userResult > 1) {
->>>>>>> refs/remotes/origin/main
-			res.status(400).json({
+
+				res.status(400).json({
 				success: false,
 				message: 'Email already exists'
 			})
