@@ -294,7 +294,6 @@ async function submitReceiptToAI(userID) {
 				lanType = 'chi_tra+eng'
 			}
             receiptName = `${receiptName}-${userID}`
-            console.log(receiptName)
 			formData.append(receiptName, receipt)
 			formData.append(receiptName, receiptName)
 
@@ -306,10 +305,9 @@ async function submitReceiptToAI(userID) {
 			const receiptToAI = await response.json()
 
 			if (!receiptToAI.success) {
-				console.log(receiptToAI.message)
+				await Swal.fire(receiptToAI.message, 'error')
 				return
 			} else {
-				console.log('fetched, now go to python')
 
 				const resp = await fetch(
 					`//python.samor.me/upload/${receiptName}`,
@@ -367,7 +365,6 @@ async function submitReceiptToAI(userID) {
 `
 
                 document.querySelector("#receiptTime").innerHTML = AIresultHtml
-                console.log("Now update the form")
                 await submitReceipt(receiptName, userID)
             }
             // Add function to form
@@ -376,7 +373,6 @@ async function submitReceiptToAI(userID) {
 }
 
 async function submitReceipt(receiptName, id) {
-    console.log("adding el to submit form")
 	document
 		.querySelector('#saveReceipt')
 		.addEventListener('submit', async function (event) {
@@ -387,8 +383,6 @@ async function submitReceipt(receiptName, id) {
 			const amount = form.amount.value
 			const image = receiptName
 			const expensesType = form.type.value
-            console.log(form)
-            console.log(shopName, date, amount, image, expensesType)
 			const res = await fetch(`/receipt/${id}`, {
 				method: 'Post',
 				headers: {
