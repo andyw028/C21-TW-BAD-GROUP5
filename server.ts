@@ -57,6 +57,7 @@ export const stockController = new StockController(stockService)
 //########################
 import { routes } from './routers/routers'
 import { isLoggedInStatic } from './utils/guards'
+import { logger } from './tools/winston'
 app.use('/', routes)
 
 //########################
@@ -73,5 +74,5 @@ app.use((req, res) => {
 //########################
 const PORT = 8080
 app.listen(PORT, () => {
-	console.log(`listening on ${PORT}`)
+	logger.info(`Listening To Port ${PORT} `)
 })
