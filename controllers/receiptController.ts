@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { ReceiptServices } from '../services/receiptServices'
+import { logger } from '../tools/winston'
 
 export class ReceiptController {
 	constructor(private receiptService: ReceiptServices) {}
@@ -18,7 +19,7 @@ export class ReceiptController {
 			const allReceipt = await this.receiptService.getReceipt(userID)
 			res.json(allReceipt)
 		} catch (err) {
-			console.error(err.message)
+			logger.error(err.toString())
 		}
 	}
 
@@ -65,7 +66,7 @@ export class ReceiptController {
 				})
 			}
 		} catch (err) {
-			console.error(err.message)
+			logger.error(err.toString())
 		}
 	}
 
@@ -102,7 +103,7 @@ export class ReceiptController {
 				res.json({ success: true })
 			}
 		} catch (err) {
-			console.error(err.message)
+			logger.error(err.toString())
 		}
 	}
 
@@ -119,7 +120,7 @@ export class ReceiptController {
 			}
 			res.status(200).json({ success: true })
 		} catch (err) {
-			console.log(err.message)
+			logger.error(err.toString())
 		}
 	}
 
@@ -134,7 +135,7 @@ export class ReceiptController {
 				await this.receiptService.getSevenDaysReceipt(userID)
 			res.status(200).json(sevenDaysReceipt)
 		} catch (err) {
-			console.log(err.message)
+			logger.error(err.toString())
 		}
 	}
 
@@ -155,8 +156,9 @@ export class ReceiptController {
 
 	submit = async (req: Request, res: Response) => {
 		try {
-			console.log('Image uploaded')
+			
 		} catch (err) {
+			logger.error(err.toString())
 			res.json({ success: false, message: 'Error, please check' })
 		} finally {
 			res.json({ success: true })
