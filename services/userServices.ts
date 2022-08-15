@@ -44,21 +44,27 @@ export class UserServices {
 		)[0]
 	}
 
-	async updateUser(
-		username: string,
-		password: string,
-		email: string,
+	
+
+	async changeUserInfo(
 		firstName: string,
-		lastName: string
-	) {}
+		lastName: string,
+		email: string,
+		password: string,
+		id: string | number
+	
+	) {
+		const hashedPW = await hashPassword(password)
+		return await this.knex('users').update({email: email, first_name: firstName,
+			last_name: lastName, password: hashedPW}).where('id', id).returning('id')	
+	}
 
 	async checkAC(username: string, userEmail: string) {
-		const resultCount = await (
+		const resultCount = 
 			await this.knex('users')
 				.select('*')
 				.where('username', username)
 				.orWhere('email', userEmail)
-		).length
 		return resultCount
 	}
 }

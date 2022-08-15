@@ -1,4 +1,29 @@
-.card-ac {
+
+#card-ac2 .card-ac2 {
+	outline: 2px solid black;
+	padding: 20em;
+	background-repeat: no-repeat;
+	background-position: top right;
+}
+
+#card-ac .card-ac {
 	text-shadow: 1px 2px 2px rgba(57,206,191,0.92);
 	box-shadow: 2px 2px 7px 1px rgba(57,206,191,0.92);
+	font-size: 20px;
+		width:auto;
+		height:auto;
+}
+#form-group .form-group {
+margin-top: 25px;
+
+
+
+
+}
+@media screen and (max-width: 700px) {
+	#changeUserinfo{
+		margin-top: 5%;
+		width:auto;
+		height:auto;
+	}
 }
