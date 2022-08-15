@@ -391,11 +391,11 @@ async function submitReceipt(receiptName, id) {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					shopName,
-					date,
-					amount,
-					image,
-					expensesType
+					shopName: shopName,
+					date: date,
+					amount: amount,
+					image: image,
+					expensesType: expensesType
 				})
 			})
 
