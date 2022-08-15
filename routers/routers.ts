@@ -8,8 +8,8 @@ let visitCount = 0
 export const routes = express.Router()
 
 routes.get('/', (req, res) => {
-	if (req.session['user']!.id) {
-		res.redirect(`/dashboard/${req.session['user']!.id}`)
+	if (req.session['user']?.id) {
+		res.redirect(`/dashboard/${req.session['user']?.id}`)
 		return
 	}
 	visitCount += 1
