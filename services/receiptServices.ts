@@ -25,6 +25,7 @@ export class ReceiptServices {
 			.select('types.name')
 			.sum('receipts.price')
 			.where('receipts.users_id', id)
+			.where('receipts.is_deleted', 'false')
 			.where('receipts.date', '>=', `${start}`)
 			.andWhere('receipts.date', '<', `${end}`)
 		console.log(monthlyResult)
@@ -45,6 +46,7 @@ export class ReceiptServices {
 		//###################################################################
 		let sevenDaysData = await this.knex('receipts')
 			.select('date', 'price')
+			.where('receipts.is_deleted', 'false')
 			.where('date', '<=', formatted[6])
 			.andWhere('date', '>=', formatted[0])
 			.where('receipts.users_id', id)
