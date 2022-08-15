@@ -9,7 +9,7 @@ from datetime import date
 today = date.today()
 
 # dd/mm/YY
-today_date = today.strftime("%d/%m/%Y")
+today_date = today.strftime("%Y/%m/%d")
 
 
 # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"

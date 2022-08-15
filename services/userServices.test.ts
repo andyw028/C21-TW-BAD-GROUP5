@@ -23,6 +23,7 @@ describe('UserServices', () => {
 	})
 
 	test('get username by username - failed to find the user', async () => {
+		await knex('users').where('username', 'andy').del()
 		const username = 'andy'
 		const user = await service.getUserByUsername(username)
 
@@ -30,6 +31,7 @@ describe('UserServices', () => {
 	})
 
 	test('add users - success', async () => {
+		await knex('users').where('username', 'andy').del()
 		const user = await service.addUser(
 			'andy',
 			'1234',
