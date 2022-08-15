@@ -139,6 +139,7 @@ function loadStockPage() {
 						<button
 							type="class"
 							class="btn btn-primary"
+							data-bs-dismiss="modal" aria-label="Close"
 						>
 							Submit
 						</button>
