@@ -97,6 +97,11 @@ async function loadReceiptRecord(id) {
     let receiptHTML = ``
     const receipts = await res.json()
 
+    if(receipts.success === false) {
+        await Swal.fire("You did not login", 'error')
+        window.location.href = `/login`
+    } else {
+
 	for (const result of receipts) {
 		const realBDay = new Date(result.date)
 		let year = realBDay.getFullYear().toString()
@@ -221,6 +226,8 @@ async function loadReceiptRecord(id) {
             }
         })
     })
+
+}
 
 }
 
@@ -370,7 +377,7 @@ async function submitReceiptToAI(userID) {
                 document.querySelector("#receiptTime").innerHTML = AIresultHtml
             }
             // Add function to form
-            submitReceipt(receiptName, userID)
+            await submitReceipt(receiptName, userID)
         })
 
 
