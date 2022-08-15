@@ -33,7 +33,6 @@ export class StockController {
 			parseInt(form.amount),
 			form.is_buy
 		)
-		console.log(result)
 		res.json(result)
 	}
 	delete = async (req: Request, res: Response) => {
