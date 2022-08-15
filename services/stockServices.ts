@@ -5,7 +5,9 @@ export class StockServices {
 
 	async getStocksByID(id: number | string): Promise<any> {
 		console.log('get stock')
-		return this.knex('stocks').select('*').where('user_id', '=', id)
+		return this.knex('stocks')
+			.select('ticker', 'price', 'is_buy', 'amount', 'user_id')
+			.where('user_id', '=', id)
 	}
 
 	async updateStockTrade(

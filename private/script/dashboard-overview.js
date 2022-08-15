@@ -5,6 +5,7 @@ window.onload = () => {
 	getMonthlyAndDailySpending()
 	loadCharts()
 	// chartTesting()
+	themeChanger()
 }
 
 function eventListenerOfOverviewButton() {
@@ -14,7 +15,7 @@ function eventListenerOfOverviewButton() {
 		getMonthlyAndDailySpending()
 		loadCharts()
 		// chartTesting()
-
+		themeChanger()
 	})
 	document.querySelector('#m-overview-btn').addEventListener('click', () => {
 		loadOverview()
@@ -22,7 +23,7 @@ function eventListenerOfOverviewButton() {
 		getMonthlyAndDailySpending()
 		loadCharts()
 		// chartTesting()
-
+		themeChanger()
 	})
 	document.querySelector('#brand-logo').addEventListener('click', () => {
 		const queryString = window.location.pathname.split('/')
@@ -114,16 +115,16 @@ function loadOverview() {
 	`
 }
 
-// async function themeChanger() {
-// 	const themeBtn = document.querySelector('.theme-btn')
+async function themeChanger() {
+	const themeBtn = document.querySelector('.theme-btn')
 
-// 	themeBtn.addEventListener('click', () => {
-// 		document.body.classList.toggle('dark-theme')
+	themeBtn.addEventListener('click', () => {
+		document.body.classList.toggle('dark-theme')
 
-// 		themeBtn.querySelector('span:first-child').classList.toggle('active')
-// 		themeBtn.querySelector('span:last-child').classList.toggle('active')
-// 	})
-// }
+		themeBtn.querySelector('span:first-child').classList.toggle('active')
+		themeBtn.querySelector('span:last-child').classList.toggle('active')
+	})
+}
 
 async function retrieveStockPL() {
 	const queryString = window.location.pathname.split('/')
@@ -146,12 +147,9 @@ async function retrieveStockPL() {
 		//prepare to format the data to table on the page
 		let query = stockArr.join('&')
 		//get stock current price data from python yFinance API
-		let yahooStockPrice = await fetch(
-			`http://localhost:8000/stock/${query}`,
-			{
-				method: 'GET'
-			}
-		)
+		let yahooStockPrice = await fetch(`//python.samor.me/stock/${query}`, {
+			method: 'GET'
+		})
 		let parseYF = await yahooStockPrice.json()
 		//Array for data to be printed on the stock page
 		let presentData = []
@@ -277,7 +275,7 @@ async function loadCharts() {
 			{
 				label: 'Expense of Pass 7 Days',
 				data: trendChartData,
-				borderColor: 'rgb(67,57,83)',
+				borderColor: '#9362DC',
 				fill: false,
 				tension: 0.3
 			}
@@ -327,36 +325,4 @@ async function loadCharts() {
 		pieChartPlaceHolder.style.display = 'none'
 	}
 	// //Pie Chart End
-}
-
-async function chartTesting() {
-
-	const chart = document.querySelector("#chart").getContext('2d');
-
-	// create a new chart instance
-	new Chart(chart, {
-		type: 'line',
-		data: {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
-
-			datasets: [
-				{
-					label: 'Expenses',
-					data: [30000, 33537, 49631, 59095, 57828, 36684, 33572, 39974, 48847, 48116, 61004],
-					borderColor: 'green',
-					borderWidth: 2
-				},
-				{
-					label: 'Income',
-					data: [50000, 50000, 50000, 55000, 52000, 51000, 50000, 55000, 50000, 50000, 50000],
-					borderColor: 'pink',
-					borderWidth: 2
-				}
-			]
-		},
-		options: {
-			responsive: true
-		}
-	})
-
 }

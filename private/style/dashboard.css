@@ -93,6 +93,33 @@ nav .profile-area button {
   display: none;
 } */
 
+/* ===========================  THEME-BUTTON ========================== */
+
+
+#top-nav .top-nav-header .container .d-flex .theme-btn {
+	display: flex;
+	background: var(--color-light);
+	width: 5rem;
+	height: 2rem;
+	border-radius: var(--border-radius-2);
+	cursor: pointer;
+}
+  
+#top-nav .top-nav-header .container .d-flex .theme-btn span {
+	width: 50%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.3rem;
+}
+  
+#top-nav .top-nav-header .container .d-flex .theme-btn .active {
+	background: var(--color-dark);
+	border-radius: var(--border-radius-2);
+	color: var(--color-white);
+}
+
 /* =========================== Middle column ========================== */
 
 .d-flex .container main .insights {
@@ -382,7 +409,7 @@ nav .profile-area button {
 	display: flex;
 	flex-direction: row; 
 	justify-content: space-between;
-	height: 600px;
+	min-height: 600px;
 }
 
 .charts-container canvas#pie-chart {

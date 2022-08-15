@@ -52,3 +52,11 @@
 		flex: 1;
 	}
 }
+
+.mobile-nav-bg {
+	background-color:#5D5C5C;
+}
+
+.mobile-nav-bg .container {
+	color: #ffffff;
+}

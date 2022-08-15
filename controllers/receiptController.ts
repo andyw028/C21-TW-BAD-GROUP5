@@ -11,6 +11,8 @@ export class ReceiptController {
 				res.json({ success: false, message: "userID missing" })
 				return
 			}
+				res.status(400).json({
+					message: 'Invalid ID'
 			const allReceipt = await this.receiptService.getReceipt(userID)
 			res.json(allReceipt)
 		} catch (err) {
