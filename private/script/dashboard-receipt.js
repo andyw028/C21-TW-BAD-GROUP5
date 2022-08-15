@@ -258,7 +258,7 @@ async function loadSubmit() {
                     
                     <div class="Submit-bar">
                     <button type="submit" class="btn btn-primary" id = "AIButton">Submit</button>
-                    <button type="reset" class="btn btn-primary" id = "AIClearButton" >Clear</button>
+                    <button type="reset" class="btn btn-primary" id = "AIClearButton" data-bs-dismiss="modal" aria-label="Close" >Cancel</button>
                     </div>
 
                    </form>
@@ -293,8 +293,10 @@ async function submitReceiptToAI(userID) {
 			} else {
 				lanType = 'chi_tra+eng'
 			}
-			formData.append(`${receiptName}`, receipt)
-			formData.append(`${receiptName}`, receiptName)
+            receiptName = `${receiptName}-${userID}`
+            console.log(receiptName)
+			formData.append(receiptName, receipt)
+			formData.append(receiptName, receiptName)
 
 			const response = await fetch('/receiptSubmit', {
 				method: 'Post',
@@ -358,7 +360,7 @@ async function submitReceiptToAI(userID) {
 
         <div class="Submit-bar">
             <button type="submit" class="btn btn-primary" id = "submitButton" data-bs-dismiss="modal" aria-label="Close">Submit</button>
-            <button type="reset" class="btn btn-primary" id = "ResetButton">Cancel</button>
+            <button type="reset" class="btn btn-primary" id = "ResetButton" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
 </div>
 
 </form>
