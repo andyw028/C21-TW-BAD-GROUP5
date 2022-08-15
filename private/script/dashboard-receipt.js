@@ -257,8 +257,8 @@ async function loadSubmit() {
                     </select>
                     
                     <div class="Submit-bar">
-                    <button type="submit" class="btn btn-primary" id = "AIButton" >Submit</button>
-                    <button type="reset" class="btn btn-primary" id = "AIClearButton" >Clear</button>
+                    <button type="submit" class="btn btn-primary" id = "AIButton">Submit</button>
+                    <button type="reset" class="btn btn-primary" id = "AIClearButton" data-bs-dismiss="modal" aria-label="Close" >Cancel</button>
                     </div>
 
                    </form>
@@ -293,8 +293,9 @@ async function submitReceiptToAI(userID) {
 			} else {
 				lanType = 'chi_tra+eng'
 			}
-			formData.append(`${receiptName}`, receipt)
-			formData.append(`${receiptName}`, receiptName)
+            receiptName = `${receiptName}-${userID}`
+			formData.append(receiptName, receipt)
+			formData.append(receiptName, receiptName)
 
 			const response = await fetch('/receiptSubmit', {
 				method: 'Post',
@@ -304,10 +305,9 @@ async function submitReceiptToAI(userID) {
 			const receiptToAI = await response.json()
 
 			if (!receiptToAI.success) {
-				console.log(receiptToAI.message)
+				await Swal.fire(receiptToAI.message, 'error')
 				return
 			} else {
-				console.log('fetched, now go to python')
 
 				const resp = await fetch(
 					`//python.samor.me/upload/${receiptName}`,
@@ -357,8 +357,8 @@ async function submitReceiptToAI(userID) {
                     </select>
 
         <div class="Submit-bar">
-            <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
-            <button type="reset" class="btn btn-primary" id = "ResetButton">Cancel</button>
+            <button type="submit" class="btn btn-primary" id = "submitButton" data-bs-dismiss="modal" aria-label="Close">Submit</button>
+            <button type="reset" class="btn btn-primary" id = "ResetButton" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
 </div>
 
 </form>
@@ -373,7 +373,6 @@ async function submitReceiptToAI(userID) {
 }
 
 async function submitReceipt(receiptName, id) {
-    console.log("adding el to submit form")
 	document
 		.querySelector('#saveReceipt')
 		.addEventListener('submit', async function (event) {
@@ -384,8 +383,6 @@ async function submitReceipt(receiptName, id) {
 			const amount = form.amount.value
 			const image = receiptName
 			const expensesType = form.type.value
-            console.log(form)
-            console.log(shopName, date, amount, image, expensesType)
 			const res = await fetch(`/receipt/${id}`, {
 				method: 'Post',
 				headers: {
