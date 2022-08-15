@@ -2,11 +2,15 @@ import { Request, Response } from 'express'
 import { ReceiptServices } from '../services/receiptServices'
 
 export class ReceiptController {
-	constructor(private receiptService: ReceiptServices) { }
+	constructor(private receiptService: ReceiptServices) {}
 
 	get = async (req: Request, res: Response) => {
 		try {
 			const userID = parseInt(req.params.id)
+			if (!userID) {
+				res.json({ success: false, message: "userID missing" })
+				return
+			}
 			const allReceipt = await this.receiptService.getReceipt(userID)
 			res.json(allReceipt)
 		} catch (err) {
@@ -23,6 +27,14 @@ export class ReceiptController {
 			const receiptImage = req.body.image
 			const expensesType = req.body.expensesType
 			const is_deleted = false
+
+			if (!userID || !receiptName || !receiptDate || !receiptAmount || !receiptImage || !expensesType) {
+				res.json({
+					success: false,
+					message: 'Body Missing'
+				})
+				return
+			}
 
 			const result = await this.receiptService.addReceipt(
 				userID,
@@ -55,8 +67,9 @@ export class ReceiptController {
 			const revisedAmount = req.body.amount
 			const revisedType = req.body.type
 
-			if (!revisedVenue || !revisedDate || !revisedAmount || !revisedType) {
+			if (!receiptID || !revisedVenue || !revisedDate || !revisedAmount || !revisedType) {
 				res.json({ success: false })
+				return
 			}
 
 			const result = await this.receiptService.updateReceipt(
@@ -68,13 +81,15 @@ export class ReceiptController {
 
 			if (result.length === 0) {
 				res.json({ success: false })
+			} else {
+				res.json({ success: true })
 			}
-			res.json({ success: true })
+
 		} catch (err) {
 			console.error(err.message)
 		}
-
 	}
+
 	delete = async (req: Request, res: Response) => {
 		try {
 			const receiptID = parseInt(req.params.id)
