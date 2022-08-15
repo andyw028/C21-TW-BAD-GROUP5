@@ -373,9 +373,10 @@ async function submitReceiptToAI(userID) {
 }
 
 async function submitReceipt(receiptName, id) {
+    console.log("adding el to submit form")
 	document
-		.querySelector('#saveReceipt')
-		.addEventListener('submit', async function (event) {
+		.querySelector('#submitButton')
+		.addEventListener('click', async function (event) {
 			event.preventDefault()
 			const form = event.target
 			const shopName = form.shopName.value
