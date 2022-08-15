@@ -2,11 +2,17 @@ import { Request, Response } from 'express'
 import { ReceiptServices } from '../services/receiptServices'
 
 export class ReceiptController {
-	constructor(private receiptService: ReceiptServices) { }
+	constructor(private receiptService: ReceiptServices) {}
 
 	get = async (req: Request, res: Response) => {
 		try {
 			const userID = parseInt(req.params.id)
+			if (isNaN(userID)) {
+				res.status(400).json({
+					message: 'Invalid ID'
+				})
+				return
+			}
 			const allReceipt = await this.receiptService.getReceipt(userID)
 			res.json(allReceipt)
 		} catch (err) {
@@ -16,6 +22,20 @@ export class ReceiptController {
 
 	post = async (req: Request, res: Response) => {
 		try {
+			if (
+				!req.params.id ||
+				!req.body.shopName ||
+				!req.body.date ||
+				!req.body.amount ||
+				!req.body.image ||
+				!req.body.expensesType
+			) {
+				res.status(400).json({
+					success: false,
+					message: 'Missing Information'
+				})
+				return
+			}
 			const userID = parseInt(req.params.id)
 			const receiptName = req.body.shopName
 			const receiptDate = req.body.date
@@ -23,7 +43,6 @@ export class ReceiptController {
 			const receiptImage = req.body.image
 			const expensesType = req.body.expensesType
 			const is_deleted = false
-
 			const result = await this.receiptService.addReceipt(
 				userID,
 				receiptName,
@@ -35,9 +54,9 @@ export class ReceiptController {
 			)
 
 			if (result) {
-				res.json({ success: true })
+				res.status(200).json({ success: true })
 			} else {
-				res.json({
+				res.status(500).json({
 					success: false,
 					message: 'Fail to save your receipt'
 				})
@@ -55,8 +74,15 @@ export class ReceiptController {
 			const revisedAmount = req.body.amount
 			const revisedType = req.body.type
 
-			if (!revisedVenue || !revisedDate || !revisedAmount || !revisedType) {
-				res.json({ success: false })
+			if (
+				!revisedVenue ||
+				!revisedDate ||
+				!revisedAmount ||
+				!revisedType ||
+				isNaN(receiptID)
+			) {
+				res.status(400).json({ success: false })
+				return
 			}
 
 			const result = await this.receiptService.updateReceipt(
@@ -64,42 +90,45 @@ export class ReceiptController {
 				revisedVenue,
 				revisedDate,
 				revisedAmount,
-				revisedType)
+				revisedType
+			)
 
 			if (result.length === 0) {
-				res.json({ success: false })
+				res.status(400).json({ success: false })
+				return
 			}
 			res.json({ success: true })
 		} catch (err) {
 			console.error(err.message)
 		}
-
 	}
 	delete = async (req: Request, res: Response) => {
 		try {
 			const receiptID = parseInt(req.params.id)
-			const result = await this.receiptService.deleteReceipt(receiptID)
-			if (result.length === 0) {
-				res.json({ success: false })
+			if (isNaN(receiptID)) {
+				res.status(400).json({ success: false })
+				return
 			}
-			res.json({ success: true })
-
+			const result = await this.receiptService.deleteReceipt(receiptID)
+			if (result.length === 0 || result.length > 1) {
+				res.status(500).json({ success: false })
+			}
+			res.status(200).json({ success: true })
 		} catch (err) {
 			console.log(err.message)
 		}
-
 	}
 
 	getSevenDay = async (req: Request, res: Response) => {
 		try {
 			const userID = req.params.id
-			if (!userID) {
-				res.json({ message: 'No params ID' })
+			if (!userID || isNaN(parseInt(userID))) {
+				res.status(400).json({ message: 'No params ID' })
 				return
 			}
 			const sevenDaysReceipt =
 				await this.receiptService.getSevenDaysReceipt(userID)
-			res.json(sevenDaysReceipt)
+			res.status(200).json(sevenDaysReceipt)
 		} catch (err) {
 			console.log(err.message)
 		}
@@ -108,13 +137,13 @@ export class ReceiptController {
 	getMonthly = async (req: Request, res: Response) => {
 		try {
 			const userID = req.params.id
-			if (!userID) {
-				res.json({ message: 'No params ID' })
+			if (!userID || isNaN(parseInt(userID))) {
+				res.status(400).json({ message: 'No params ID' })
 				return
 			}
 			const monthlyTypeReceipt =
 				await this.receiptService.getReceiptByThisMonth(userID)
-			res.json(monthlyTypeReceipt)
+			res.status(200).json(monthlyTypeReceipt)
 		} catch (e) {
 			console.log(e.message)
 		}
