@@ -257,7 +257,7 @@ async function loadSubmit() {
                     </select>
                     
                     <div class="Submit-bar">
-                    <button type="submit" class="btn btn-primary" id = "AIButton" >Submit</button>
+                    <button type="submit" class="btn btn-primary" id = "AIButton">Submit</button>
                     <button type="reset" class="btn btn-primary" id = "AIClearButton" >Clear</button>
                     </div>
 
@@ -357,7 +357,7 @@ async function submitReceiptToAI(userID) {
                     </select>
 
         <div class="Submit-bar">
-            <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
+            <button type="submit" class="btn btn-primary" id = "submitButton" data-bs-dismiss="modal" aria-label="Close">Submit</button>
             <button type="reset" class="btn btn-primary" id = "ResetButton">Cancel</button>
 </div>
 
@@ -365,6 +365,7 @@ async function submitReceiptToAI(userID) {
 `
 
                 document.querySelector("#receiptTime").innerHTML = AIresultHtml
+                console.log("Now update the form")
                 await submitReceipt(receiptName, userID)
             }
             // Add function to form
