@@ -28,7 +28,6 @@ export class ReceiptServices {
 			.where('receipts.is_deleted', 'false')
 			.where('receipts.date', '>=', `${start}`)
 			.andWhere('receipts.date', '<', `${end}`)
-		console.log(monthlyResult)
 		return monthlyResult
 	}
 
@@ -56,7 +55,7 @@ export class ReceiptServices {
 	async addReceipt(
 		userID: number,
 		receiptName: string,
-		receiptDate: string | number,
+		receiptDate: string,
 		receiptAmount: number,
 		receiptImage: string,
 		expensesType: number,
@@ -80,7 +79,7 @@ export class ReceiptServices {
 	async updateReceipt(
 		receiptID: number,
 		venue: string,
-		date: string | number,
+		date: string,
 		price: number,
 		type: number
 	) {

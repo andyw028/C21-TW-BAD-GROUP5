@@ -258,7 +258,7 @@ async function loadSubmit() {
                     
                     <div class="Submit-bar">
                     <button type="submit" class="btn btn-primary" id = "AIButton" >Submit</button>
-                    <button type="reset" class="btn btn-primary" id = "AIButton" >Clear</button>
+                    <button type="reset" class="btn btn-primary" id = "AIClearButton" >Clear</button>
                     </div>
 
                    </form>
@@ -358,22 +358,22 @@ async function submitReceiptToAI(userID) {
 
         <div class="Submit-bar">
             <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
-            <button type="reset" class="btn btn-primary" id = "submitButton">Cancel</button>
+            <button type="reset" class="btn btn-primary" id = "ResetButton">Cancel</button>
 </div>
 
 </form>
 `
 
                 document.querySelector("#receiptTime").innerHTML = AIresultHtml
+                await submitReceipt(receiptName, userID)
             }
             // Add function to form
-            await submitReceipt(receiptName, userID)
         })
-
 
 }
 
 async function submitReceipt(receiptName, id) {
+    console.log("adding el to submit form")
 	document
 		.querySelector('#saveReceipt')
 		.addEventListener('submit', async function (event) {
@@ -384,18 +384,19 @@ async function submitReceipt(receiptName, id) {
 			const amount = form.amount.value
 			const image = receiptName
 			const expensesType = form.type.value
-
+            console.log(form)
+            console.log(shopName, date, amount, image, expensesType)
 			const res = await fetch(`/receipt/${id}`, {
 				method: 'Post',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					shopName,
-					date,
-					amount,
-					image,
-					expensesType
+					shopName: shopName,
+					date: date,
+					amount: amount,
+					image: image,
+					expensesType: expensesType
 				})
 			})
 
