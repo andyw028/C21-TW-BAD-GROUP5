@@ -258,7 +258,7 @@ async function loadSubmit() {
                     
                     <div class="Submit-bar">
                     <button type="submit" class="btn btn-primary" id = "AIButton" >Submit</button>
-                    <button type="reset" class="btn btn-primary" id = "AIButton" >Clear</button>
+                    <button type="reset" class="btn btn-primary" id = "AIClearButton" >Clear</button>
                     </div>
 
                    </form>
@@ -358,7 +358,7 @@ async function submitReceiptToAI(userID) {
 
         <div class="Submit-bar">
             <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
-            <button type="reset" class="btn btn-primary" id = "submitButton">Cancel</button>
+            <button type="reset" class="btn btn-primary" id = "ResetButton">Cancel</button>
 </div>
 
 </form>
