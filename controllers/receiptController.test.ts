@@ -28,6 +28,15 @@ describe('receiptController tests', () => {
 			message: 'Invalid ID'
 		})
 	})
+	it('get Request - id is null', async () => {
+		req.params.id = ''
+		await controller.get(req, res)
+		expect(res.status).toBeCalledWith(400)
+		expect(res.json).toBeCalledTimes(1)
+		expect(res.json).toBeCalledWith({
+			message: 'Invalid ID'
+		})
+	})
 	it('get Request - ERROR case', async () => {
 		req.params.id = '1'
 		;(service.getReceipt as jest.Mock).mockImplementation(() => {

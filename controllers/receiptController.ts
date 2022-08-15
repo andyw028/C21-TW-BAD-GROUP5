@@ -8,12 +8,7 @@ export class ReceiptController {
 		try {
 			const userID = parseInt(req.params.id)
 
-			if (!userID) {
-				res.json({ success: false, message: "userID missing" })
-				return
-			}
-
-			if (isNaN(userID)) {
+			if (!userID || isNaN(userID)) {
 				res.status(400).json({
 					message: 'Invalid ID'
 				})
@@ -50,7 +45,6 @@ export class ReceiptController {
 			const receiptImage = req.body.image
 			const expensesType = req.body.expensesType
 			const is_deleted = false
-
 
 			const result = await this.receiptService.addReceipt(
 				userID,
@@ -107,7 +101,6 @@ export class ReceiptController {
 			} else {
 				res.json({ success: true })
 			}
-
 		} catch (err) {
 			console.error(err.message)
 		}
