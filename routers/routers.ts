@@ -18,7 +18,6 @@ routes.get('/login', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 })
 routes.get('/logout', (req, res) => {
-	console.log('ok')
 	req.session['user'] = undefined
 	res.json({ logout: true })
 })

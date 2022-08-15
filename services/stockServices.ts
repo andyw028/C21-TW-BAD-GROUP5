@@ -4,7 +4,6 @@ export class StockServices {
 	constructor(private knex: Knex) {}
 
 	async getStocksByID(id: number | string): Promise<any> {
-		console.log('get stock')
 		return this.knex('stocks')
 			.select('ticker', 'price', 'is_buy', 'amount', 'user_id')
 			.where('user_id', '=', id)
@@ -17,7 +16,6 @@ export class StockServices {
 		amount: number,
 		is_buy: boolean
 	) {
-		console.log(user_id, ticker, price, amount, is_buy)
 		return this.knex('stocks')
 			.insert([
 				{
