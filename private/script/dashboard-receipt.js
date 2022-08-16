@@ -1,5 +1,3 @@
-import { default as Compressor } from 'compressorjs'
-
 const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
