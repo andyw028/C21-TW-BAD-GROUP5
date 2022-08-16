@@ -3,6 +3,7 @@ import { ReceiptServices } from '../services/receiptServices'
 import type { Request, Response } from 'express'
 import type { Knex } from 'knex'
 import { createRequest, createResponse } from '../helper'
+import { logger } from '../tools/winston'
 
 jest.mock('../services/receiptServices')
 
@@ -42,10 +43,10 @@ describe('receiptController tests', () => {
 		;(service.getReceipt as jest.Mock).mockImplementation(() => {
 			throw new Error('Some Error')
 		})
-		console.error = jest.fn()
+		logger.error = jest.fn()
 		await controller.get(req, res)
 		expect(res.json).not.toBeCalled()
-		expect(console.error).toBeCalled()
+		expect(logger.error).toBeCalled()
 	})
 	it('get Request - success', async () => {
 		req.params.id = '1'
