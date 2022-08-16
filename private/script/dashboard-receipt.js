@@ -270,7 +270,7 @@ async function loadSubmit() {
 }
 
 async function submitReceiptToAI(userID) {
-	let receiptImage
+	let receiptImage, receiptNameCom
 	document
 		.querySelector('#receipt-file')
 		.addEventListener('change', (event) => {
@@ -279,12 +279,13 @@ async function submitReceiptToAI(userID) {
 				return
 			}
 			new Compressor(file, {
-				quality: 0.6,
+				quality: 0.8,
 
 				// The compression process is asynchronous,
 				// which means you have to access the `result` in the `success` hook function.
 				success(result) {
 					receiptImage = result
+					receiptNameCom = result.name
 				},
 				error(err) {
 					console.log(err.message)
@@ -298,7 +299,7 @@ async function submitReceiptToAI(userID) {
 			const submitForm = event.target
 			const formData = new FormData()
 			receipt = receiptImage
-			receiptName = submitForm.file.files[0].name
+			receiptName = receiptNameCom
 			lanType = submitForm.type.value
 			if (lanType === '0') {
 				lanType = 'chi_tra'
