@@ -274,7 +274,7 @@ async function submitReceiptToAI(userID) {
 	document
 		.querySelector('#receipt-file')
 		.addEventListener('change', (event) => {
-			const file = e.target.files[0]
+			const file = event.target.files[0]
 			if (!file) {
 				return
 			}
