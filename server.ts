@@ -30,7 +30,7 @@ export const form = formidable({
 	uploadDir,
 	keepExtensions: true,
 	maxFiles: 1,
-	maxFileSize: 200 * 1024 ** 2, // the default limit is 200KB
+	maxFileSize: 5000 * 1024 ** 2, // the default limit is 5MB
 	filter: (part) => part.mimetype?.startsWith('image/') || false,
 	filename: (originalName, originalExt, part, form) => {
 		let fieldName = part.name
