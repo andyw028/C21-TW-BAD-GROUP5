@@ -8,11 +8,12 @@ import {
 export class ReceiptServices {
 	constructor(private knex: Knex) {}
 
-	async getReceipt(id: string|number) {
+	async getReceipt(id: string | number) {
 		const result = await this.knex('receipts')
 			.select('*')
 			.where('users_id', id)
 			.andWhere('is_deleted', false)
+			.orderBy("date")
 		return result
 	}
 
@@ -25,9 +26,9 @@ export class ReceiptServices {
 			.select('types.name')
 			.sum('receipts.price')
 			.where('receipts.users_id', id)
+			.where('receipts.is_deleted', 'false')
 			.where('receipts.date', '>=', `${start}`)
 			.andWhere('receipts.date', '<', `${end}`)
-		console.log(monthlyResult)
 		return monthlyResult
 	}
 
@@ -45,6 +46,7 @@ export class ReceiptServices {
 		//###################################################################
 		let sevenDaysData = await this.knex('receipts')
 			.select('date', 'price')
+			.where('receipts.is_deleted', 'false')
 			.where('date', '<=', formatted[6])
 			.andWhere('date', '>=', formatted[0])
 			.where('receipts.users_id', id)
@@ -54,7 +56,7 @@ export class ReceiptServices {
 	async addReceipt(
 		userID: number,
 		receiptName: string,
-		receiptDate: string | number,
+		receiptDate: string,
 		receiptAmount: number,
 		receiptImage: string,
 		expensesType: number,
@@ -75,19 +77,25 @@ export class ReceiptServices {
 		return receiptID
 	}
 
-	async updateReceipt(receiptID:number, venue:string,date:string|number,price:number ,type:number) {
-
-		const result = await this.knex('receipts').update({venue:venue, date:date, price:price, type:type}).where("id", receiptID).returning("id")
+	async updateReceipt(
+		receiptID: number,
+		venue: string,
+		date: string,
+		price: number,
+		type: number
+	) {
+		const result = await this.knex('receipts')
+			.update({ venue: venue, date: date, price: price, type: type })
+			.where('id', receiptID)
+			.returning('id')
 		return result
-		
-
-
 	}
 
-	async deleteReceipt(receiptID:number) {
-
-		const result = await this.knex('receipts').update({is_deleted:true}).where("id", receiptID).returning("id")
+	async deleteReceipt(receiptID: number) {
+		const result = await this.knex('receipts')
+			.update({ is_deleted: true })
+			.where('id', receiptID)
+			.returning('id')
 		return result
-
 	}
 }

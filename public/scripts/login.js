@@ -19,7 +19,6 @@ async function logIn() {
 			})
 
 			const result = await resp.json()
-			console.log(result)
 			if (!result.success) {
 				// alert(result.message)
 				await Swal.fire('OOPS!', result.message, 'error')

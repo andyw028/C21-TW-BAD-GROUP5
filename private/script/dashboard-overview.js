@@ -185,7 +185,6 @@ async function retrieveStockPL() {
 			})
 		}
 		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
-		console.log(pl)
 		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
 	}
 }

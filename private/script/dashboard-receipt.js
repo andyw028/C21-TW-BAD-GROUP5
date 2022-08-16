@@ -92,6 +92,11 @@ async function loadReceiptRecord(id) {
 	let receiptHTML = ``
 	const receipts = await res.json()
 
+    if(receipts.success === false) {
+        await Swal.fire("You did not login", 'error')
+        window.location.href = `/login`
+    } else {
+
 	for (const result of receipts) {
 		const realBDay = new Date(result.date)
 		let year = realBDay.getFullYear().toString()
@@ -198,19 +203,28 @@ async function loadReceiptRecord(id) {
 					})
 				})
 
-				const result = await resp.json()
-				if (result.success) {
-					await Swal.fire('Receipt deleted', 'success')
-					loadReceiptRecord(id)
-					loadSubmit()
-					submitReceiptToAI(id)
-				} else {
-					await Swal.fire('Error, please check', 'error')
-				}
-			}
-		})
-	})
+
+                const result = await resp.json()
+                if (result.success) {
+                    await Swal.fire("Receipt deleted", 'success')
+                    loadReceiptRecord(id)
+                    loadSubmit()
+                    submitReceiptToAI(id)
+                } else {
+                    await Swal.fire("Error, please check", 'error')
+
+                }
+
+            }
+        })
+    })
+
 }
+
+}
+
+
+
 
 async function loadSubmit() {
 	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -243,8 +257,8 @@ async function loadSubmit() {
                     </select>
                     
                     <div class="Submit-bar">
-                    <button type="submit" class="btn btn-primary" id = "AIButton" >Submit</button>
-                    <button type="reset" class="btn btn-primary" id = "AIButton" >Clear</button>
+                    <button type="submit" class="btn btn-primary" id = "AIButton">Submit</button>
+                    <button type="reset" class="btn btn-primary" id = "AIClearButton" data-bs-dismiss="modal" aria-label="Close" >Cancel</button>
                     </div>
 
                    </form>
@@ -279,8 +293,9 @@ async function submitReceiptToAI(userID) {
 			} else {
 				lanType = 'chi_tra+eng'
 			}
-			formData.append(`${receiptName}`, receipt)
-			formData.append(`${receiptName}`, receiptName)
+            receiptName = `${receiptName}-${userID}`
+			formData.append(receiptName, receipt)
+			formData.append(receiptName, receiptName)
 
 			const response = await fetch('/receiptSubmit', {
 				method: 'Post',
@@ -290,10 +305,9 @@ async function submitReceiptToAI(userID) {
 			const receiptToAI = await response.json()
 
 			if (!receiptToAI.success) {
-				console.log(receiptToAI.message)
+				await Swal.fire(receiptToAI.message, 'error')
 				return
 			} else {
-				console.log('fetched, now go to python')
 
 				const resp = await fetch(
 					`//python.samor.me/upload/${receiptName}`,
@@ -343,18 +357,19 @@ async function submitReceiptToAI(userID) {
                     </select>
 
         <div class="Submit-bar">
-            <button type="submit" class="btn btn-primary" id = "submitButton">Submit</button>
-            <button type="reset" class="btn btn-primary" id = "submitButton">Cancel</button>
+            <button type="submit" class="btn btn-primary" id = "submitButton" data-bs-dismiss="modal" aria-label="Close">Submit</button>
+            <button type="reset" class="btn btn-primary" id = "ResetButton" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
 </div>
 
 </form>
 `
 
-				document.querySelector('#receiptTime').innerHTML = AIresultHtml
-			}
-			// Add function to form
-			submitReceipt(receiptName, userID)
-		})
+                document.querySelector("#receiptTime").innerHTML = AIresultHtml
+                await submitReceipt(receiptName, userID)
+            }
+            // Add function to form
+        })
+
 }
 
 async function submitReceipt(receiptName, id) {
@@ -368,18 +383,17 @@ async function submitReceipt(receiptName, id) {
 			const amount = form.amount.value
 			const image = receiptName
 			const expensesType = form.type.value
-
 			const res = await fetch(`/receipt/${id}`, {
 				method: 'Post',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					shopName,
-					date,
-					amount,
-					image,
-					expensesType
+					shopName: shopName,
+					date: date,
+					amount: amount,
+					image: image,
+					expensesType: expensesType
 				})
 			})
 
