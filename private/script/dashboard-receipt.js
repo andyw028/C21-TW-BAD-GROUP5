@@ -280,7 +280,7 @@ async function submitReceiptToAI(userID) {
 			}
 			new Compressor(file, {
 				quality: 0.8,
-
+				convertSize: 1000000,
 				// The compression process is asynchronous,
 				// which means you have to access the `result` in the `success` hook function.
 				success(result) {
