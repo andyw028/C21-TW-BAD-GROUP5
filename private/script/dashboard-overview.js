@@ -108,10 +108,10 @@ function loadOverview() {
 `
 	document.querySelector('main').outerHTML += `
 	<div class="charts-container">
-	<canvas id="pie-chart"></canvas>
-	<canvas id="trend-chart"></canvas>
+	<canvas id="pie-chart" ></canvas>
+	<canvas id="trend-chart" ></canvas>
 	</div>
-
+	
 	`
 }
 
@@ -120,7 +120,6 @@ async function themeChanger() {
 
 	themeBtn.addEventListener('click', () => {
 		document.body.classList.toggle('dark-theme')
-
 		themeBtn.querySelector('span:first-child').classList.toggle('active')
 		themeBtn.querySelector('span:last-child').classList.toggle('active')
 	})
