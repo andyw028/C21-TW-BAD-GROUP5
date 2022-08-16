@@ -61,6 +61,7 @@ def read_img_cv(img):
 def read_IMG(img_path,type):
 
     img = Image.open(img_path)
+    img = img.resize(500,500,Image.LANCZOS)
     ## Turn into grey
     img = img.convert("L")
     ## Apply filter
