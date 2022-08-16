@@ -12,7 +12,7 @@ def find_Amount(para):
     floats = [float(amount) for amount in amounts]
     unique = list(dict.fromkeys(floats))
     if len(unique) < 1:
-        return "No Amount Found"
+        return "Unrecognisable"
     else:
         return max(unique)
 
