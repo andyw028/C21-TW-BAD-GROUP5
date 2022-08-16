@@ -68,4 +68,5 @@ def read_IMG(img_path,type):
     img = img.filter(ImageFilter.SHARPEN)
     img = img.filter(ImageFilter.MinFilter)
     para = pytesseract.image_to_string(img, lang=f'{type}')
+    print("para",para)
     return(para)
