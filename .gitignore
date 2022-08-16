@@ -10,3 +10,4 @@ BAD
 package-lock.json
 .vscode
 __pycache__
+e2etest

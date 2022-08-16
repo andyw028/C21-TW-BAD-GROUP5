@@ -92,27 +92,26 @@ async function loadReceiptRecord(id) {
 	let receiptHTML = ``
 	const receipts = await res.json()
 
-    if(receipts.success === false) {
-        await Swal.fire("You did not login", 'error')
-        window.location.href = `/login`
-    } else {
+	if (receipts.success === false) {
+		await Swal.fire('You did not login', 'error')
+		window.location.href = `/login`
+	} else {
+		for (const result of receipts) {
+			const realBDay = new Date(result.date)
+			let year = realBDay.getFullYear().toString()
+			let month = '0' + (realBDay.getMonth() + 1).toString()
+			let date = '0' + realBDay.getDate().toString()
+			const finalDate =
+				year +
+				'-' +
+				month.substring(month.length - 2) +
+				'-' +
+				date.substring(date.length - 2)
 
-	for (const result of receipts) {
-		const realBDay = new Date(result.date)
-		let year = realBDay.getFullYear().toString()
-		let month = '0' + (realBDay.getMonth() + 1).toString()
-		let date = '0' + realBDay.getDate().toString()
-		const finalDate =
-			year +
-			'-' +
-			month.substring(month.length - 2) +
-			'-' +
-			date.substring(date.length - 2)
+			imagePath = `/${result.image}`
+			expensesType = TypeMapping[result.type]
 
-		imagePath = `/${result.image}`
-		expensesType = TypeMapping[result.type]
-
-		receiptHTML += `<div class="receipt">
+			receiptHTML += `<div class="receipt">
         <div class="receiptBody">
             <div id="content" data-id = '${result.id}'>
                 <img src="../..${imagePath}" class="card-img">
@@ -139,92 +138,86 @@ async function loadReceiptRecord(id) {
         </div>
     </div>
         `
-	}
+		}
 
-	document.querySelector('#receipt-panel').innerHTML = receiptHTML
+		document.querySelector('#receipt-panel').innerHTML = receiptHTML
 
-	document.querySelectorAll('#edit').forEach((ele) => {
-		ele.addEventListener('click', async (e) => {
-			const receiptId = e.target.parentElement.dataset.id
-			const result = await editConfirmFunction()
+		document.querySelectorAll('#edit').forEach((ele) => {
+			ele.addEventListener('click', async (e) => {
+				const receiptId = e.target.parentElement.dataset.id
+				const result = await editConfirmFunction()
 
-			if (result) {
-				const revisedVenue = document.querySelector(
-					`#receipt-venue-${receiptId}`
-				).innerText
-				const revisedDate = document.querySelector(
-					`#receipt-date-${receiptId}`
-				).innerText
-				const revisedAmount = document.querySelector(
-					`#receipt-amount-${receiptId}`
-				).innerText
-				const e = document.querySelector(`#receipt-type-${receiptId}`)
-				const text = e.options[e.selectedIndex].text
-				const revisedType = TypeMappings.get(text)
+				if (result) {
+					const revisedVenue = document.querySelector(
+						`#receipt-venue-${receiptId}`
+					).innerText
+					const revisedDate = document.querySelector(
+						`#receipt-date-${receiptId}`
+					).innerText
+					const revisedAmount = document.querySelector(
+						`#receipt-amount-${receiptId}`
+					).innerText
+					const e = document.querySelector(
+						`#receipt-type-${receiptId}`
+					)
+					const text = e.options[e.selectedIndex].text
+					const revisedType = TypeMappings.get(text)
 
-				const resp = await fetch(`/receipt/${receiptId}`, {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						venue: revisedVenue,
-						date: revisedDate,
-						amount: revisedAmount,
-						type: revisedType
+					const resp = await fetch(`/receipt/${receiptId}`, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							venue: revisedVenue,
+							date: revisedDate,
+							amount: revisedAmount,
+							type: revisedType
+						})
 					})
-				})
 
-				const result = await resp.json()
-				if (result.success) {
-					await Swal.fire('Receipt updated', 'success')
-					loadReceiptRecord(id)
-					loadSubmit()
-					submitReceiptToAI(id)
-				} else {
-					await Swal.fire('Error!!! Please check', 'error')
+					const result = await resp.json()
+					if (result.success) {
+						await Swal.fire('Receipt updated', 'success')
+						loadReceiptRecord(id)
+						loadSubmit()
+						submitReceiptToAI(id)
+					} else {
+						await Swal.fire('Error!!! Please check', 'error')
+					}
 				}
-			}
+			})
 		})
-	})
 
-	document.querySelectorAll('#delete').forEach((ele) => {
-		ele.addEventListener('click', async (e) => {
-			const receiptId = e.target.parentElement.dataset.id
-			const result = await deleteConfirmFunction()
-			if (result) {
-				const resp = await fetch(`/receipt/${receiptId}`, {
-					method: 'delete',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						receiptId
+		document.querySelectorAll('#delete').forEach((ele) => {
+			ele.addEventListener('click', async (e) => {
+				const receiptId = e.target.parentElement.dataset.id
+				const result = await deleteConfirmFunction()
+				if (result) {
+					const resp = await fetch(`/receipt/${receiptId}`, {
+						method: 'delete',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							receiptId
+						})
 					})
-				})
 
-
-                const result = await resp.json()
-                if (result.success) {
-                    await Swal.fire("Receipt deleted", 'success')
-                    loadReceiptRecord(id)
-                    loadSubmit()
-                    submitReceiptToAI(id)
-                } else {
-                    await Swal.fire("Error, please check", 'error')
-
-                }
-
-            }
-        })
-    })
-
+					const result = await resp.json()
+					if (result.success) {
+						await Swal.fire('Receipt deleted', 'success')
+						loadReceiptRecord(id)
+						loadSubmit()
+						submitReceiptToAI(id)
+					} else {
+						await Swal.fire('Error, please check', 'error')
+					}
+				}
+			})
+		})
+	}
 }
-
-}
-
-
-
 
 async function loadSubmit() {
 	htmlSTR = `<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -246,10 +239,10 @@ async function loadSubmit() {
             <div class="modal-body">
 
                 <form id="receiptAI" enctype=multipart/form-data> 
-                    <input type="file" name=file required>
+                    <input type="file" name="file" required>
                     
                     <p> Please select your receipt language </p>
-                    <select class="form-select" aria-label="Default select example" id="selection" name = type>
+                    <select class="form-select" aria-label="Default select example" id="selection" name ="type">
                     
                     <option value="0">Chinese</option>
                     <option value="1">English</option>
@@ -293,7 +286,8 @@ async function submitReceiptToAI(userID) {
 			} else {
 				lanType = 'chi_tra+eng'
 			}
-            receiptName = `${receiptName}-${userID}`
+			receiptName.replace(' ', '')
+			receiptName = `${userID}_${receiptName}`
 			formData.append(receiptName, receipt)
 			formData.append(receiptName, receiptName)
 
@@ -308,7 +302,6 @@ async function submitReceiptToAI(userID) {
 				await Swal.fire(receiptToAI.message, 'error')
 				return
 			} else {
-
 				const resp = await fetch(
 					`//python.samor.me/upload/${receiptName}`,
 					{
@@ -364,12 +357,11 @@ async function submitReceiptToAI(userID) {
 </form>
 `
 
-                document.querySelector("#receiptTime").innerHTML = AIresultHtml
-                await submitReceipt(receiptName, userID)
-            }
-            // Add function to form
-        })
-
+				document.querySelector('#receiptTime').innerHTML = AIresultHtml
+				await submitReceipt(receiptName, userID)
+			}
+			// Add function to form
+		})
 }
 
 async function submitReceipt(receiptName, id) {
