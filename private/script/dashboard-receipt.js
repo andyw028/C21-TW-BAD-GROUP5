@@ -1,3 +1,5 @@
+const { default: Compressor } = require('compressorjs')
+
 const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
@@ -239,7 +241,7 @@ async function loadSubmit() {
             <div class="modal-body">
 
                 <form id="receiptAI" enctype=multipart/form-data> 
-                    <input type="file" name="file" required>
+                    <input type="file" name="file" id="receipt-file" required>
                     
                     <p> Please select your receipt language </p>
                     <select class="form-select" aria-label="Default select example" id="selection" name ="type">
@@ -270,23 +272,34 @@ async function loadSubmit() {
 }
 
 async function submitReceiptToAI(userID) {
+	let receiptImage
 	document
-		.querySelector('#receiptAI')
-		.addEventListener('submit', async function (event) {
-			event.preventDefault()
-			const submitForm = event.target
-			const formData = new FormData()
-			receipt = submitForm.file.files[0]
-			new Compressor(receipt, {
-				quality: 0.8,
+		.querySelector('#receipt-file')
+		.addEventListener('change', (event) => {
+			const file = e.target.files[0]
+			if (!file) {
+				return
+			}
+			new Compressor(file, {
+				quality: 0.6,
+
+				// The compression process is asynchronous,
+				// which means you have to access the `result` in the `success` hook function.
 				success(result) {
-					receipt = result
-					console.log('compressed')
+					receiptImage = result
 				},
 				error(err) {
 					console.log(err.message)
 				}
 			})
+		})
+	document
+		.querySelector('#receiptAI')
+		.addEventListener('submit', async (event) => {
+			event.preventDefault()
+			const submitForm = event.target
+			const formData = new FormData()
+			receipt = receiptImage
 			receiptName = submitForm.file.files[0].name
 			lanType = submitForm.type.value
 			if (lanType === '0') {
