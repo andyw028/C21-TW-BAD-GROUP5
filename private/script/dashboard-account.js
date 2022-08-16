@@ -8,43 +8,56 @@ function eventListenerOfAccountButton() {
 }
 
 async function loadAccountPage() {
-	const panel = document.querySelector('#dashboard-panel')
-	panel.innerHTML = `<div id="acc-board" class="container d-flex justify-content-around flex-wrap"></div>`
-	const accPanel = document.querySelector('#acc-board')
-	accPanel.innerHTML = `
-	<div id= "card-ac" class="col-md-6">  
-    <div class="card card-ac" style="width:30rem;">
-	<img class="card-img-top" src="/img/coffee.jpg" alt="Card image cap">
-	<div class="card-body";>
-	<div id= "AccountPage" class= "row">
-<div id="username"col-md-7">Username: </div>
-<div id="email" class= "col-md-7">Email: </div>
-<div id="name" class= "col-md-7">Name: </div></div></div></div>
-`
+	const panel = document.querySelector('#dashboard-panel');
+	panel.innerHTML = '';
+	// panel.innerHTML = `<div id="acc-board" class="container d-flex justify-content-around flex-wrap"></div>`
+	// const accPanel = document.querySelector('#acc-board')
+	panel.innerHTML += `<section class="account">
+	<div class="account-info-container account-container">
+	<aside class="account-aside">
+		<div class="aside-image">
+			<img src="../img/account-icon.jpg">
+		</div>
+		<h2>Username</h2>
+		<p>
+			Welcome back!
+		</p>
+		<p>
+			<h3>Your account information:</h3>
+		</p>
+		<ul class="account-details">
+			<li>
+			<i class="uil uil-user-circle"></i>
+			<h5 id="username"></h5>
+			</li>
+			<li>
+			<i class="uil uil-user"></i>
+			<h5 id="name"></h5>
+			</li>
+			<li>
+			<i class="uil uil-envelope"></i>
+			<h5 id="email"></h5>
+			</li>
+		</ul>
+		<ul class="account-socials">
+			<li> <a href="https://facebook.com"><i class="uil uil-facebook-f"></i></a> </li>
+			<li> <a href="https://instagram.com"><i class="uil uil-instagram"></i></a> </li>
+			<li> <a href="https://twitter.com"><i class="uil uil-twitter"></i></a> </li>
+			<li> <a href="https://linkedin.com"><i class="uil uil-linkedin-alt"></i></a> </li>
+		</ul>
+	</aside>
 
-	accPanel.innerHTML += `
-	
-	<div class="col-md-6" ><form id="changeUserinfo"  >
-	<div class="form-group">
-  <label for="exampleInputUsername1">Change first name</label>
-  <input name="firstName " class="form-control" id="firstName" aria-describedby="userName Help" placeholder="firstName" required>
-  <small id="userNameHelp" class="form-text text-muted">Change user name if you want.</small>
-</div>
-<div id="form-group">
-<div class="form-group">
-  <label for="lastName">lastName</label>
-  <input name="lastName" class="form-control" id="lastName" placeholder="lastName"  required>
-</div>
-<div class="form-group">
-  <label for="email">email</label>
-  <input name="email" type="email" class="form-control" id="email" placeholder="email" required>
-</div>
-<div class="form-group">
-  <label for="exampleInputPassword1">Password</label>
-  <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
-</div>
-<button type="submit" class="btn btn-primary">Submit</button>
-</form></div></div></div>`
+		<form id="changeUserinfo" method="POST" class="account-form">
+			<div class="form-name">
+				<input type="text" name="firstName" placeholder="First Name" required>
+				<input type="text" name="lastName" placeholder="Last Name" required>
+			</div>
+			<input type="email" name="email" placeholder="New Email Address" required>
+			<input type="password" name="password" placeholder="New Password" required>
+			<button type="submit" class="btn btn-primary">Change</button>
+		</form>
+	</div>
+</section>`
 
 	const queryString = window.location.pathname.split('/')
 	let id = queryString[queryString.length - 1]
