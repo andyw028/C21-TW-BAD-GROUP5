@@ -1,5 +1,3 @@
-const { default: Compressor } = require('compressorjs')
-
 const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
@@ -290,83 +288,78 @@ async function submitReceiptToAI(userID) {
 			}
 			receiptName = receiptName.replace(' ', '-')
 			receiptName = `${userID}_${receiptName}`
-			new Compressor(receipt, {
-				quality: 0.8,
-				async success(result) {
-					formData.append(receiptName, result)
-					formData.append(receiptName, result.name)
-					const response = await fetch('/receiptSubmit', {
-						method: 'Post',
-						body: formData
-					})
+			formData.append(receiptName, receipt)
+			formData.append(receiptName, receiptName)
 
-					const receiptToAI = await response.json()
-
-					if (!receiptToAI.success) {
-						await Swal.fire(receiptToAI.message, 'error')
-						return
-					} else {
-						const resp = await fetch(
-							`//python.samor.me/upload/${receiptName}`,
-							{
-								method: 'POST',
-								body: JSON.stringify({
-									lanType
-								})
-							}
-						)
-
-						const AIResult = await resp.json()
-						const AIdate = AIResult.date
-						const AIname = AIResult.name
-						const AIamount = AIResult.amount
-
-						AIresultHtml = `
-			<p>Here are the result from our AI, Please check before submit</p>
-			<form id = "saveReceipt">
-			
-			<div class="input-group mb-3">
-			<span class="input-group-text" id="inputGroup-sizing-default">Name</span>
-			<input type="text" class="form-control" aria-label="Sizing example input" 
-			aria-describedby="inputGroup-sizing-default" 
-			id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}></div>
-		
-			<div class="input-group mb-3">
-			<span class="input-group-text" id="inputGroup-sizing-default">Date</span>
-			<input type="text" class="form-control" aria-label="Sizing example input" 
-			aria-describedby="inputGroup-sizing-default" 
-			id="date" name="date" placeholder = "Date" required value = ${AIdate}></div>
-		
-			<div class="input-group mb-3">
-			<span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
-			<input type="text" class="form-control" aria-label="Sizing example input" 
-			aria-describedby="inputGroup-sizing-default" 
-			id="amount" name="amount" placeholder = "Amount" required value = ${AIamount}></div>
-		
-			<h5> Opps, our AI unable to detect expenses type of your receipt, please select by yourself 🙇🙇🙇</h5>
-			<select class="form-select" aria-label="Default select example" id="selection" name = "type">
-							<option value="1">Clothing</option>
-							<option value="2">Food</option>
-							<option value="3">Housing</option>
-							<option value="4">Travel</option>
-							<option value="5">Shopping</option>
-							<option value="6">Others</option>
-							</select>
-		
-				<div class="Submit-bar">
-					<button type="submit" class="btn btn-primary" id = "submitButton" data-bs-dismiss="modal" aria-label="Close">Submit</button>
-					<button type="reset" class="btn btn-primary" id = "ResetButton" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-		</div>
-		
-		</form>
-		`
-
-						document.querySelector('#receiptTime').innerHTML =
-							AIresultHtml
-						await submitReceipt(receiptName, userID)
-					}
-				}
+			const response = await fetch('/receiptSubmit', {
+				method: 'Post',
+				body: formData
 			})
+
+			const receiptToAI = await response.json()
+
+			if (!receiptToAI.success) {
+				await Swal.fire(receiptToAI.message, 'error')
+				return
+			} else {
+				const resp = await fetch(
+					`//python.samor.me/upload/${receiptName}`,
+					{
+						method: 'POST',
+						body: JSON.stringify({
+							lanType
+						})
+					}
+				)
+
+				const AIResult = await resp.json()
+				const AIdate = AIResult.date
+				const AIname = AIResult.name
+				const AIamount = AIResult.amount
+
+				AIresultHtml = `
+    <p>Here are the result from our AI, Please check before submit</p>
+    <form id = "saveReceipt">
+    
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" 
+    aria-describedby="inputGroup-sizing-default" 
+    id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}></div>
+
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" 
+    aria-describedby="inputGroup-sizing-default" 
+    id="date" name="date" placeholder = "Date" required value = ${AIdate}></div>
+
+    <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" 
+    aria-describedby="inputGroup-sizing-default" 
+    id="amount" name="amount" placeholder = "Amount" required value = ${AIamount}></div>
+
+    <h5> Opps, our AI unable to detect expenses type of your receipt, please select by yourself 🙇🙇🙇</h5>
+    <select class="form-select" aria-label="Default select example" id="selection" name = "type">
+                    <option value="1">Clothing</option>
+                    <option value="2">Food</option>
+                    <option value="3">Housing</option>
+                    <option value="4">Travel</option>
+                    <option value="5">Shopping</option>
+                    <option value="6">Others</option>
+                    </select>
+
+        <div class="Submit-bar">
+            <button type="submit" class="btn btn-primary" id = "submitButton" data-bs-dismiss="modal" aria-label="Close">Submit</button>
+            <button type="reset" class="btn btn-primary" id = "ResetButton" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+</div>
+
+</form>
+`
+
+				document.querySelector('#receiptTime').innerHTML = AIresultHtml
+				await submitReceipt(receiptName, userID)
+			}
 			// Add function to form
 		})
 }
