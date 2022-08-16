@@ -49,9 +49,9 @@ describe('ReceiptService', () => {
 	it("should able to edit the receipt", async () => {
 		// 3 receipts
 		const result = await receiptService.addReceipt
-		(1,"Testing edit receipt","10/8/2022",499,"TestingEdit.jpeg",5,false)
+		(1,"Testing edit receipt","2022/10/8",499,"TestingEdit.jpeg",5,false)
 
-		const resultEdit = await receiptService.updateReceipt(result[0].id,"Hong Kong","01/10/1997",1997,5)
+		const resultEdit = await receiptService.updateReceipt(result[0].id,"Hong Kong","1997/10/1",1997,5)
 		expect(resultEdit[0].id).toEqual(result[0].id)
 		const resultAfterEdit = await receiptService.getReceipt(1)
 		// 3 receipts
@@ -65,7 +65,7 @@ describe('ReceiptService', () => {
 	it("should able to delete receipt", async () => {
 		// 4 receipts
 		const result = await receiptService.addReceipt
-		(1,"Testing delete receipt","16/8/2022",700,"TestingDelete.jpeg",2,false)
+		(1,"Testing delete receipt","2022/8/16",700,"TestingDelete.jpeg",2,false)
 		expect(result).toBeDefined()
 		expect(result).toHaveLength(1)
 
