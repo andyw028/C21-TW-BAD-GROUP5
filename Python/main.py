@@ -61,11 +61,10 @@ def read_img_cv(img):
 def read_IMG(img_path,type):
 
     img = Image.open(img_path)
-    img = Image.resize((500,500))
     ## Turn into grey
-    #img = img.convert("L")
+    img = img.convert("L")
     ## Apply filter
-    #img = img.filter(ImageFilter.SHARPEN)
-    #img = img.filter(ImageFilter.MinFilter)
+    img = img.filter(ImageFilter.SHARPEN)
+    img = img.filter(ImageFilter.MinFilter)
     para = pytesseract.image_to_string(img, lang=f'{type}')
     return(para)
