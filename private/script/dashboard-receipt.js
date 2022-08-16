@@ -1,3 +1,5 @@
+const { default: Compressor } = require('compressorjs')
+
 const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
@@ -277,6 +279,16 @@ async function submitReceiptToAI(userID) {
 			const submitForm = event.target
 			const formData = new FormData()
 			receipt = submitForm.file.files[0]
+			new Compressor(receipt, {
+				quality: 0.8,
+				success(result) {
+					receipt = result
+					console.log('compressed')
+				},
+				error(err) {
+					console.log(err.message)
+				}
+			})
 			receiptName = submitForm.file.files[0].name
 			lanType = submitForm.type.value
 			if (lanType === '0') {
