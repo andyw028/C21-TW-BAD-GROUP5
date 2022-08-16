@@ -1,3 +1,5 @@
+const { default: Compressor } = require('compressorjs')
+
 const queryString = window.location.pathname.split('/')
 let id = queryString[queryString.length - 1]
 
@@ -288,9 +290,13 @@ async function submitReceiptToAI(userID) {
 			}
 			receiptName = receiptName.replace(' ', '-')
 			receiptName = `${userID}_${receiptName}`
-			formData.append(receiptName, receipt)
-			formData.append(receiptName, receiptName)
-
+			new Compressor(receipt, {
+				quality: 0.8,
+				success(result) {
+					formData.append(receiptName, result)
+					formData.append(receiptName, result.name)
+				}
+			})
 			const response = await fetch('/receiptSubmit', {
 				method: 'Post',
 				body: formData
