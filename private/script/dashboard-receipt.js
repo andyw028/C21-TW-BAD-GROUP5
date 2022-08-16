@@ -292,16 +292,16 @@ async function submitReceiptToAI(userID) {
 			receiptName = `${userID}_${receiptName}`
 			new Compressor(receipt, {
 				quality: 0.8,
-				success(result) {
+				async success(result) {
 					formData.append(receiptName, result)
 					formData.append(receiptName, result.name)
 					const response = await fetch('/receiptSubmit', {
 						method: 'Post',
 						body: formData
 					})
-		
+
 					const receiptToAI = await response.json()
-		
+
 					if (!receiptToAI.success) {
 						await Swal.fire(receiptToAI.message, 'error')
 						return
@@ -315,12 +315,12 @@ async function submitReceiptToAI(userID) {
 								})
 							}
 						)
-		
+
 						const AIResult = await resp.json()
 						const AIdate = AIResult.date
 						const AIname = AIResult.name
 						const AIamount = AIResult.amount
-		
+
 						AIresultHtml = `
 			<p>Here are the result from our AI, Please check before submit</p>
 			<form id = "saveReceipt">
@@ -360,8 +360,9 @@ async function submitReceiptToAI(userID) {
 		
 		</form>
 		`
-		
-						document.querySelector('#receiptTime').innerHTML = AIresultHtml
+
+						document.querySelector('#receiptTime').innerHTML =
+							AIresultHtml
 						await submitReceipt(receiptName, userID)
 					}
 				}
