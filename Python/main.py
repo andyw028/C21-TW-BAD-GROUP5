@@ -11,7 +11,10 @@ def find_Amount(para):
     amounts = re.findall(r'\d{1,3}\.\d{1,2}\b', para)
     floats = [float(amount) for amount in amounts]
     unique = list(dict.fromkeys(floats))
-    return max(unique)
+    if len(unique) < 1:
+        return "Unrecognisable"
+    else:
+        return max(unique)
 
 def find_Date(para):
     date_pattern_1 = r"[\d]{1,4}/[\d]{1,2}/[\d]{1,2}"
@@ -61,11 +64,13 @@ def read_img_cv(img):
 def read_IMG(img_path,type):
 
     img = Image.open(img_path)
-    img = Image.resize((500,500))
+    # img = img.resize((500,500),Image.LANCZOS)
     ## Turn into grey
-    #img = img.convert("L")
+    img.convert('RGB').save(img_path, "JPEG")
+    img = img.convert("L")
     ## Apply filter
-    #img = img.filter(ImageFilter.SHARPEN)
-    #img = img.filter(ImageFilter.MinFilter)
+    img = img.filter(ImageFilter.SHARPEN)
+    img = img.filter(ImageFilter.MinFilter)
     para = pytesseract.image_to_string(img, lang=f'{type}')
+    print("para",para)
     return(para)

@@ -4,7 +4,6 @@ window.onload = () => {
 	eventListenerOfOverviewButton()
 	getMonthlyAndDailySpending()
 	loadCharts()
-	// chartTesting()
 	themeChanger()
 }
 
@@ -14,16 +13,12 @@ function eventListenerOfOverviewButton() {
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
-		// chartTesting()
-		themeChanger()
 	})
 	document.querySelector('#m-overview-btn').addEventListener('click', () => {
 		loadOverview()
 		retrieveStockPL()
 		getMonthlyAndDailySpending()
 		loadCharts()
-		// chartTesting()
-		themeChanger()
 	})
 	document.querySelector('#brand-logo').addEventListener('click', () => {
 		const queryString = window.location.pathname.split('/')

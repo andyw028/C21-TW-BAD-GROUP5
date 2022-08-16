@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile page</title>
+
+    <!-- ICONSCOUT CDN -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+    <!-- GOOGLE FONTS (MONTSERRAT) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="./style/root.css">
+    <link rel="stylesheet" href="./style/account1.css">
+
+</head>
+<body>
+    <section class="account">
+        <div class="account-info-container account-container">
+        <aside class="account-aside">
+            <div class="aside-image">
+                <img src="./img/account-icon.jpg">
+            </div>
+            <h2>Username</h2>
+            <p>
+                Welcome back!
+            </p>
+            <p>
+                <h4>Your account information:</h4>
+            </p>
+            <ul class="account-details">
+                <li>
+                <i class="uil uil-user-circle"></i>
+                <h5>samor</h5>
+                </li>
+                <li>
+                <i class="uil uil-user"></i>
+                <h5>Sam Chan</h5>
+                </li>
+                <li>
+                <i class="uil uil-envelope"></i>
+                <h5>samor@tecky.io</h5>
+                </li>
+                <li>
+                <i class="uil uil-location-point"></i>
+                <h5>Hong Kong</h5>
+                </li>
+            </ul>
+            <ul class="account-socials">
+                <li> <a href="https://facebook.com"><i class="uil uil-facebook-f"></i></a> </li>
+                <li> <a href="https://instagram.com"><i class="uil uil-instagram"></i></a> </li>
+                <li> <a href="https://twitter.com"><i class="uil uil-twitter"></i></a> </li>
+                <li> <a href="https://linkedin.com"><i class="uil uil-linkedin-alt"></i></a> </li>
+            </ul>
+        </aside>
+
+            <form action="" method="POST" class="account-form">
+                <div class="form-name">
+                    <input type="text" name="firstName" placeholder="First Name" required>
+                    <input type="text" name="lastName" placeholder="Last Name" required>
+                </div>
+                <input type="email" name="email" placeholder="New Email Address" required>
+                <input type="password" name="password" placeholder="New Password" required>
+                <button type="submit" class="btn btn-primary">Change</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

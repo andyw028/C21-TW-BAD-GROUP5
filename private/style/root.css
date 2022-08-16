@@ -25,6 +25,17 @@
 	--border-radius-2: 6px;
 
 	--box-shadow: 0 2rem 3rem var(--color-light);
+	
+	/* account page */
+
+	--color-bg: #1f2641;
+    --color-bg2: #424890;
+
+	--container-width-lg: 80%;
+	--container-width-md: 90%;
+	--container-width-sm: 94%;
+  
+	--transition: all 400ms ease;
 
 	/* Color styles 2 trial */
 

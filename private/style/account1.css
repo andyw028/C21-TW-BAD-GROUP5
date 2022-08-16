@@ -1,0 +1,249 @@
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap);
+
+section.account {
+  font-family: "Montserrat", sans-serif;
+  line-height: 1.7;
+  color: #FFFFFF;
+  background: var(--color-light);
+}
+
+.account-info-container {
+  width: var(--container-width-lg);
+  margin: 0 auto;
+}
+
+section.account {
+  padding: 6rem 0;
+}
+
+section.account h2 {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+section.account h1,
+section.account h2,
+section.account h3,
+section.account h4,
+section.account h5 {
+  line-height: 1.2;
+}
+
+section.account h1 {
+  font-size: 2.4rem;
+}
+
+section.account h2 {
+  font-size: 2rem;
+}
+
+section.account h3 {
+  font-size: 1.6rem;
+}
+
+section.account h4 {
+  font-size: 1.3rem;
+}
+
+
+.account-socials li a {
+  color: #FFFFFF;
+}
+
+.aside-image img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.account-container {
+  background: #d1e9ee;
+
+  padding: 4rem;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 4rem;
+  height: 30rem;
+  margin: 7rem auto;
+  border-radius: 1rem;
+}
+
+.account-form .btn {
+  display: inline-block;
+  background: #FFFFFF;
+  color: var(--color-black);
+  padding: 1rem 2rem;
+  border: 1px solid transparent;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.account-form .btn:hover {
+  background: transparent;
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.account-form .btn-primary {
+  background: var(--color-danger);
+  color: #FFFFFF;
+}
+
+/* =================== ASIDE ================ */
+.account-aside {
+  background: #c4e2ec;
+
+  padding: 3rem;
+  border-radius: 1rem;
+  position: relative;
+  bottom: 10rem;
+}
+
+.aside-image {
+  width: 12rem;
+  margin-bottom: 2rem;
+}
+
+.account-aside h2 {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.account-details li h5{
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.account-aside p {
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.account-details li {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.account-socials {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 3rem;
+}
+
+.account-socials a {
+  background: var(--color-bg2);
+
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.account-socials a:hover {
+  background: transparent;
+}
+
+/* =================== FORM ================ */
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-right: 4rem;
+}
+
+.form-name {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.account-form input[type="text"] {
+  width: 50%;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 1rem;
+  background: var(--color-bg);
+  color: #FFFFFF;
+}
+
+.account-form .btn {
+  width: max-content;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+/* =================== MEDIA QUERIES (TABLETS & IPHONES) ================ */
+@media screen and (max-width: 1024px) {
+  .account {
+    padding-bottom: 0;
+  }
+
+  .account-container {
+    gap: 1.5rem;
+    margin-top: 3rem;
+    height: auto;
+    padding: 1.5rem;
+  }
+
+  .account-aside {
+    width: auto;
+    padding: 1.5rem;
+    bottom: 0;
+  }
+
+  .account-form {
+    align-self: center;
+    margin-right: 1.5rem;
+  }
+
+  .account-info-container {
+    width: var(--container-width-md);
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  h4 {
+    font-size: 1.2rem;
+  }
+}
+
+/* =================== MEDIA QUERIES (PHONES) ================ */
+@media screen and (max-width: 600px) {
+
+  .account-info-container {
+    width: var(--container-width-sm)
+  }
+
+  .account-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .account-form {
+    margin: 0 1.5rem 3rem;
+  }
+
+  .form-name {
+    flex-direction: column;
+  }
+
+  .form-name input[type="text"] {
+    width: 100%;
+  }
+}
