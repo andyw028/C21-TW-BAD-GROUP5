@@ -286,7 +286,7 @@ async function submitReceiptToAI(userID) {
 			} else {
 				lanType = 'chi_tra+eng'
 			}
-			receiptName.replace(' ', '')
+			receiptName.replace(' ', '-')
 			receiptName = `${userID}_${receiptName}`
 			formData.append(receiptName, receipt)
 			formData.append(receiptName, receiptName)
