@@ -239,7 +239,7 @@ async function loadSubmit() {
             <div class="modal-body">
 
                 <form id="receiptAI" enctype=multipart/form-data> 
-                    <input type="file" name="file" required>
+                    <input type="file" name="file" id="receipt-file" required>
                     
                     <p> Please select your receipt language </p>
                     <select class="form-select" aria-label="Default select example" id="selection" name ="type">
@@ -270,14 +270,34 @@ async function loadSubmit() {
 }
 
 async function submitReceiptToAI(userID) {
+	let receiptImage, receiptNameCom
+	document
+		.querySelector('#receipt-file')
+		.addEventListener('change', async (event) => {
+			const file = event.target.files[0]
+			if (!file) {
+				return
+			}
+			new Compressor(file, {
+				quality: 0.8,
+				convertSize: 1000000,
+				success(result) {
+					receiptImage = result
+					receiptNameCom = result.name
+				},
+				error(err) {
+					console.log(err.message)
+				}
+			})
+		})
 	document
 		.querySelector('#receiptAI')
-		.addEventListener('submit', async function (event) {
+		.addEventListener('submit', async (event) => {
 			event.preventDefault()
 			const submitForm = event.target
 			const formData = new FormData()
-			receipt = submitForm.file.files[0]
-			receiptName = submitForm.file.files[0].name
+			receipt = receiptImage
+			receiptName = receiptNameCom
 			lanType = submitForm.type.value
 			if (lanType === '0') {
 				lanType = 'chi_tra'
@@ -286,7 +306,7 @@ async function submitReceiptToAI(userID) {
 			} else {
 				lanType = 'chi_tra+eng'
 			}
-			receiptName.replace(' ', '')
+			receiptName = receiptName.replace(' ', '-')
 			receiptName = `${userID}_${receiptName}`
 			formData.append(receiptName, receipt)
 			formData.append(receiptName, receiptName)
@@ -314,7 +334,18 @@ async function submitReceiptToAI(userID) {
 
 				const AIResult = await resp.json()
 				const AIdate = AIResult.date
-				const AIname = AIResult.name
+
+				const realBDay = new Date(AIdate)
+				let year = realBDay.getFullYear().toString()
+				let month = '0' + (realBDay.getMonth() + 1).toString()
+				let date = '0' + realBDay.getDate().toString()
+				const realDate =
+				year +
+				'-' +
+				month.substring(month.length - 2) +
+				'-' +
+				date.substring(date.length - 2)
+				
 				const AIamount = AIResult.amount
 
 				AIresultHtml = `
@@ -325,13 +356,13 @@ async function submitReceiptToAI(userID) {
     <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
     <input type="text" class="form-control" aria-label="Sizing example input" 
     aria-describedby="inputGroup-sizing-default" 
-    id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}></div>
+    id="shopName" name="shopName" placeholder = "ShopName" required value = "${AIResult.name}"></div>
 
     <div class="input-group mb-3">
     <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
     <input type="text" class="form-control" aria-label="Sizing example input" 
     aria-describedby="inputGroup-sizing-default" 
-    id="date" name="date" placeholder = "Date" required value = ${AIdate}></div>
+    id="date" name="date" placeholder = "Date" required value = ${realDate}></div>
 
     <div class="input-group mb-3">
     <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>

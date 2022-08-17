@@ -15,7 +15,7 @@ body {
 
 #user-stock {
 	border-radius: 20px;
-	background-color: white;
+	background-color: var(--color-light);
 	padding-right: calc(var(--bs-gutter-x) * 0.5);
 	padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
@@ -23,7 +23,7 @@ body {
 #day-loser,
 #day-active {
 	border-radius: 20px;
-	background-color: white;
+	background-color: var(--color-light);
 }
 .detail-title {
 	font-weight: bolder;

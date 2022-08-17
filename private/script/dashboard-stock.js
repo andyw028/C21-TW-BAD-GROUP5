@@ -205,7 +205,7 @@ function loadStockPage() {
 		<div id="info-spot" class="col-md-4 mt-4">
 			<div id="day-gainer" class="mb-2 col-md-12 p-2">
 				<div class="text-center mb-5">
-					<h2>Top Ten Gainer</h2>
+					<h2>Top Five Gainer</h2>
 				</div>
 				<div
 					class="d-flex justify-content-center detail-title"
@@ -217,7 +217,7 @@ function loadStockPage() {
 			</div>
 			<div id="day-loser" class="mb-2 col-md-12 p-2">
 				<div class="text-center mb-5">
-					<h2>Top Ten Loser</h2>
+					<h2>Top Five Loser</h2>
 				</div>
 				<div
 					class="d-flex justify-content-around detail-title"
@@ -229,7 +229,7 @@ function loadStockPage() {
 			</div>
 			<div id="day-active" class="mb-2 col-md-12 p-2">
 				<div class="text-center mb-5">
-					<h2>Top Ten Active</h2>
+					<h2>Top Five Active</h2>
 				</div>
 				<div
 					class="d-flex justify-content-around detail-title"
