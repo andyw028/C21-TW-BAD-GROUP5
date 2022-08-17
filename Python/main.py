@@ -33,7 +33,7 @@ def find_Date(para):
 
 def find_Name(para):
     shop_name_pattern = '\w+'
-    testing_pattern = '(?:\w+\n|\w+\s\w*\n)'
+    testing_pattern = '(?:.+\n|\w+\s\w*\n)'
     Names = re.findall(testing_pattern, para)
     print("This is Names find in re", Names)
     Names_list = []
