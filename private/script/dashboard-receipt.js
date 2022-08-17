@@ -347,7 +347,7 @@ async function submitReceiptToAI(userID) {
     <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
     <input type="text" class="form-control" aria-label="Sizing example input" 
     aria-describedby="inputGroup-sizing-default" 
-    id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIname}></div>
+    id="shopName" name="shopName" placeholder = "ShopName" required value = ${AIResult.name}></div>
 
     <div class="input-group mb-3">
     <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
