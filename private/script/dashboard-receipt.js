@@ -284,7 +284,6 @@ async function submitReceiptToAI(userID) {
 				success(result) {
 					receiptImage = result
 					receiptNameCom = result.name
-					console.log('done', result.size)
 				},
 				error(err) {
 					console.log(err.message)
