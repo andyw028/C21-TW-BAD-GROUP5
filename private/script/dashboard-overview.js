@@ -216,6 +216,7 @@ async function getMonthlyAndDailySpending() {
 	let dailyData = await serverDailyDetail.json()
 	console.log(dailyData)
 	let dailyDataNew = dailyData.data
+	console.log(dailyDataNew)
 	let dailySpending = 0
 	for (let item of dailyDataNew) {
 		if (today == item.date) {
