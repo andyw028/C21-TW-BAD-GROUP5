@@ -333,21 +333,9 @@ async function submitReceiptToAI(userID) {
 				)
 
 				const AIResult = await resp.json()
-				const AIdate = AIResult.date
+				let AIdate = AIResult.date
+				AIdate = AIdate.replace("/", "-")
 				console.log(AIdate)
-				console.log(typeof AIdate)
-				const realBDay = new Date(AIdate)
-				let year = realBDay.getFullYear().toString()
-				let month = '0' + (realBDay.getMonth() + 1).toString()
-				let date = '0' + realBDay.getDate().toString()
-				const realDate =
-				year +
-				'-' +
-				month.substring(month.length - 2) +
-				'-' +
-				date.substring(date.length - 2)
-
-				console.log(realDate)
 				
 				const AIamount = AIResult.amount
 
@@ -365,7 +353,7 @@ async function submitReceiptToAI(userID) {
     <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
     <input type="text" class="form-control" aria-label="Sizing example input" 
     aria-describedby="inputGroup-sizing-default" 
-    id="date" name="date" placeholder = "Date" required value = ${realDate}></div>
+    id="date" name="date" placeholder = "Date" required value = ${AIdate}></div>
 
     <div class="input-group mb-3">
     <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
