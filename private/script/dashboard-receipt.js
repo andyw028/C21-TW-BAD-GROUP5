@@ -336,6 +336,7 @@ async function submitReceiptToAI(userID) {
 				const AIResult = await resp.json()
 				const AIdate = AIResult.date
 				const AIname = AIResult.name
+				console.log(AIname)
 				const AIamount = AIResult.amount
 
 				AIresultHtml = `
