@@ -106,7 +106,6 @@ function loadOverview() {
 	<canvas id="pie-chart" ></canvas>
 	<canvas id="trend-chart" ></canvas>
 	</div>
-	
 	`
 }
 
