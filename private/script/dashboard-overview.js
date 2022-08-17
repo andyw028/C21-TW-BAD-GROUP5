@@ -219,7 +219,7 @@ async function getMonthlyAndDailySpending() {
 	console.log(dailyDataNew)
 	let dailySpending = 0
 	for (let item of dailyDataNew) {
-		console.log(today)
+		console.log(today, item.date)
 		if (formatOneDate(today) === formatOneDate(item.date)) {
 			console.log(today, item.date)
 			dailySpending += parseInt(item.price)
