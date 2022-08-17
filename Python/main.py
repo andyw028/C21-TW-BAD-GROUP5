@@ -34,7 +34,6 @@ def find_Date(para):
 def find_Name(para):
     para_pattern = '(?:\w{3,}\n|\w+\s\w*)'
     Names = re.findall(para_pattern, para)
-    print("This is Names find in re", Names)
     Names_list = []
     if len(Names) < 5:
         for i in len(Names):
@@ -44,7 +43,6 @@ def find_Name(para):
             Names_list.append(Names[i])
     #Names_list.count
     name = max(Names_list,key=len)
-    print("This is name after re", name)
     return name
 
 
@@ -66,7 +64,6 @@ def read_img_cv(img):
 def read_IMG(img_path,type):
 
     img = Image.open(img_path)
-    # img = img.resize((500,500),Image.LANCZOS)
     ## Turn into grey
     img.convert('RGB').save(img_path, "JPEG")
     img = img.convert("L")
@@ -74,5 +71,4 @@ def read_IMG(img_path,type):
     img = img.filter(ImageFilter.SHARPEN)
     img = img.filter(ImageFilter.MinFilter)
     para = pytesseract.image_to_string(img, lang=f'{type}')
-    print("para",para)
     return(para)
