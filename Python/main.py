@@ -34,7 +34,7 @@ def find_Date(para):
 def find_Name(para):
     shop_name_pattern = '\w+'
     testing_pattern = r'^(\w+)(\w|\s)(\w+)$'
-    Names = re.findall(testing_pattern, para)
+    Names = re.findall(shop_name_pattern, para)
     print("This is Names find in re", Names)
     Names_list = []
     if len(Names) < 7:
