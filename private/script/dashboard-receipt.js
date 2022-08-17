@@ -334,16 +334,18 @@ async function submitReceiptToAI(userID) {
 
 				const AIResult = await resp.json()
 				const AIdate = AIResult.date
-				function formatOneDate(date) {
-					let dd = String(date.getDate()).padStart(2, '0')
-					let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
-					let yyyy = date.getFullYear()
+
+				const realBDay = new Date(AIdate)
+				let year = realBDay.getFullYear().toString()
+				let month = '0' + (realBDay.getMonth() + 1).toString()
+				let date = '0' + realBDay.getDate().toString()
+				const realDate =
+				year +
+				'-' +
+				month.substring(month.length - 2) +
+				'-' +
+				date.substring(date.length - 2)
 				
-					let today = yyyy + '-' + mm + '-' + dd
-					return today
-				}
-				let realDate = formatOneDate(new Date(AIdate))
-				const AIname = AIResult.name
 				const AIamount = AIResult.amount
 
 				AIresultHtml = `
