@@ -333,7 +333,7 @@ async function submitReceiptToAI(userID) {
 				)
 
 				const AIResult = await resp.json()
-				let AIdate = AIResult.date.replace("(\W|\D|\S)", "-")
+				let AIdate = AIResult.date
 				let real = new Date(AIdate)
 				console.log(real)
 				const AIamount = AIResult.amount
