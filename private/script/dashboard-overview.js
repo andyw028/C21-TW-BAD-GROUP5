@@ -221,6 +221,7 @@ async function getMonthlyAndDailySpending() {
 		if (today == item.date) {
 			console.log(today, item.date)
 			dailySpending += parseInt(item.price)
+			console.log(item.price)
 		}
 	}
 	dailySpend.innerHTML = `HKD$${dailySpending}`
