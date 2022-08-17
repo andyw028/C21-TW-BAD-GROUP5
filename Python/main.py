@@ -35,6 +35,7 @@ def find_Name(para):
     shop_name_pattern = '\w+'
     testing_pattern = '\w+|^[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*'
     Names = re.findall(testing_pattern, para)
+    print("This is Names find in re", Names)
     Names_list = []
     if len(Names) < 7:
         for i in len(Names):
@@ -44,6 +45,7 @@ def find_Name(para):
             Names_list.append(Names[i])
     
     name = max(Names_list,key=Names_list.count)
+    print("This is name after re", name)
     return name
 
 
