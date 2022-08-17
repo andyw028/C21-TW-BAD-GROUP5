@@ -76,9 +76,9 @@ describe('ReceiptService', () => {
 		const resultAfterEdit = await receiptService.getReceipt(1)
 		// 3 receipts
 		expect(resultAfterEdit).toHaveLength(3)
-		expect(resultAfterEdit[3].venue).toMatch('Hong Kong')
-		expect(resultAfterEdit[3].price).toMatch('1997.00')
-		expect(resultAfterEdit[3].type).toEqual(5)
+		expect(resultAfterEdit[2].venue).toMatch('Hong Kong')
+		expect(resultAfterEdit[2].price).toMatch('1997.00')
+		expect(resultAfterEdit[2].type).toEqual(5)
 	})
 
 	it('should able to delete receipt', async () => {
