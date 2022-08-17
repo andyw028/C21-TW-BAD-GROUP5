@@ -28,8 +28,12 @@
 	
 	/* account page */
 
-	--color-bg: #1f2641;
+	--color-ac-textarea-bg: #1f2641;
     --color-bg2: #424890;
+
+	--color-ac-container-bg: #d1e9ee;
+	--color-ac-aside-bg: #c4e2ec;
+	--color-ac-btn: #ff7782;
 
 	--container-width-lg: 80%;
 	--container-width-md: 90%;
@@ -81,6 +85,12 @@
 	--color-light: #23232a;
 	--color-dark: #ddd;
 	--color-gray-dark: #adacb5;
+	--color-ac-btn: #131316;
+	
+	/* Account page */
+	--color-ac-textarea-bg: #23232a;
+	--color-ac-container-bg: #555555;
+	--color-ac-aside-bg: #131316;
 }
 
 * {
