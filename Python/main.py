@@ -37,14 +37,14 @@ def find_Name(para):
     Names = re.findall(testing_pattern, para)
     print("This is Names find in re", Names)
     Names_list = []
-    if len(Names) < 7:
+    if len(Names) < 5:
         for i in len(Names):
             Names_list.append(Names[i])
     else:
-        for i in range(5):
+        for i in range(4):
             Names_list.append(Names[i])
-    
-    name = max(Names_list,key=Names_list.count)
+    #Names_list.count
+    name = max(Names_list,key=len)
     print("This is name after re", name)
     return name
 
