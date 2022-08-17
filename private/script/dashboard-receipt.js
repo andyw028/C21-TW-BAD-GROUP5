@@ -334,6 +334,7 @@ async function submitReceiptToAI(userID) {
 
 				const AIResult = await resp.json()
 				let AIdate = AIResult.date
+				console.log(AIdate)
 				let real = new Date(AIdate)
 				console.log(real)
 				const AIamount = AIResult.amount
@@ -348,19 +349,19 @@ async function submitReceiptToAI(userID) {
     aria-describedby="inputGroup-sizing-default" 
     id="shopName" name="shopName" placeholder = "ShopName" required value = "${AIResult.name}"></div>
 
+	<h5> Please Make sure the date is formatted as YYYY-MM-DD</h5>
     <div class="input-group mb-3">
     <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
     <input type="text" class="form-control" aria-label="Sizing example input" 
     aria-describedby="inputGroup-sizing-default" 
     id="date" name="date" placeholder = "Date" required value = ${AIdate}></div>
-
     <div class="input-group mb-3">
     <span class="input-group-text" id="inputGroup-sizing-default">Amount</span>
     <input type="text" class="form-control" aria-label="Sizing example input" 
     aria-describedby="inputGroup-sizing-default" 
     id="amount" name="amount" placeholder = "Amount" required value = ${AIamount}></div>
 
-    <h5> Opps, our AI unable to detect expenses type of your receipt, please select by yourself 🙇🙇🙇</h5>
+    <h5> Opps, our AI is unable to detect expenses type of your receipt, please select by yourself 🙇🙇🙇</h5>
     <select class="form-select" aria-label="Default select example" id="selection" name = "type">
                     <option value="1">Clothing</option>
                     <option value="2">Food</option>
