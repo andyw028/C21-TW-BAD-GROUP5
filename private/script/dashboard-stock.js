@@ -443,7 +443,7 @@ async function loadDailyStockDetail() {
 	const active = await fetch('//python.samor.me/stockactive')
 	const activeinfo = await active.json()
 	document.querySelector(`#day-gainer`).innerHTML = `<div class="text-center">
-	<h3>Top Ten Gainer</h3>
+	<h3>Top five Gainer</h3>
 </div>
 <div
 	class="d-flex justify-content-center detail-title"
@@ -453,7 +453,7 @@ async function loadDailyStockDetail() {
 	<div class="col-4 text-center">Changes</div>
 </div>`
 	document.querySelector(`#day-loser`).innerHTML = `								<div class="text-center">
-	<h3>Top Ten Loser</h3>
+	<h3>Top five Loser</h3>
 </div>
 <div
 	class="d-flex justify-content-around detail-title"
@@ -463,7 +463,7 @@ async function loadDailyStockDetail() {
 	<div class="col-4 text-center">Changes</div>
 </div>`
 	document.querySelector(`#day-active`).innerHTML = `								<div class="text-center">
-	<h3>Top Ten Active</h3>
+	<h3>Top five Active</h3>
 </div>
 <div
 	class="d-flex justify-content-around detail-title"
