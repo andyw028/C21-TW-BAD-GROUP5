@@ -334,7 +334,8 @@ async function submitReceiptToAI(userID) {
 
 				const AIResult = await resp.json()
 				const AIdate = AIResult.date
-
+				console.log(AIdate)
+				console.log(typeof AIdate)
 				const realBDay = new Date(AIdate)
 				let year = realBDay.getFullYear().toString()
 				let month = '0' + (realBDay.getMonth() + 1).toString()
@@ -345,6 +346,8 @@ async function submitReceiptToAI(userID) {
 				month.substring(month.length - 2) +
 				'-' +
 				date.substring(date.length - 2)
+
+				console.log(realDate)
 				
 				const AIamount = AIResult.amount
 
