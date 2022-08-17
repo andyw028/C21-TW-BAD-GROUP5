@@ -214,19 +214,14 @@ async function getMonthlyAndDailySpending() {
 	today = today.toISOString()
 	const serverDailyDetail = await fetch(`/receipt/sevenDays/${id}`)
 	let dailyData = await serverDailyDetail.json()
-	console.log(dailyData)
 	let dailyDataNew = dailyData.data
-	console.log(dailyDataNew)
 	let dailySpending = 0
 	for (let item of dailyDataNew) {
-		console.log(today, item.date)
 		if (
 			formatOneDate(new Date(today)) ===
 			formatOneDate(new Date(item.date))
 		) {
-			console.log(today, item.date)
 			dailySpending += parseInt(item.price)
-			console.log(item.price)
 		}
 	}
 	dailySpend.innerHTML = `HKD$${dailySpending}`
