@@ -16,7 +16,7 @@ async function load_panel() {
 	})
 }
 
-const TypeMapping = {
+const Type = {
 	1: 'Clothing',
 	2: 'Food',
 	3: 'Housing',
