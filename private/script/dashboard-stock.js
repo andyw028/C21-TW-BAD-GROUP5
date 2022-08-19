@@ -316,7 +316,7 @@ async function loadUserStocks() {
 					totalAmount += item.amount
 				}
 			}
-
+			if (totalAmount > 0){
 			current = parseYF[stock]
 			current = Math.round((current + Number.EPSILON) * 100) / 100
 			presentData.push({
@@ -335,6 +335,7 @@ async function loadUserStocks() {
 						)) *
 					totalAmount
 			})
+		}
 		}
 		GlobalStock = presentData
 		panel.innerHTML = ``
@@ -394,9 +395,16 @@ function formSubmitForNewStock() {
 				for (let stock of GlobalStock) {
 					if (
 						stock.ticker === obj['ticker'] &&
-						form['amount'].value
+						form['amount'].value > stock.amount
 					) {
 						obj['amount'] = form['amount'].value
+					}
+					else {
+						await Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'The Amount is too large',
+						  })
 					}
 				}
 			} else {

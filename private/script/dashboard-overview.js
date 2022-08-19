@@ -127,7 +127,7 @@ async function retrieveStockPL() {
 
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()
-	if (!result[0]) {
+	if (!result[0]||isNaN(result[0])) {
 		stockPL.innerHTML = `USD$0`
 	} else {
 		let stockSet = new Set()
@@ -137,6 +137,9 @@ async function retrieveStockPL() {
 		}
 		//turn set to array
 		let stockArr = Array.from(stockSet)
+		for (let stock of stockArr){
+			stock = stock.toUppercase()
+		}
 		//prepare to format the data to table on the page
 		let query = stockArr.join('&')
 		//get stock current price data from python yFinance API
@@ -185,6 +188,7 @@ async function retrieveStockPL() {
 		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
 	}
 }
+//make a Date object into formatted YYYY-MM-DD
 function formatOneDate(date) {
 	let dd = String(date.getDate()).padStart(2, '0')
 	let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
@@ -209,6 +213,9 @@ async function getMonthlyAndDailySpending() {
 		(acc, cur) => acc + parseInt(cur.sum),
 		0
 	)
+	if (isNaN(monthlyResult)){
+		monthlyResult = 0
+	}
 	monthlySpend.innerHTML = `HKD$${monthlyResult}`
 	//Daily Spend
 
@@ -223,7 +230,12 @@ async function getMonthlyAndDailySpending() {
 			formatOneDate(new Date(today)) ===
 			formatOneDate(new Date(item.date))
 		) {
+			// if the price is not a number 
+			if (isNaN(parseInt(item.price))){
+				continue
+			}else {
 			dailySpending += parseInt(item.price)
+			}
 		}
 	}
 	dailySpend.innerHTML = `HKD$${dailySpending}`
