@@ -127,7 +127,7 @@ async function retrieveStockPL() {
 
 	const stockDetailsFromDB = await fetch(`/stock/${id}`)
 	const result = await stockDetailsFromDB.json()
-	if (!result[0]||isNaN(result[0])) {
+	if (!result[0]) {
 		stockPL.innerHTML = `USD$0`
 	} else {
 		let stockSet = new Set()
@@ -181,10 +181,11 @@ async function retrieveStockPL() {
 					totalAmount
 			})
 		}
-		const pl = presentData.reduce((acc, cur) => acc + cur.pl, 0)
-		if (isNaN(pl)) {
-			pl = 0
-		}
+		const pl = presentData.reduce((acc, cur) => {
+			if (!isNaN(cur.pl)){
+			acc + cur.pl
+			}
+		}, 0)
 		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
 	}
 }

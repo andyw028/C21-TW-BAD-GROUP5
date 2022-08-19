@@ -340,6 +340,7 @@ async function loadUserStocks() {
 		GlobalStock = presentData
 		panel.innerHTML = ``
 		for (let data of presentData) {
+			if (!isNaN(data.amount)||!isNaN(earn)||!isNaN(data.current)||!isNaN(data.cost))
 			let earn = Math.round(((data.pl + Number.EPSILON) * 100) / 100)
 			await addStockRow(
 				data.ticker,
