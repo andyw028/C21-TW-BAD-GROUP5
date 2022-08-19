@@ -185,6 +185,7 @@ async function retrieveStockPL() {
 			if (!isNaN(parseInt(cur.pl))){
 			acc += cur.pl
 			}
+			console.log(acc)
 		}, 0)
 		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
 	}
