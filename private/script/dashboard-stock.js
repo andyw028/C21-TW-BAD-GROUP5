@@ -393,7 +393,7 @@ function formSubmitForNewStock() {
 				for (let stock of GlobalStock) {
 					if (
 						stock.ticker === obj['ticker'] &&
-						form['amount'].value >= stock.amount
+						form['amount'].value <= stock.amount
 					) {
 						obj['amount'] = form['amount'].value
 					}
