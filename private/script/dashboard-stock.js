@@ -397,7 +397,7 @@ function formSubmitForNewStock() {
 					) {
 						obj['amount'] = form['amount'].value
 					}
-					else {
+					else if (stock.ticker === obj['ticker'] && form['amount'].value > stock.amount){
 						await Swal.fire({
 							icon: 'error',
 							title: 'Oops...',
