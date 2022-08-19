@@ -169,6 +169,7 @@ async function retrieveStockPL() {
 			}
 
 			current = parseYF[stock]
+			console.log(current)
 			current = Math.round((current + Number.EPSILON) * 100) / 100
 			presentData.push({
 				pl:
@@ -181,7 +182,9 @@ async function retrieveStockPL() {
 					totalAmount
 			})
 		}
+		console.log(presentData)
 		const pl = presentData.reduce((acc, cur) => {
+			console.log(cur)
 			if (!isNaN(parseInt(cur.pl))){
 			acc += cur.pl
 			}
