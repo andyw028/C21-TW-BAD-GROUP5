@@ -16,7 +16,7 @@ async function load_panel() {
 	})
 }
 
-const TypeMapping = {
+const Typeobj = {
 	1: 'Clothing',
 	2: 'Food',
 	3: 'Housing',
@@ -101,7 +101,7 @@ async function loadReceiptRecord(id) {
 				date.substring(date.length - 2)
 
 			imagePath = `/${result.image}`
-			expensesType = TypeMappings.get(result.type)
+			expensesType = TypeMapping[result.type]
 
 			receiptHTML += `<div class="receipt">
         <div class="receiptBody">
@@ -372,6 +372,7 @@ async function submitReceiptToAI(userID) {
 				// Add function to form
 				await submitReceipt(receiptName, userID)
 			}
+
 		})
 }
 
