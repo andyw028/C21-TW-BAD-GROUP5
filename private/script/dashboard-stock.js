@@ -386,10 +386,6 @@ function formSubmitForNewStock() {
 			if (form['buy-sell'].value === 'sell') {
 				obj['is_buy'] = false
 			}
-			if (form['buy-sell'].value === '') {
-				alert('missing buy/sell')
-			}
-
 			//for loop checking if the amount is larger than the QTY
 			if (!obj['is_buy']) {
 				for (let stock of GlobalStock) {
