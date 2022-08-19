@@ -379,7 +379,7 @@ function formSubmitForNewStock() {
 			//make the form
 			const form = e.target
 			const obj = {}
-			obj['ticker'] = form.ticker.value
+			obj['ticker'] = form.ticker.value.toUpperCase()
 			if (form['buy-sell'].value === 'buy') {
 				obj['is_buy'] = true
 			}

@@ -133,7 +133,7 @@ async function retrieveStockPL() {
 		let stockSet = new Set()
 		//Get all stock name as a set
 		for (let i of result) {
-			stockSet.add(i['ticker'])
+			stockSet.add(i['ticker'].toUppercase())
 		}
 		//turn set to array
 		let stockArr = Array.from(stockSet)
