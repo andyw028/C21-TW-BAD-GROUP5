@@ -184,9 +184,6 @@ async function retrieveStockPL() {
     }
     const pl = presentData.reduce((acc, cur) => {
       console.log(cur.pl);
-      if (isNaN(cur.pl)) {
-        return 0;
-      }
       acc += parseInt(cur.pl);
       console.log(acc);
     }, 0);
