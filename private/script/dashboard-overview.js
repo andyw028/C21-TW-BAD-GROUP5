@@ -138,7 +138,7 @@ async function retrieveStockPL() {
 		//turn set to array
 		let stockArr = Array.from(stockSet)
 		for (let stock of stockArr){
-			stock = stock.toUppercase()
+			stock = stock.toUpperCase()
 		}
 		//prepare to format the data to table on the page
 		let query = stockArr.join('&')
