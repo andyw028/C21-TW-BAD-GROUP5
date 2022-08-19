@@ -178,7 +178,7 @@ async function retrieveStockPL() {
         totalAmount;
 	if (singlepl){
       presentData.push({
-        pl: parseInt(inglepl),
+        pl: parseInt(singlepl),
       });
 	}
     }
