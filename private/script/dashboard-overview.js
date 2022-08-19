@@ -184,7 +184,7 @@ async function retrieveStockPL() {
     }
     const pl = presentData.reduce((acc, cur) => {
       console.log(cur.pl);
-      acc += parseInt(cur.pl);
+      acc += cur.pl;
       console.log(acc);
     }, 0);
 	console.log(pl)
