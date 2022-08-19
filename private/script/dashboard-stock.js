@@ -285,7 +285,7 @@ async function loadUserStocks() {
 		let stockSet = new Set()
 		//Get all stock name as a set
 		for (let i of result) {
-			stockSet.add(i['ticker'])
+			stockSet.add(i['ticker'].toUpperCase())
 		}
 		//turn set to array
 		let stockArr = Array.from(stockSet)
