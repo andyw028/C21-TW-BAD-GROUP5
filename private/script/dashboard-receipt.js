@@ -16,7 +16,7 @@ async function load_panel() {
 	})
 }
 
-const Typeobj = {
+const TypeObj = {
 	1: 'Clothing',
 	2: 'Food',
 	3: 'Housing',
@@ -101,7 +101,7 @@ async function loadReceiptRecord(id) {
 				date.substring(date.length - 2)
 
 			imagePath = `/${result.image}`
-			expensesType = TypeMapping[result.type]
+			expensesType = TypeObj[result.type]
 
 			receiptHTML += `<div class="receipt">
         <div class="receiptBody">
