@@ -13,7 +13,7 @@ export class ReceiptServices {
 			.select('*')
 			.where('users_id', id)
 			.andWhere('is_deleted', false)
-			.orderBy("date", "desc")
+			.orderBy('date', 'desc')
 		return result
 	}
 

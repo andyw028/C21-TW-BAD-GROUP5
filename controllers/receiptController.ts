@@ -156,7 +156,6 @@ export class ReceiptController {
 
 	submit = async (req: Request, res: Response) => {
 		try {
-			
 		} catch (err) {
 			logger.error(err.toString())
 			res.json({ success: false, message: 'Error, please check' })

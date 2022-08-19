@@ -57,8 +57,7 @@ export class UserController {
 		const userResult = await this.userService.checkAC(email, username)
 
 		if (userResult > 1) {
-
-				res.status(400).json({
+			res.status(400).json({
 				success: false,
 				message: 'Email already exists'
 			})
@@ -86,22 +85,27 @@ export class UserController {
 		const userInfo = await this.userService.getUSerByID(id)
 		res.status(200).json(userInfo)
 	}
-	post = async (req:Request, res: Response) => {
+	post = async (req: Request, res: Response) => {
 		const form = req.body
 		const id = req.params.id
-		
-		if (!form || !id || (isNaN(parseInt(id)))){
-			res.json({ message: 'Invalid'})
+
+		if (!form || !id || isNaN(parseInt(id))) {
+			res.json({ message: 'Invalid' })
 			return
 		}
-		
-		if(!form['firstName']){
+
+		if (!form['firstName']) {
 			res.json({ message: 'Invalid firstName' })
 			return
 		}
-		const result = await this.userService.changeUserInfo(form['firstName'], form['lastName'], form['email'], form['password'], id)
-		
-		res.json(result)
+		const result = await this.userService.changeUserInfo(
+			form['firstName'],
+			form['lastName'],
+			form['email'],
+			form['password'],
+			id
+		)
 
-}
+		res.json(result)
+	}
 }

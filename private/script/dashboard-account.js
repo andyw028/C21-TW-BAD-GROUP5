@@ -8,8 +8,8 @@ function eventListenerOfAccountButton() {
 }
 
 async function loadAccountPage() {
-	const panel = document.querySelector('#dashboard-panel');
-	panel.innerHTML = '';
+	const panel = document.querySelector('#dashboard-panel')
+	panel.innerHTML = ''
 	// panel.innerHTML = `<div id="acc-board" class="container d-flex justify-content-around flex-wrap"></div>`
 	// const accPanel = document.querySelector('#acc-board')
 	panel.innerHTML += `<section class="account">
@@ -70,32 +70,32 @@ async function loadAccountPage() {
 	document.querySelector('#name').innerHTML +=
 		result[0].first_name + ' ' + result[0].last_name
 
-		document
+	document
 		.querySelector('#changeUserinfo')
 		.addEventListener('submit', async function (event) {
-		  event.preventDefault()
-	  
-		  // Serialize the Form afterwards
-		  const form = event.target
-		  const formObject = {}
-		  formObject['firstName'] = form.firstName.value
-		  formObject['lastName'] = form.lastName.value
-		  formObject['email'] = form.email.value
-		  formObject['password'] = form.password.value
+			event.preventDefault()
 
-		  const res = await fetch(`/account/${id}`, {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(formObject),
-		  })
-		  const result = await res.json()
-		  await loadAccountPage()
-		form.firstName.value = ""
-		form.lastName.value = ""
-		form.email.value = ""
-		form.password.value = ""
+			// Serialize the Form afterwards
+			const form = event.target
+			const formObject = {}
+			formObject['firstName'] = form.firstName.value
+			formObject['lastName'] = form.lastName.value
+			formObject['email'] = form.email.value
+			formObject['password'] = form.password.value
+
+			const res = await fetch(`/account/${id}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(formObject)
+			})
+			const result = await res.json()
+			await loadAccountPage()
+			form.firstName.value = ''
+			form.lastName.value = ''
+			form.email.value = ''
+			form.password.value = ''
 		})
 }
 

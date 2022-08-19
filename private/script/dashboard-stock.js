@@ -316,40 +316,46 @@ async function loadUserStocks() {
 					totalAmount += item.amount
 				}
 			}
-			if (totalAmount > 0){
-			current = parseYF[stock]
-			current = Math.round((current + Number.EPSILON) * 100) / 100
-			presentData.push({
-				ticker: stock,
-				amount: totalAmount,
-				cost: Math.round(
-					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
-				),
-				current: current,
-				pl:
-					(current -
-						Math.round(
-							(((buy + sell) / totalAmount + Number.EPSILON) *
-								100) /
-								100
-						)) *
-					totalAmount
-			})
-		}
+			if (totalAmount > 0) {
+				current = parseYF[stock]
+				current = Math.round((current + Number.EPSILON) * 100) / 100
+				presentData.push({
+					ticker: stock,
+					amount: totalAmount,
+					cost: Math.round(
+						(((buy + sell) / totalAmount + Number.EPSILON) * 100) /
+							100
+					),
+					current: current,
+					pl:
+						(current -
+							Math.round(
+								(((buy + sell) / totalAmount + Number.EPSILON) *
+									100) /
+									100
+							)) *
+						totalAmount
+				})
+			}
 		}
 		GlobalStock = presentData
 		panel.innerHTML = ``
 		for (let data of presentData) {
-			if (!isNaN(data.amount)||!isNaN(earn)||!isNaN(data.current)||!isNaN(data.cost)){
-			let earn = Math.round(((data.pl + Number.EPSILON) * 100) / 100)
-			await addStockRow(
-				data.ticker,
-				data.amount,
-				data.cost,
-				data.current,
-				earn,
-				panel
-			)
+			if (
+				!isNaN(data.amount) ||
+				!isNaN(earn) ||
+				!isNaN(data.current) ||
+				!isNaN(data.cost)
+			) {
+				let earn = Math.round(((data.pl + Number.EPSILON) * 100) / 100)
+				await addStockRow(
+					data.ticker,
+					data.amount,
+					data.cost,
+					data.current,
+					earn,
+					panel
+				)
 			}
 		}
 	}
@@ -396,14 +402,16 @@ function formSubmitForNewStock() {
 						form['amount'].value <= stock.amount
 					) {
 						obj['amount'] = form['amount'].value
-					}
-					else if (stock.ticker === obj['ticker'] && form['amount'].value > stock.amount){
+					} else if (
+						stock.ticker === obj['ticker'] &&
+						form['amount'].value > stock.amount
+					) {
 						await Swal.fire({
 							icon: 'error',
 							title: 'Oops...',
-							text: 'The Amount is too large',
-						  })
-						  return
+							text: 'The Amount is too large'
+						})
+						return
 					}
 				}
 			} else {

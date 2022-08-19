@@ -372,7 +372,6 @@ async function submitReceiptToAI(userID) {
 				// Add function to form
 				await submitReceipt(receiptName, userID)
 			}
-
 		})
 }
 
