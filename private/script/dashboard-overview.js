@@ -182,6 +182,7 @@ async function retrieveStockPL() {
       });
 	}
     }
+  console.log(presentData)
     const pl = presentData.reduce((acc, cur) => {
       console.log(cur.pl);
       acc += cur.pl;
