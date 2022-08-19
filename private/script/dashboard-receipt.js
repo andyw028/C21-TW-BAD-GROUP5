@@ -16,7 +16,7 @@ async function load_panel() {
 	})
 }
 
-const Type = {
+const TypeMapping = {
 	1: 'Clothing',
 	2: 'Food',
 	3: 'Housing',
@@ -42,14 +42,6 @@ async function addPanels() {
     `
 	document.querySelector('#dashboard-panel').innerHTML = panelHtmlSTR
 }
-
-//async function confirmFunction(id) {
-// const result = confirm("Would you like to edit your receipt?")
-// if (result) {
-// document.querySelector(`#receipt-venue-${id}`).getAttribute('contenteditable') = True
-// document.querySelector(`#receipt-date-${id}`).getAttribute('contenteditable') = True
-//document.querySelector(`#receipt-amount-${id}`).getAttribute('contenteditable') = True
-//document.querySelector(`#receipt-type-${id}`).getAttribute('contenteditable') = True}}
 
 async function editConfirmFunction() {
 	const result = await Swal.fire({
@@ -109,7 +101,7 @@ async function loadReceiptRecord(id) {
 				date.substring(date.length - 2)
 
 			imagePath = `/${result.image}`
-			expensesType = TypeMapping[result.type]
+			expensesType = TypeMappings.get(result.type)
 
 			receiptHTML += `<div class="receipt">
         <div class="receiptBody">
@@ -377,9 +369,9 @@ async function submitReceiptToAI(userID) {
 `
 
 				document.querySelector('#receiptTime').innerHTML = AIresultHtml
+				// Add function to form
 				await submitReceipt(receiptName, userID)
 			}
-			// Add function to form
 		})
 }
 
