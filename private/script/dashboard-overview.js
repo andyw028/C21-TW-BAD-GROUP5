@@ -182,8 +182,8 @@ async function retrieveStockPL() {
 			})
 		}
 		const pl = presentData.reduce((acc, cur) => {
-			if (!isNaN(cur.pl)){
-			acc + cur.pl
+			if (!isNaN(parseInt(cur.pl))){
+			acc += cur.pl
 			}
 		}, 0)
 		stockPL.innerHTML += `USD$` + `${parseInt(pl)}`
