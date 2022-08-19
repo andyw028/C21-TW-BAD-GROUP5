@@ -187,9 +187,10 @@ async function retrieveStockPL() {
       if (isNaN(cur.pl)) {
         return 0;
       }
-      acc += cur.pl;
+      acc += parseInt(cur.pl);
       console.log(acc);
     }, 0);
+	console.log(pl)
     stockPL.innerHTML += `USD$` + `${parseInt(pl)}`;
   }
 }
