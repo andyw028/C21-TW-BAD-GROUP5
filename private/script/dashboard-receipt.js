@@ -109,9 +109,9 @@ async function loadReceiptRecord(id) {
                 <img src="../..${imagePath}" class="card-img">
 
                 <div id ="receipt-text" data-id = '${result.id}'>
-                <div class = "receipt-content" contenteditable=True id="receipt-venue-${result.id}">${result.venue}</div>
-                <div class = "receipt-content" contenteditable=True id="receipt-date-${result.id}">${finalDate}</div>
-                <div class = "receipt-content" contenteditable=True id="receipt-amount-${result.id}">${result.price}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-venue-${result.id}" required>${result.venue}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-date-${result.id}" required>${finalDate}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-amount-${result.id}" required>${result.price}</div>
                 <select class = "receiptSelectionType" "name="selection" id="receipt-type-${result.id}">
                     <option value=0 selected>${expensesType}</option>
                     <option value=1>Clothing</option>
