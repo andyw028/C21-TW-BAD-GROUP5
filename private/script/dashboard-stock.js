@@ -441,13 +441,14 @@ function formSubmitForNewStock() {
 		document.getElementById('stock-form').reset()
 	})
 }
-
+//load all stock details by fetching the python server route
 async function loadDailyStockDetail() {
 	const loader = `<div class="d-flex justify-content-center mt-1">
 	<div class="spinner-border" role="status">
 	  <span class="visually-hidden">Loading...</span>
 	</div>
   </div>`
+    // Adding to loading icon when the fetching id processing
 	document.querySelector(`#day-gainer`).innerHTML += loader
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader
@@ -491,6 +492,7 @@ async function loadDailyStockDetail() {
 	loadDailyRow('day-loser', loserinfo)
 	loadDailyRow('day-active', activeinfo)
 }
+//load day gainer loser active row
 function loadDailyRow(htmlID, arrayOfObject) {
 	const insert = document.querySelector(`#${htmlID}`)
 	for (let item of arrayOfObject) {
