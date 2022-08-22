@@ -1,5 +1,6 @@
 import { Knex } from 'knex'
 import { hashPassword } from '../utils/hash'
+
 const userTableName = 'users'
 const stockTableName = 'stocks'
 const receiptTableName = 'receipts'

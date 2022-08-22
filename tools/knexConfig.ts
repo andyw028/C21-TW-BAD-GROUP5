@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const knexConfigs = require('../knexfile')
-const Mode = 'development' || process.env.NODE_ENV
-const knexConfig = knexConfigs[Mode]
+import knexConfigs from '../knexfile'
+const mode = 'development' || process.env.NODE_ENV
+const knexConfig = knexConfigs[mode]
 export const knex = Knex(knexConfig)

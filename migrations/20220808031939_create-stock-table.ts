@@ -6,12 +6,12 @@ const stockTableName = 'stocks'
 export async function up(knex: Knex): Promise<void> {
 	await knex.schema.dropTableIfExists(accountTableName)
 	await knex.schema.createTable(stockTableName, (table) => {
-		table.increments('id').notNullable()
+		table.increments('id')
 		table.string('ticker').notNullable()
 		table.decimal('price').notNullable()
 		table.boolean('is_buy').notNullable()
 		table.integer('amount').notNullable()
-		table.integer('user_id').notNullable()
+		table.integer('user_id').notNullable().unsigned()
 		table.foreign('user_id').references('users.id')
 		table.timestamps(false, true)
 	})

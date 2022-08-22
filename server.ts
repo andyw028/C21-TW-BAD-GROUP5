@@ -1,12 +1,9 @@
 import express from 'express'
-import { client } from './tools/pg'
 import { knex } from './tools/knexConfig'
 import expressSession from 'express-session'
 import path from 'path'
 import fs from 'fs'
 import formidable from 'formidable'
-
-client.connect()
 
 const app = express()
 
@@ -22,10 +19,12 @@ app.use(
 		saveUninitialized: true
 	})
 )
+
 //file upload route
 const uploadDir = 'uploads'
 fs.mkdirSync(uploadDir, { recursive: true })
 app.use(express.static(path.join(__dirname, 'uploads')))
+
 export const form = formidable({
 	uploadDir,
 	keepExtensions: true,
@@ -37,6 +36,7 @@ export const form = formidable({
 		return `${fieldName}`
 	}
 })
+
 //###################################
 //Controller and Services Declaration
 //###################################
@@ -58,6 +58,7 @@ export const stockController = new StockController(stockService)
 import { routes } from './routers/routers'
 import { isLoggedInStatic } from './utils/guards'
 import { logger } from './tools/winston'
+import { errorHandler } from './utils/error'
 app.use('/', routes)
 
 //########################
@@ -68,6 +69,8 @@ app.use(isLoggedInStatic, express.static(path.join(__dirname, 'private')))
 app.use((req, res) => {
 	res.sendFile(path.join(__dirname, 'public', '404.html'))
 })
+
+app.use(errorHandler)
 
 //########################
 //Routes Listening

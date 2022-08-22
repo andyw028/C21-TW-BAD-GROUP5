@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { StockServices } from '../services/stockServices'
+import { logger } from '../tools/winston'
 
 export class StockController {
 	constructor(private stockService: StockServices) {}
@@ -15,7 +16,7 @@ export class StockController {
 			res.json(await this.stockService.getStocksByID(parseInt(userID)))
 		} catch (e) {
 			//#########Logger later
-			console.error(e.message)
+			logger.error(e.message)
 		}
 	}
 	post = async (req: Request, res: Response) => {

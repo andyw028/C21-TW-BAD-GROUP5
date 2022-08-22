@@ -363,6 +363,8 @@ async function loadUserStocks() {
 
 //add row for users' stocks
 async function addStockRow(ticker, amount, cost, current, pl, panel) {
+	// let ele = document.createElement('div')
+	// innerHtml -> XSS Attack
 	let stockDetailRow = `	<div class="row m-3 justify-content-center stock-detail">
 	<div class="col-2 d-flex justify-content-center"><span><img
 	src="https://eodhistoricaldata.com/img/logos/US/${ticker}.png"
@@ -448,7 +450,7 @@ async function loadDailyStockDetail() {
 	  <span class="visually-hidden">Loading...</span>
 	</div>
   </div>`
-    // Adding to loading icon when the fetching id processing
+	// Adding to loading icon when the fetching id processing
 	document.querySelector(`#day-gainer`).innerHTML += loader
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader

@@ -30,4 +30,12 @@ export class StockServices {
 	}
 
 	async deleteStockRecord() {}
+
+	// async test() {
+	// 	const query = this.knex("stocks");
+	// 	if () {
+	// 		query.select()
+	// 	}
+	// 	query.where()
+	// }
 }

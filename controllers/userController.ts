@@ -1,29 +1,26 @@
-import { Request, Response } from 'express'
-// import { request } from 'http'
-// import { userInfo } from 'os'
-// import { stringify } from 'querystring'
+import { NextFunction, Request, Response } from 'express'
+import { loginSchema } from '../schemas/user'
 import { UserServices } from '../services/userServices'
+import { ApplicationError } from '../utils/error'
 import { checkPassword } from '../utils/hash'
 
 export class UserController {
 	constructor(private userService: UserServices) {}
 
-	login = async (req: Request, res: Response) => {
-		const { username, password } = req.body
-		if (!username || !password) {
-			res.status(400).json({
-				success: false,
-				message: 'Invalid username or password'
-			})
+	login = async (req: Request, res: Response, next: NextFunction) => {
+		// const obj = {value: {username: "jason", password: "1234"}}
+		// const {value: {username, password}} = obj
+
+		const { error: validErr, value } = loginSchema.validate(req.body)
+		if (validErr) {
+			next(new ApplicationError(400, 'Invalid Username or Password'))
 			return
 		}
+
+		const { username, password } = value
 		const user = await this.userService.getUserByUsername(username)
-		if (!user || !user[0]) {
-			res.status(400).json({
-				success: false,
-				message: 'No such User'
-			})
-			return
+		if (!user) {
+			throw new ApplicationError(400, 'No such User')
 		} else {
 			let hashed = user[0]['password']
 			const verify = user && (await checkPassword(password, hashed))
@@ -85,6 +82,7 @@ export class UserController {
 		const userInfo = await this.userService.getUSerByID(id)
 		res.status(200).json(userInfo)
 	}
+
 	post = async (req: Request, res: Response) => {
 		const form = req.body
 		const id = req.params.id
@@ -98,6 +96,7 @@ export class UserController {
 			res.json({ message: 'Invalid firstName' })
 			return
 		}
+
 		const result = await this.userService.changeUserInfo(
 			form['firstName'],
 			form['lastName'],

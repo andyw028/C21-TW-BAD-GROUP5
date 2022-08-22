@@ -1,10 +1,29 @@
 import express from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { userController, receiptController, stockController } from '../server'
 import path from 'path'
 import { formidableMiddleware } from '../utils/formiddable'
 import { isExactUser, isLoggedInApi, isLoggedInStatic } from '../utils/guards'
 import { logger } from '../tools/winston'
+import { ApplicationError } from '../utils/error'
+
+const asyncWrapper =
+	(fn: (req: Request, res: Response, next?: NextFunction) => Promise<any>) =>
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await fn(req, res, next)
+		} catch (err) {
+			if (err instanceof ApplicationError) {
+				next(err)
+			} else {
+				logger.error(err.message)
+				next(new ApplicationError(500, 'internal server error'))
+			}
+		}
+	}
+
 let visitCount = 0
+
 export const routes = express.Router()
 
 routes.get('/', (req, res) => {
@@ -24,19 +43,22 @@ routes.get('/', (req, res) => {
 routes.get('/login', (req, res) => {
 	res.sendFile(path.join(__dirname, '..', 'public', 'login.html'))
 })
+
 routes.get('/logout', (req, res) => {
 	logger.info(`User With id ${req.session['user']!.id} logged out`)
 	req.session['user'] = undefined
 	res.json({ logout: true })
 })
+
 routes.get('/dashboard/:id', isLoggedInApi, isExactUser, (req, res) => {
 	logger.info(`User with ID ${req.params.id} is currently logging in`)
 	res.sendFile(path.join(__dirname, '..', 'private', 'dashboard.html'))
 })
 
 //Users route MCV
-routes.post('/login', userController.login)
+routes.post('/login', asyncWrapper(userController.login))
 routes.post('/signup', userController.signUp)
+
 // routes.put('/users', userController.put)
 // routes.delete('/users', userController.delete)
 

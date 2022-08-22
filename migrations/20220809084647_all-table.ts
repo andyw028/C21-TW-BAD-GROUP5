@@ -23,7 +23,7 @@ export async function up(knex: Knex): Promise<void> {
 		table.timestamps(false, true)
 	})
 	await knex.schema.createTable(stockTableName, (table) => {
-		table.increments('id').notNullable()
+		table.increments('id')
 		table.string('ticker').notNullable()
 		table.decimal('price').notNullable()
 		table.boolean('is_buy').notNullable()

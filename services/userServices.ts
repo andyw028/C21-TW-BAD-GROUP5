@@ -1,13 +1,16 @@
 import { Knex } from 'knex'
 import { hashPassword } from '../utils/hash'
+import { User } from './models'
 
 export class UserServices {
 	constructor(private knex: Knex) {}
 
 	async getUserByUsername(username: string) {
-		return await this.knex('users')
+		// SELECT id, username, password FROM users WHERE username = 'XXX' LIMIT 1
+		return this.knex<User>('users')
 			.where('username', username)
-			.returning(['id', 'username', 'password'])
+			.select(['id', 'username', 'password'])
+			.first()
 	}
 
 	async getUSerByID(id: any) {
