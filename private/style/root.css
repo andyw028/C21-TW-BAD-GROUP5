@@ -25,11 +25,11 @@
 	--border-radius-2: 6px;
 
 	--box-shadow: 0 2rem 3rem var(--color-light);
-	
+
 	/* account page */
 
 	--color-ac-textarea-bg: #1f2641;
-    --color-bg2: #424890;
+	--color-bg2: #424890;
 
 	--color-ac-container-bg: #d1e9ee;
 	--color-ac-aside-bg: #c4e2ec;
@@ -38,7 +38,7 @@
 	--container-width-lg: 80%;
 	--container-width-md: 90%;
 	--container-width-sm: 94%;
-  
+
 	--transition: all 400ms ease;
 
 	/* Color styles 2 trial */
@@ -86,7 +86,7 @@
 	--color-dark: #ddd;
 	--color-gray-dark: #adacb5;
 	--color-ac-btn: #131316;
-	
+
 	/* Account page */
 	--color-ac-textarea-bg: #23232a;
 	--color-ac-container-bg: #555555;

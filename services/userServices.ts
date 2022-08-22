@@ -44,19 +44,23 @@ export class UserServices {
 		)[0]
 	}
 
-	
-
 	async changeUserInfo(
 		firstName: string,
 		lastName: string,
 		email: string,
 		password: string,
 		id: string | number
-	
 	) {
 		const hashedPW = await hashPassword(password)
-		return await this.knex('users').update({email: email, first_name: firstName,
-			last_name: lastName, password: hashedPW}).where('id', id).returning('id')	
+		return await this.knex('users')
+			.update({
+				email: email,
+				first_name: firstName,
+				last_name: lastName,
+				password: hashedPW
+			})
+			.where('id', id)
+			.returning('id')
 	}
 
 	async checkAC(username: string, userEmail: string) {

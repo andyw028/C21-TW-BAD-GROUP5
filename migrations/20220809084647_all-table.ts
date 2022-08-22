@@ -1,4 +1,4 @@
-import { Knex } from "knex";
+import { Knex } from 'knex'
 
 const userTableName = 'users'
 const stockTableName = 'stocks'
@@ -6,12 +6,12 @@ const receiptTableName = 'receipts'
 const typeTableName = 'types'
 
 export async function up(knex: Knex): Promise<void> {
-    await knex.schema.dropTableIfExists("stocks")
-    await knex.schema.dropTableIfExists("receipts")
-    await knex.schema.dropTableIfExists("types")
-    await knex.schema.dropTableIfExists("account")
-    await knex.schema.dropTableIfExists("users")
-    await knex.schema.createTable(userTableName, (table) => {
+	await knex.schema.dropTableIfExists('stocks')
+	await knex.schema.dropTableIfExists('receipts')
+	await knex.schema.dropTableIfExists('types')
+	await knex.schema.dropTableIfExists('account')
+	await knex.schema.dropTableIfExists('users')
+	await knex.schema.createTable(userTableName, (table) => {
 		table.increments()
 		table.string('first_name').notNullable()
 		table.string('last_name').notNullable()
@@ -53,11 +53,9 @@ export async function up(knex: Knex): Promise<void> {
 	})
 }
 
-
 export async function down(knex: Knex): Promise<void> {
-    await knex.schema.dropTableIfExists("receipts")
-    await knex.schema.dropTableIfExists("types")
-    await knex.schema.dropTableIfExists("stocks")
-    await knex.schema.dropTableIfExists("users")
+	await knex.schema.dropTableIfExists('receipts')
+	await knex.schema.dropTableIfExists('types')
+	await knex.schema.dropTableIfExists('stocks')
+	await knex.schema.dropTableIfExists('users')
 }
-

@@ -1,8 +1,5 @@
 import pytesseract
-import os
-import cv2
 from PIL import Image, ImageFilter
-from matplotlib import pyplot as plt
 import re
 from datetime import date
 
@@ -21,7 +18,6 @@ def find_Date(para):
     date_pattern_2 = r"[\d]{1,4}-[\d]{1,4}-[\d]{1,4}"
     Dates = re.findall('([\d]{1,4}/[\d]{1,4}/[\d]{1,4}|[\d]{1,4}-[\d]{1,4}-[\d]{1,4})' , para)
     today = date.today()
-
     # dd/mm/YY
     today_date = today.strftime("%Y/%m/%d")
     if len(Dates) < 1:
@@ -41,25 +37,8 @@ def find_Name(para):
     else:
         for i in range(4):
             Names_list.append(Names[i])
-    #Names_list.count
     name = max(Names_list,key=len)
     return name
-
-
-def read_img_cv(img):
-    img_path = os.path.join('./data/',img + '.jpeg')
-    print(img_path)
-    img_cv = cv2.imread(img_path)
-    ## img is np array with BGR
-    ## change to RGB for pytesseract
-    plt.subplot(121)
-    plt.imshow(img_cv)
-
-    dst = cv2.fastNlMeansDenoisingColored(img_cv,None,10,10,7,21)
-    plt.subplot(122)
-    plt.imshow(dst)
-    img_rgb = cv2.cvtColor(dst, cv2.COLOR_BGR2RGB)
-
 
 def read_IMG(img_path,type):
 

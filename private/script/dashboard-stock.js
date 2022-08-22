@@ -285,7 +285,7 @@ async function loadUserStocks() {
 		let stockSet = new Set()
 		//Get all stock name as a set
 		for (let i of result) {
-			stockSet.add(i['ticker'])
+			stockSet.add(i['ticker'].toUpperCase())
 		}
 		//turn set to array
 		let stockArr = Array.from(stockSet)
@@ -316,25 +316,27 @@ async function loadUserStocks() {
 					totalAmount += item.amount
 				}
 			}
-
-			current = parseYF[stock]
-			current = Math.round((current + Number.EPSILON) * 100) / 100
-			presentData.push({
-				ticker: stock,
-				amount: totalAmount,
-				cost: Math.round(
-					(((buy + sell) / totalAmount + Number.EPSILON) * 100) / 100
-				),
-				current: current,
-				pl:
-					(current -
-						Math.round(
-							(((buy + sell) / totalAmount + Number.EPSILON) *
-								100) /
-								100
-						)) *
-					totalAmount
-			})
+			if (totalAmount > 0) {
+				current = parseYF[stock]
+				current = Math.round((current + Number.EPSILON) * 100) / 100
+				presentData.push({
+					ticker: stock,
+					amount: totalAmount,
+					cost: Math.round(
+						(((buy + sell) / totalAmount + Number.EPSILON) * 100) /
+							100
+					),
+					current: current,
+					pl:
+						(current -
+							Math.round(
+								(((buy + sell) / totalAmount + Number.EPSILON) *
+									100) /
+									100
+							)) *
+						totalAmount
+				})
+			}
 		}
 		GlobalStock = presentData
 		panel.innerHTML = ``
@@ -384,25 +386,31 @@ function formSubmitForNewStock() {
 			//make the form
 			const form = e.target
 			const obj = {}
-			obj['ticker'] = form.ticker.value
+			obj['ticker'] = form.ticker.value.toUpperCase()
 			if (form['buy-sell'].value === 'buy') {
 				obj['is_buy'] = true
 			}
 			if (form['buy-sell'].value === 'sell') {
 				obj['is_buy'] = false
 			}
-			if (form['buy-sell'].value === '') {
-				alert('missing buy/sell')
-			}
-
 			//for loop checking if the amount is larger than the QTY
 			if (!obj['is_buy']) {
 				for (let stock of GlobalStock) {
 					if (
 						stock.ticker === obj['ticker'] &&
-						form['amount'].value
+						form['amount'].value <= stock.amount
 					) {
 						obj['amount'] = form['amount'].value
+					} else if (
+						stock.ticker === obj['ticker'] &&
+						form['amount'].value > stock.amount
+					) {
+						await Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'The Amount is too large'
+						})
+						return
 					}
 				}
 			} else {
@@ -432,13 +440,14 @@ function formSubmitForNewStock() {
 		document.getElementById('stock-form').reset()
 	})
 }
-
+//load all stock details by fetching the python server route
 async function loadDailyStockDetail() {
 	const loader = `<div class="d-flex justify-content-center mt-1">
 	<div class="spinner-border" role="status">
 	  <span class="visually-hidden">Loading...</span>
 	</div>
   </div>`
+	// Adding to loading icon when the fetching id processing
 	document.querySelector(`#day-gainer`).innerHTML += loader
 	document.querySelector(`#day-loser`).innerHTML += loader
 	document.querySelector(`#day-active`).innerHTML += loader
@@ -482,6 +491,7 @@ async function loadDailyStockDetail() {
 	loadDailyRow('day-loser', loserinfo)
 	loadDailyRow('day-active', activeinfo)
 }
+//load day gainer loser active row
 function loadDailyRow(htmlID, arrayOfObject) {
 	const insert = document.querySelector(`#${htmlID}`)
 	for (let item of arrayOfObject) {

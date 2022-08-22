@@ -16,7 +16,7 @@ async function load_panel() {
 	})
 }
 
-const TypeMapping = {
+const TypeObj = {
 	1: 'Clothing',
 	2: 'Food',
 	3: 'Housing',
@@ -42,14 +42,6 @@ async function addPanels() {
     `
 	document.querySelector('#dashboard-panel').innerHTML = panelHtmlSTR
 }
-
-//async function confirmFunction(id) {
-// const result = confirm("Would you like to edit your receipt?")
-// if (result) {
-// document.querySelector(`#receipt-venue-${id}`).getAttribute('contenteditable') = True
-// document.querySelector(`#receipt-date-${id}`).getAttribute('contenteditable') = True
-//document.querySelector(`#receipt-amount-${id}`).getAttribute('contenteditable') = True
-//document.querySelector(`#receipt-type-${id}`).getAttribute('contenteditable') = True}}
 
 async function editConfirmFunction() {
 	const result = await Swal.fire({
@@ -109,7 +101,7 @@ async function loadReceiptRecord(id) {
 				date.substring(date.length - 2)
 
 			imagePath = `/${result.image}`
-			expensesType = TypeMapping[result.type]
+			expensesType = TypeObj[result.type]
 
 			receiptHTML += `<div class="receipt">
         <div class="receiptBody">
@@ -117,9 +109,9 @@ async function loadReceiptRecord(id) {
                 <img src="../..${imagePath}" class="card-img">
 
                 <div id ="receipt-text" data-id = '${result.id}'>
-                <div class = "receipt-content" contenteditable=True id="receipt-venue-${result.id}">${result.venue}</div>
-                <div class = "receipt-content" contenteditable=True id="receipt-date-${result.id}">${finalDate}</div>
-                <div class = "receipt-content" contenteditable=True id="receipt-amount-${result.id}">${result.price}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-venue-${result.id}" required>${result.venue}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-date-${result.id}" required>${finalDate}</div>
+                <div class = "receipt-content" contenteditable=True id="receipt-amount-${result.id}" required>${result.price}</div>
                 <select class = "receiptSelectionType" "name="selection" id="receipt-type-${result.id}">
                     <option value=0 selected>${expensesType}</option>
                     <option value=1>Clothing</option>
@@ -377,9 +369,9 @@ async function submitReceiptToAI(userID) {
 `
 
 				document.querySelector('#receiptTime').innerHTML = AIresultHtml
+				// Add function to form
 				await submitReceipt(receiptName, userID)
 			}
-			// Add function to form
 		})
 }
 
