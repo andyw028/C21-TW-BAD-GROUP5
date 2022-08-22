@@ -44,6 +44,9 @@ jobs:
                       yarn install
                       yarn knex migrate:latest --env production
                       yarn knex seed:run
+                      forever start index.js
+                      cd Python
+                      forever start -c python yf.py
                       forever restartall
                   host: samor.me
                   user: ubuntu
